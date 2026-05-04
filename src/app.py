@@ -1,53 +1,33 @@
 # This creates a basic flask web server for the smart home pi, the server allows users to upload files and stores them in the project storage folder.
-# Features:
-# - upload files
-# - list stored files
-# - download files
+# Main app for our Home Server
 
 import os
-from datetime import timedelta, datetime
 from flask import Flask, request, send_from_directory, redirect, session
+
+from config import (
+    UPLOAD_FOLDER,
+    ACCESS_PASSWORD,
+    SECRET_KEY,
+    SESSION_LIFETIME
+)
+
+from auth import has_access
+from file_manager import (
+    get_visible_files,
+    is_protected_file,
+    get_file_path,
+    get_file_info
+)
 
 # Create flask application instance
 app = Flask(__name__)
 
-# Secret key used by Flask to protect login sessions
-app.secret_key = "12345"
+# Configure Flask session security and timeout
+app.secret_key = SECRET_KEY
+app.permanent_session_lifetime = SESSION_LIFETIME
 
-# Login session will stay active for 30 minutes
-app.permanent_session_lifetime = timedelta(minutes=30)
-
-# Define where uploaded files will be saved
-UPLOAD_FOLDER = "/mnt/hdd"
-
-# Admin devices with reserved/static IP addresses
-ADMIN_IPS = [
-    "192.168.1.99", # pc
-    "192.168.1.108", # laptop
-    "192.168.1.146" # tiago phone
-]
-
-# Password required for non-admin devices
-ACCESS_PASSWORD = "123"
-
-# Files/folders that should not appear or be modified
-PROTECTED_ITEMS = ["System Volume Information"]
-
-# Create the storage fodler if it does not already exist
+# Make sure the upload fodler exists
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
-
-
-# this function will check out if user is admin and from there decide which home page user gets
-def has_access():
-    # Get the IP address of the device accessing the server
-    user_ip = request.remote_addr
-
-    # Admin devices can access without login page
-    if user_ip in ADMIN_IPS:
-        return True
-
-    # Other devices need an active login session
-    return session.get("logged_in") == True
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -80,10 +60,7 @@ def home():
         return redirect("/login")
 
     # Get list of files from storage and hide System Volume Information directory  and hidden system files as they're useless for our project 
-    files = [
-        f for f in os.listdir(UPLOAD_FOLDER)
-        if f not in PROTECTED_ITEMS and not f.startswith(".")
-    ]
+    files = get_visible_files()
 
     # Build HTML page with a list of files
     file_list_html = ""
@@ -105,6 +82,9 @@ def home():
 
     return f"""
     <h1>Smart Home Cloud Pi</h1>
+
+    <a href="/logout">Logout</a>
+
     <h2>Upload File</h2>
 
     <form action="/upload" method="post" enctype="multipart/form-data">
@@ -122,6 +102,9 @@ def home():
 # Upload route
 @app.route("/upload", methods=["POST"])
 def upload_file():
+    if not has_access():
+        return redirect("/login")
+
     # Check if the request contains a file
     if "file" not in request.files:
         return "No file selected"
@@ -133,7 +116,7 @@ def upload_file():
         return "No file selected"
 
     # Create the full save path inside the storage folder
-    save_path = os.path.join(UPLOAD_FOLDER, file.filename)
+    save_path = get_file_path(file.filename)
     # Save the uploaded file to the Raspberry Pi
     file.save(save_path)
 
@@ -146,10 +129,48 @@ def download_file(filename):
     if not has_access():
         return redirect("/login")
     
-    if filename in PROTECTED_ITEMS or filename.startswith("."):
+    if is_protected_file(filename):
         return "Action not allowed"
             
     return send_from_directory(UPLOAD_FOLDER, filename, as_attachment=True)
+
+
+@app.route("/info/<filename>")
+def file_info(filename):
+    if not has_access():
+        return redirect("/login")
+
+    # Prevent access to protected or hidden files
+    if is_protected_file(filename):
+        return "Action not allowed"
+
+    info = get_file_info(filename)
+
+    # Check if file exists before showing information
+    if info is None:
+        return "File not found"
+
+    # # Get file size in bytes
+    # file_size = os.path.getsize(file_path)
+
+    # # Convert file size to MB for easier reading
+    # file_size_mb = round(file_size / (1024 * 1024), 2)
+
+    # # Get the last modified time and convert it to readable format
+    # modified_time = os.path.getmtime(file_path)
+    # modified_date = datetime.fromtimestamp(modified_time).strftime("%d/%m/%Y %H:%M")
+
+    return f'''
+    <h1>File Information</h1>
+
+    <p><strong>File name:</strong> {info["filename"]}</p>
+    <p><strong>File size:</strong> {info["size_mb"]} MB</p>
+    <p><strong>Last modified:</strong> {info["modified_date"]}</p>
+    <p><strong>Storage location:</strong> {info["location"]}</p>
+
+    <br>
+    <a href="/">Back</a>
+    '''
 
 
 @app.route("/confirm-delete/<filename>")
@@ -158,7 +179,7 @@ def confirm_delete(filename):
         return redirect("/login")
 
     # Prevent system/hidden files
-    if filename in PROTECTED_ITEMS or filename.startswith("."):
+    if is_protected_file(filename):
         return "Action not allowed"
 
     return f'''
@@ -181,11 +202,11 @@ def delete_file(filename):
         return redirect("/login")
     
     # Prevent deleting protected or hidden files
-    if filename in PROTECTED_ITEMS or filename.startswith("."):
+    if is_protected_file(filename):
         return "Action not allowed"
 
     # Create the full path to the selected file
-    file_path = os.path.join(UPLOAD_FOLDER, filename)
+    file_path = get_file_path(filename)
 
     # Check if the file exists before trying to delete it
     if os.path.exists(file_path):
@@ -201,47 +222,9 @@ def logout():
     return redirect("/login")
 
 
-@app.route("/my-ip")
-def my_ip():
-    return f"Your IP is: {request.remote_addr}"
-
-
-@app.route("/info/<filename>")
-def file_info(filename):
-    if not has_access():
-        return redirect("/login")
-
-    # Prevent access to protected or hidden files
-    if filename in PROTECTED_ITEMS or filename.startswith("."):
-        return "Action not allowed"
-
-    file_path = os.path.join(UPLOAD_FOLDER, filename)
-
-    # Check if file exists before showing information
-    if not os.path.exists(file_path):
-        return "File not found"
-
-    # Get file size in bytes
-    file_size = os.path.getsize(file_path)
-
-    # Convert file size to MB for easier reading
-    file_size_mb = round(file_size / (1024 * 1024), 2)
-
-    # Get the last modified time and convert it to readable format
-    modified_time = os.path.getmtime(file_path)
-    modified_date = datetime.fromtimestamp(modified_time).strftime("%d/%m/%Y %H:%M")
-
-    return f'''
-    <h1>File Information</h1>
-
-    <p><strong>File name:</strong> {filename}</p>
-    <p><strong>File size:</strong> {file_size_mb} MB</p>
-    <p><strong>Last modified:</strong> {modified_date}</p>
-    <p><strong>Storage location:</strong> {UPLOAD_FOLDER}</p>
-
-    <br>
-    <a href="/">Back</a>
-    '''
+# @app.route("/my-ip")
+# def my_ip():
+#     return f"Your IP is: {request.remote_addr}"
 
 
 # Run the Flask app
