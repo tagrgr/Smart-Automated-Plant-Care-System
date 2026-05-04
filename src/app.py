@@ -173,7 +173,13 @@ def logout():
     return redirect("/login")
 
 
+@app.route("/my-ip")
+def my_ip():
+    return f"Your IP is: {request.remote_addr}"
+
+
 # Run the Flask app
 if __name__ == "__main__":
     # host="0.0.0.0" allows other devices on the WiFi network to access the app
     app.run(host="0.0.0.0", port=5000)
+
