@@ -5,7 +5,7 @@
 # - download files
 
 import os
-from datetime import timedelta
+from datetime import timedelta, datetime
 from flask import Flask, request, send_from_directory, redirect, session
 
 # Create flask application instance
@@ -91,6 +91,10 @@ def home():
         file_list_html += f'''
         <li>
             <a href="/download/{file}">{file}</a>
+
+            <form action="/info/{file}" method="get" style="display:inline;">
+                <button type="submit">Info</button>
+            </form>
 
             <form action="/confirm-delete/{file}" method="get" style="display:inline;">
                 <button type="submit">Delete</button>
@@ -202,8 +206,45 @@ def my_ip():
     return f"Your IP is: {request.remote_addr}"
 
 
+@app.route("/info/<filename>")
+def file_info(filename):
+    if not has_access():
+        return redirect("/login")
+
+    # Prevent access to protected or hidden files
+    if filename in PROTECTED_ITEMS or filename.startswith("."):
+        return "Action not allowed"
+
+    file_path = os.path.join(UPLOAD_FOLDER, filename)
+
+    # Check if file exists before showing information
+    if not os.path.exists(file_path):
+        return "File not found"
+
+    # Get file size in bytes
+    file_size = os.path.getsize(file_path)
+
+    # Convert file size to MB for easier reading
+    file_size_mb = round(file_size / (1024 * 1024), 2)
+
+    # Get the last modified time and convert it to readable format
+    modified_time = os.path.getmtime(file_path)
+    modified_date = datetime.fromtimestamp(modified_time).strftime("%d/%m/%Y %H:%M")
+
+    return f'''
+    <h1>File Information</h1>
+
+    <p><strong>File name:</strong> {filename}</p>
+    <p><strong>File size:</strong> {file_size_mb} MB</p>
+    <p><strong>Last modified:</strong> {modified_date}</p>
+    <p><strong>Storage location:</strong> {UPLOAD_FOLDER}</p>
+
+    <br>
+    <a href="/">Back</a>
+    '''
+
+
 # Run the Flask app
 if __name__ == "__main__":
     # host="0.0.0.0" allows other devices on the WiFi network to access the app
     app.run(host="0.0.0.0", port=5000)
-
