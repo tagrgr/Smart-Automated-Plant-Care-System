@@ -5,12 +5,12 @@ from datetime import timedelta
 # External HDD storage location
 UPLOAD_FOLDER = "/mnt/hdd"
 
-# Admin devices with static IP addresses
-ADMIN_IPS = [
-    "192.168.1.99",   # FRARONNA computer
-    "192.168.1.108",  # TAGRGR laptop
-    "192.168.1.146"   # TAGRGR iPhone
-]
+# Admin devices with static IP addresses, mapping devices Ip's to friendly nicknames 
+ADMIN_DEVICES = {
+    "192.168.1.99": "FRARONNA HOME",   # FRARONNA computer
+    "192.168.1.108": "TAGRGR LAPTOP",  # TAGRGR laptop
+    "192.168.1.146": "TAGRGR PHONE"   # TAGRGR iPhone
+}
 
 # Password required for non-admin devices
 ACCESS_PASSWORD = "123"

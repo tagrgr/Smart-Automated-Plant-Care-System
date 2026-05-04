@@ -11,7 +11,7 @@ from config import (
     SESSION_LIFETIME
 )
 
-from auth import has_access
+from auth import has_access, get_current_user
 from file_manager import (
     get_visible_files,
     is_protected_file,
@@ -56,6 +56,7 @@ def login():
 # Define route for homepage
 @app.route("/")
 def home():
+    current_user = get_current_user()
     if not has_access():
         return redirect("/login")
 
@@ -66,6 +67,8 @@ def home():
     file_list_html = ""
     for file in files:
         file_list_html += f'''
+        <p>You are: {current_user}</p>
+        
         <li>
             <a href="/download/{file}">{file}</a>
 
@@ -150,16 +153,6 @@ def file_info(filename):
     if info is None:
         return "File not found"
 
-    # # Get file size in bytes
-    # file_size = os.path.getsize(file_path)
-
-    # # Convert file size to MB for easier reading
-    # file_size_mb = round(file_size / (1024 * 1024), 2)
-
-    # # Get the last modified time and convert it to readable format
-    # modified_time = os.path.getmtime(file_path)
-    # modified_date = datetime.fromtimestamp(modified_time).strftime("%d/%m/%Y %H:%M")
-
     return f'''
     <h1>File Information</h1>
 
@@ -222,9 +215,9 @@ def logout():
     return redirect("/login")
 
 
-# @app.route("/my-ip")
-# def my_ip():
-#     return f"Your IP is: {request.remote_addr}"
+@app.route("/my-ip")
+def my_ip():
+    return f"Your IP is: {request.remote_addr}"
 
 
 # Run the Flask app
