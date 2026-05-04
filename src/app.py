@@ -91,9 +91,11 @@ def home():
         file_list_html += f'''
         <li>
             <a href="/download/{file}">{file}</a>
-            <form action="/delete/{file}" method="post" style="display:inline;">
+
+            <form action="/confirm-delete/{file}" method="get" style="display:inline;">
                 <button type="submit">Delete</button>
             </form>
+
         </li>
         '''
 
@@ -144,6 +146,28 @@ def download_file(filename):
         return "Action not allowed"
             
     return send_from_directory(UPLOAD_FOLDER, filename, as_attachment=True)
+
+
+@app.route("/confirm-delete/<filename>")
+def confirm_delete(filename):
+    if not has_access():
+        return redirect("/login")
+
+    # Prevent system/hidden files
+    if filename in PROTECTED_ITEMS or filename.startswith("."):
+        return "Action not allowed"
+
+    return f'''
+    <h2>Are you sure you want to delete '{filename}'?</h2>
+
+    <form action="/delete/{filename}" method="post">
+        <button type="submit">Yes, delete</button>
+    </form>
+
+    <br>
+
+    <a href="/">Cancel</a>
+    '''
 
 
 # delete route
