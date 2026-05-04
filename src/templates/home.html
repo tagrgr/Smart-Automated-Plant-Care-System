@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home page working</title>
+</head>
+<body>
+    <h1>Smart Home Cloud Pi</h1>
+
+    <p>You are: {{ current_user }}</p>
+
+    <a href="/logout">Logout</a>
+
+    <h2>Upload File</h2>
+
+    <form action="/upload" method="post" enctype="multipart/form-data">
+        <input type="file" name="file">
+        <button type="submit">Upload</button>
+    </form>
+
+    <h2>Stored Files</h2>
+
+    <ul>
+        {% for file in files %}
+            <li>
+                <a href="/download/{{ file }}">{{ file }}</a>
+
+                <form action="/info/{{ file }}" method="get" style="display:inline;">
+                    <button type="submit">Info</button>
+                </form>
+
+                <form action="/confirm-delete/{{ file }}" method="get" style="display:inline;">
+                    <button type="submit">Delete</button>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

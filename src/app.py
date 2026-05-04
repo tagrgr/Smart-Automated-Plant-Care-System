@@ -2,7 +2,7 @@
 # Main app for our Home Server
 
 import os
-from flask import Flask, request, send_from_directory, redirect, session
+from flask import Flask, render_template, request, send_from_directory, redirect, url_for, session
 
 from config import (
     UPLOAD_FOLDER,
@@ -43,63 +43,24 @@ def login():
 
         return "Incorrect password <br><a href='/login'>Try again</a>"
 
-    return """
-    <h1>Smart Home Cloud Pi Login</h1>
-
-    <form method="post">
-        <input type="password" name="password" placeholder="Enter password">
-        <button type="submit">Login</button>
-    </form>
-    """
+    return render_template("login.html")
 
 
 # Define route for homepage
 @app.route("/")
 def home():
-    current_user = get_current_user()
     if not has_access():
         return redirect("/login")
 
+    current_user = get_current_user()
     # Get list of files from storage and hide System Volume Information directory  and hidden system files as they're useless for our project 
     files = get_visible_files()
 
-    # Build HTML page with a list of files
-    file_list_html = ""
-    for file in files:
-        file_list_html += f'''
-        <p>You are: {current_user}</p>
-        
-        <li>
-            <a href="/download/{file}">{file}</a>
-
-            <form action="/info/{file}" method="get" style="display:inline;">
-                <button type="submit">Info</button>
-            </form>
-
-            <form action="/confirm-delete/{file}" method="get" style="display:inline;">
-                <button type="submit">Delete</button>
-            </form>
-
-        </li>
-        '''
-
-    return f"""
-    <h1>Smart Home Cloud Pi</h1>
-
-    <a href="/logout">Logout</a>
-
-    <h2>Upload File</h2>
-
-    <form action="/upload" method="post" enctype="multipart/form-data">
-        <input type="file" name="file">
-        <button type="submit">Upload</button>
-    </form>
-
-    <h2>Stored Files</h2>
-    <ul>
-        {file_list_html}
-    </ul>
-    """
+    return render_template(
+        "home.html",
+        current_user=current_user,
+        files=files
+    )
 
 
 # Upload route
@@ -153,17 +114,7 @@ def file_info(filename):
     if info is None:
         return "File not found"
 
-    return f'''
-    <h1>File Information</h1>
-
-    <p><strong>File name:</strong> {info["filename"]}</p>
-    <p><strong>File size:</strong> {info["size_mb"]} MB</p>
-    <p><strong>Last modified:</strong> {info["modified_date"]}</p>
-    <p><strong>Storage location:</strong> {info["location"]}</p>
-
-    <br>
-    <a href="/">Back</a>
-    '''
+    return render_template("file_info.html", info=info)
 
 
 @app.route("/confirm-delete/<filename>")
@@ -175,17 +126,7 @@ def confirm_delete(filename):
     if is_protected_file(filename):
         return "Action not allowed"
 
-    return f'''
-    <h2>Are you sure you want to delete '{filename}'?</h2>
-
-    <form action="/delete/{filename}" method="post">
-        <button type="submit">Yes, delete</button>
-    </form>
-
-    <br>
-
-    <a href="/">Cancel</a>
-    '''
+    return render_template("confirm_delete.html", filename=filename)
 
 
 # delete route
