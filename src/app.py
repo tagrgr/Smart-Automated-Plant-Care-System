@@ -4,26 +4,85 @@
 # - list stored files
 # - download files
 
-
 import os
-from flask import Flask, request, send_from_directory, redirect
+from datetime import timedelta
+from flask import Flask, request, send_from_directory, redirect, session
 
 # Create flask application instance
 app = Flask(__name__)
 
+# Secret key used by Flask to protect login sessions
+app.secret_key = "12345"
+
+# Login session will stay active for 30 minutes
+app.permanent_session_lifetime = timedelta(minutes=30)
+
 # Define where uploaded files will be saved
 UPLOAD_FOLDER = "/mnt/hdd"
+
+# Admin devices with reserved/static IP addresses
+ADMIN_IPS = [
+    "192.168.1.99", # pc
+    "192.168.1.108", # laptop
+    "192.168.1.146" # tiago phone
+]
+
+# Password required for non-admin devices
+ACCESS_PASSWORD = "123"
+
+# Files/folders that should not appear or be modified
+PROTECTED_ITEMS = ["System Volume Information"]
 
 # Create the storage fodler if it does not already exist
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
+
+# this function will check out if user is admin and from there decide which home page user gets
+def has_access():
+    # Get the IP address of the device accessing the server
+    user_ip = request.remote_addr
+
+    # Admin devices can access without login page
+    if user_ip in ADMIN_IPS:
+        return True
+
+    # Other devices need an active login session
+    return session.get("logged_in") == True
+
+
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    if request.method == "POST":
+        password = request.form.get("password")
+
+        if password == ACCESS_PASSWORD:
+            # Keep the login active for the session timeout period
+            session.permanent = True
+            session["logged_in"] = True
+            return redirect("/")
+
+        return "Incorrect password <br><a href='/login'>Try again</a>"
+
+    return """
+    <h1>Smart Home Cloud Pi Login</h1>
+
+    <form method="post">
+        <input type="password" name="password" placeholder="Enter password">
+        <button type="submit">Login</button>
+    </form>
+    """
+
+
 # Define route for homepage
 @app.route("/")
 def home():
+    if not has_access():
+        return redirect("/login")
+
     # Get list of files from storage and hide System Volume Information directory  and hidden system files as they're useless for our project 
     files = [
         f for f in os.listdir(UPLOAD_FOLDER)
-        if f != "System Volume Information" and not f.startswith(".")
+        if f not in PROTECTED_ITEMS and not f.startswith(".")
     ]
 
     # Build HTML page with a list of files
@@ -53,6 +112,7 @@ def home():
     </ul>
     """
 
+
 # Upload route
 @app.route("/upload", methods=["POST"])
 def upload_file():
@@ -73,14 +133,29 @@ def upload_file():
 
     return f"File '{file.filename}' uploaded successfully <br><a href='/'>Back</a>"
 
+
 # download route
 @app.route("/download/<filename>")
 def download_file(filename):
+    if not has_access():
+        return redirect("/login")
+    
+    if filename in PROTECTED_ITEMS or filename.startswith("."):
+        return "Action not allowed"
+            
     return send_from_directory(UPLOAD_FOLDER, filename, as_attachment=True)
+
 
 # delete route
 @app.route("/delete/<filename>", methods=["POST"])
 def delete_file(filename):
+    if not has_access():
+        return redirect("/login")
+    
+    # Prevent deleting protected or hidden files
+    if filename in PROTECTED_ITEMS or filename.startswith("."):
+        return "Action not allowed"
+
     # Create the full path to the selected file
     file_path = os.path.join(UPLOAD_FOLDER, filename)
 
@@ -90,6 +165,13 @@ def delete_file(filename):
 
     # Send the user back to the home page after deleting
     return redirect("/")
+
+
+@app.route("/logout")
+def logout():
+    session.clear()
+    return redirect("/login")
+
 
 # Run the Flask app
 if __name__ == "__main__":
