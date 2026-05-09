@@ -70,24 +70,32 @@ def upload_file():
     if not has_access():
         return redirect("/login")
 
+    uploaded_files = request.files.getlist("files")
+    visibility = request.form.get("visibility", "private")
+
     # Check if the request contains a file
-    if "file" not in request.files:
+    if not uploaded_files or uploaded_files[0].filename == "":
         flash("No file selected", "error")
         return redirect("/")
 
-    file = request.files["file"]
+    if len(uploaded_files) > 30:
+        flash("You can upload a maximum of 30 files at a time", "error")
+        return redirect("/")
+
+    uploaded_count = 0
 
     # Check if the file has a name
-    if file.filename == "":
-        flash("No file selected", "error")
-        return redirect("/")
+    for file in uploaded_files:
+        if file.filename == "":
+            continue
 
-    # Create the full save path inside the storage folder
-    save_path = get_file_path(file.filename)
-    # Save the uploaded file to the Raspberry Pi
-    file.save(save_path)
+        # Create the full save path inside the storage folder
+        save_path = get_file_path(file.filename)
+        # Save the uploaded file to the Raspberry Pi
+        file.save(save_path)
+        uploaded_count += 1
 
-    flash(f"File '{file.filename}' uploaded successfully", "success")
+    flash(f"{uploaded_count} file(s) uploaded as {visibility}", "success")
     return redirect("/")
 
 
