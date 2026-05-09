@@ -17,7 +17,9 @@ from file_manager import (
     get_visible_files,
     is_protected_file,
     get_file_path,
-    get_file_info
+    get_file_info,
+    add_file_metadata,
+    get_file_metadata
 )
 
 # Create flask application instance
@@ -55,7 +57,17 @@ def home():
 
     current_user = get_current_user()
     # Get list of files from storage and hide System Volume Information directory  and hidden system files as they're useless for our project 
-    files = get_visible_files()
+    files = []
+
+    for filename in get_visible_files():
+        metadata = get_file_metadata(filename)
+
+        files.append({
+            "name": filename,
+            "owner": metadata["owner"],
+            "visibility": metadata["visibility"],
+            "location": metadata["location"]
+        })
 
     return render_template(
         "home.html",
@@ -93,6 +105,7 @@ def upload_file():
         save_path = get_file_path(file.filename)
         # Save the uploaded file to the Raspberry Pi
         file.save(save_path)
+        add_file_metadata(file.filename, get_current_user(), visibility)
         uploaded_count += 1
 
     flash(f"{uploaded_count} file(s) uploaded as {visibility}", "success")

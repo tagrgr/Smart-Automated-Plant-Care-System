@@ -269,3 +269,8 @@ button {
     color: #b71c1c;
     border: 1px solid #f5c6cb;
 }
+
+.access-badge.shared {
+    background-color: #e8f0fe;
+    color: #174ea6;
+}

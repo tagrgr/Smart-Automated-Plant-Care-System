@@ -23,3 +23,5 @@ SESSION_LIFETIME = timedelta(minutes=30)
 
 # Files/folders that should not appear or be modified
 PROTECTED_ITEMS = ["System Volume Information"]
+
+METADATA_FILE = "/mnt/hdd/metadata.json"

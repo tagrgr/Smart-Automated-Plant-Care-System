@@ -1,8 +1,10 @@
 # Handles file-related helper functions for the cloud storage system.
 
 import os
+import json
+
 from datetime import datetime
-from config import UPLOAD_FOLDER, PROTECTED_ITEMS
+from config import UPLOAD_FOLDER, PROTECTED_ITEMS, METADATA_FILE
 
 
 def get_visible_files():
@@ -42,3 +44,38 @@ def get_file_info(filename):
         "modified_date": modified_date,
         "location": UPLOAD_FOLDER
     }
+
+
+def load_metadata():
+    if not os.path.exists(METADATA_FILE):
+        return {}
+
+    with open(METADATA_FILE, "r") as file:
+        return json.load(file)
+
+
+def save_metadata(metadata):
+    with open(METADATA_FILE, "w") as file:
+        json.dump(metadata, file, indent=4)
+
+
+def add_file_metadata(filename, owner, visibility):
+    metadata = load_metadata()
+
+    metadata[filename] = {
+        "owner": owner,
+        "visibility": visibility,
+        "location": "/"
+    }
+
+    save_metadata(metadata)
+
+
+def get_file_metadata(filename):
+    metadata = load_metadata()
+
+    return metadata.get(filename, {
+        "owner": "Unknown",
+        "visibility": "private",
+        "location": "/"
+    })

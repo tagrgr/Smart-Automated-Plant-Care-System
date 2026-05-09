@@ -83,20 +83,24 @@
                 <div class="file-row">
                     <div class="file-name-cell">
                         <span class="file-icon">📄</span>
-                        <a href="/download/{{ file }}">{{ file }}</a>
+                        <a href="/download/{{ file.name }}">{{ file.name }}</a>
                     </div>
 
                     <div class="access-cell">
-                        <span class="access-badge private">🔒 Private</span>
+                        {% if file.visibility == "shared" %}
+                            <span class="access-badge shared">🌐 Shared</span>
+                        {% else %}
+                            <span class="access-badge private">🔒 Private</span>
+                        {% endif %}
                     </div>
 
                     <div class="owner-cell">
                         <span class="profile-dot">👤</span>
-                        <span>{{ current_user }}</span>
+                        <span>{{ file.owner }}</span>
                     </div>
 
                     <div class="location-cell">
-                        /
+                        {{ file.location }}
                     </div>
 
                     <div class="actions-cell">
@@ -104,17 +108,17 @@
                             <button class="dots-btn">⋮</button>
 
                             <div class="dropdown-menu">
-                                <a href="/download/{{ file }}">⬇ Download</a>
+                                <a href="/download/{{ file.name }}">⬇ Download</a>
                                 <a href="#">✏ Rename</a>
 
-                                <form action="/copy/{{ file }}" method="post">
+                                <form action="/copy/{{ file.name }}" method="post">
                                     <button type="submit" class="menu-button">📄 Make a copy</button>
                                 </form>
 
                                 <a href="#">🔗 Share</a>
                                 <a href="#">📁 Move to directory</a>
-                                <a href="/info/{{ file }}">ℹ File info</a>
-                                <a href="/confirm-delete/{{ file }}" class="delete-link">🗑 Delete</a>
+                                <a href="/info/{{ file.name }}">ℹ File info</a>
+                                <a href="/confirm-delete/{{ file.name }}" class="delete-link">🗑 Delete</a>
                             </div>
                         </div>
                     </div>
