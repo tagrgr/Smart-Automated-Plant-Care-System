@@ -132,3 +132,16 @@ button {
 .file-actions-menu:hover .dropdown-menu {
     display: block;
 }
+
+.menu-button {
+    width: 100%;
+    background: none;
+    color: #222;
+    text-align: left;
+    padding: 10px 14px;
+    border-radius: 0;
+}
+
+.menu-button:hover {
+    background-color: #f4f6f8;
+}

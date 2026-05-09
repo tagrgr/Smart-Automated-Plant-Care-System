@@ -2,6 +2,7 @@
 # Main app for our Home Server
 
 import os
+import shutil
 from flask import Flask, render_template, request, send_from_directory, redirect, url_for, session
 
 from config import (
@@ -147,6 +148,34 @@ def delete_file(filename):
         os.remove(file_path)
 
     # Send the user back to the home page after deleting
+    return redirect("/")
+
+
+@app.route("/copy/<filename>", methods=["POST"])
+def copy_file(filename):
+    if not has_access():
+        return redirect("/login")
+
+    if is_protected_file(filename):
+        return "Action not allowed"
+
+    original_path = get_file_path(filename)
+
+    if not os.path.exists(original_path):
+        return "File not found"
+
+    name, extension = os.path.splitext(filename)
+    copied_filename = f"{name}_copy{extension}"
+    copied_path = get_file_path(copied_filename)
+
+    counter = 1
+    while os.path.exists(copied_path):
+        copied_filename = f"{name}_copy_{counter}{extension}"
+        copied_path = get_file_path(copied_filename)
+        counter += 1
+
+    shutil.copy2(original_path, copied_path)
+
     return redirect("/")
 
 

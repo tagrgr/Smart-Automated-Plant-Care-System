@@ -42,6 +42,11 @@
                         <div class="dropdown-menu">
                             <a href="/download/{{ file }}">Download</a>
                             <a href="/info/{{ file }}">Info</a>
+
+                            <form action="/copy/{{ file }}" method="post">
+                                <button type="submit" class="menu-button">Make a copy</button>
+                            </form>
+
                             <a href="/confirm-delete/{{ file }}" class="delete-link">Delete</a>
                         </div>
                     </div>
