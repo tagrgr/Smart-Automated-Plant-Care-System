@@ -164,12 +164,14 @@ def copy_file(filename):
         return redirect("/login")
 
     if is_protected_file(filename):
-        return "Action not allowed"
+        flash("Action not allowed", "error")
+        return redirect("/")
 
     original_path = get_file_path(filename)
 
     if not os.path.exists(original_path):
-        return "File not found"
+        flash("File not found", "error")
+        return redirect("/")
 
     name, extension = os.path.splitext(filename)
     copied_filename = f"{name}_copy{extension}"
@@ -183,6 +185,7 @@ def copy_file(filename):
 
     shutil.copy2(original_path, copied_path)
 
+    flash(f"File copied as '{copied_filename}'", "success")
     return redirect("/")
 
 

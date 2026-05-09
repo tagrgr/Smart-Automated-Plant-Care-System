@@ -6,64 +6,141 @@
 </head>
 <body>
 
-    <header class="top-bar">
-        <div>
-            <h1>Smart Home Cloud Pi</h1>
-            <p class="user-label">You are: {{ current_user }}</p>
+<div class="app-layout">
+
+    <!-- LEFT SIDEBAR -->
+    <aside class="left-sidebar">
+        <a href="/" class="logo">RPi Cloud</a>
+
+        <button class="new-button">+ New</button>
+
+        <nav class="side-nav">
+            <a href="/" class="active">Home</a>
+            <a href="#">My Drive</a>
+            <a href="#">Shared with me</a>
+            <a href="#">Bin</a>
+        </nav>
+
+        <div class="storage-box">
+            <p><strong>Storage</strong></p>
+            <p>79% full</p>
+            <div class="storage-bar">
+                <div class="storage-used"></div>
+            </div>
+            <p>11.85 GB of 15 GB used</p>
         </div>
+    </aside>
 
-        <a class="logout-link" href="/logout">Logout</a>
-    </header>
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
 
-    {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            {% for category, message in messages %}
-                <div class="message-box {{ category }}">
-                    <p>{{ message }}</p>
-                </div>
-            {% endfor %}
-        {% endif %}
-    {% endwith %}
+        <h1>Welcome to RPi's Home Server</h1>
 
-    <section class="upload-card">
-        <h2>Upload File</h2>
+        <input class="search-bar" type="text" placeholder="Search in Home Server">
 
-        <form action="/upload" method="post" enctype="multipart/form-data">
-            <input type="file" name="file">
-            <button type="submit">Upload</button>
-        </form>
-    </section>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="message-box {{ category }}">
+                        <p>{{ message }}</p>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
 
-    <section class="files-section">
-        <h2>Stored Files</h2>
+        <section class="upload-card">
+            <h2>Upload Files</h2>
 
-        <div class="file-grid">
+            <form action="/upload" method="post" enctype="multipart/form-data">
+                <input type="file" name="file">
+                
+                <label>
+                    <input type="radio" name="visibility" value="private" checked>
+                    Private
+                </label>
+
+                <label>
+                    <input type="radio" name="visibility" value="shared">
+                    Shared
+                </label>
+
+                <button type="submit">Upload</button>
+            </form>
+        </section>
+
+        <section class="file-list-section">
+            <h2>Files</h2>
+
+            <div class="file-list-header">
+                <span>Name</span>
+                <span>Access</span>
+                <span>Owner</span>
+                <span>Location</span>
+                <span>Actions</span>
+            </div>
+
             {% for file in files %}
-                <div class="file-card">
-                    <div class="file-icon">📄</div>
-
-                    <div class="file-name">
+                <div class="file-row">
+                    <div class="file-name-cell">
+                        <span class="file-icon">📄</span>
                         <a href="/download/{{ file }}">{{ file }}</a>
                     </div>
 
-                    <div class="file-actions-menu">
-                        <button class="dots-btn">⋮</button>
+                    <div class="access-cell">
+                        <span class="access-badge private">🔒 Private</span>
+                    </div>
 
-                        <div class="dropdown-menu">
-                            <a href="/download/{{ file }}">Download</a>
-                            <a href="/info/{{ file }}">Info</a>
+                    <div class="owner-cell">
+                        <span class="profile-dot">👤</span>
+                        <span>{{ current_user }}</span>
+                    </div>
 
-                            <form action="/copy/{{ file }}" method="post">
-                                <button type="submit" class="menu-button">Make a copy</button>
-                            </form>
+                    <div class="location-cell">
+                        /
+                    </div>
 
-                            <a href="/confirm-delete/{{ file }}" class="delete-link">Delete</a>
+                    <div class="actions-cell">
+                        <div class="file-actions-menu">
+                            <button class="dots-btn">⋮</button>
+
+                            <div class="dropdown-menu">
+                                <a href="/download/{{ file }}">⬇ Download</a>
+                                <a href="#">✏ Rename</a>
+
+                                <form action="/copy/{{ file }}" method="post">
+                                    <button type="submit" class="menu-button">📄 Make a copy</button>
+                                </form>
+
+                                <a href="#">🔗 Share</a>
+                                <a href="#">📁 Move to directory</a>
+                                <a href="/info/{{ file }}">ℹ File info</a>
+                                <a href="/confirm-delete/{{ file }}" class="delete-link">🗑 Delete</a>
+                            </div>
                         </div>
                     </div>
                 </div>
             {% endfor %}
+        </section>
+
+    </main>
+
+    <!-- RIGHT SIDEBAR -->
+    <aside class="right-sidebar">
+        <div class="profile-box">
+            <div class="profile-picture">👤</div>
+            <p>{{ current_user }}</p>
         </div>
-    </section>
+
+        <div class="ark-box">
+            <div class="ark-icon">🛶</div>
+            <p>The Ark</p>
+            <small>Noah assistant</small>
+        </div>
+
+        <a href="#" class="settings-button">⚙ Settings</a>
+    </aside>
+
+</div>
 
 </body>
 </html>
