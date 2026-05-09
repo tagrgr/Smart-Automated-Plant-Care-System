@@ -36,14 +36,14 @@
                         <a href="/download/{{ file }}">{{ file }}</a>
                     </div>
 
-                    <div class="file-actions">
-                        <form action="/info/{{ file }}" method="get">
-                            <button type="submit">Info</button>
-                        </form>
+                    <div class="file-actions-menu">
+                        <button class="dots-btn">⋮</button>
 
-                        <form action="/confirm-delete/{{ file }}" method="get">
-                            <button class="danger-btn" type="submit">Delete</button>
-                        </form>
+                        <div class="dropdown-menu">
+                            <a href="/download/{{ file }}">Download</a>
+                            <a href="/info/{{ file }}">Info</a>
+                            <a href="/confirm-delete/{{ file }}" class="delete-link">Delete</a>
+                        </div>
                     </div>
                 </div>
             {% endfor %}

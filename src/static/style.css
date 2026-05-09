@@ -64,6 +64,7 @@ button {
     padding: 18px;
     border-radius: 12px;
     border: 1px solid #ddd;
+    position: relative;
 }
 
 .file-icon {
@@ -85,4 +86,49 @@ button {
 .file-actions {
     display: flex;
     gap: 8px;
+}
+
+.file-actions-menu {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+}
+
+.dots-btn {
+    background-color: transparent;
+    color: #333;
+    font-size: 22px;
+    padding: 4px 8px;
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 32px;
+    background-color: white;
+    min-width: 140px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+    z-index: 10;
+}
+
+.dropdown-menu a {
+    display: block;
+    padding: 10px 14px;
+    color: #222;
+    text-decoration: none;
+}
+
+.dropdown-menu a:hover {
+    background-color: #f4f6f8;
+}
+
+.delete-link {
+    color: #c0392b !important;
+}
+
+.file-actions-menu:hover .dropdown-menu {
+    display: block;
 }
