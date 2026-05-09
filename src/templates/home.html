@@ -133,17 +133,29 @@
                             <button class="dots-btn">⋮</button>
 
                             <div class="dropdown-menu">
-                                <a href="/download/{{ file.name }}">⬇ Download</a>
-                                <a href="#">✏ Rename</a>
 
-                                <form action="/copy/{{ file.name }}" method="post">
-                                    <button type="submit" class="menu-button">📄 Make a copy</button>
-                                </form>
+                                {% if current_page == "bin" %}
 
-                                <a href="#">🔗 Share</a>
-                                <a href="#">📁 Move to directory</a>
-                                <a href="/info/{{ file.name }}">ℹ File info</a>
-                                <a href="/confirm-delete/{{ file.name }}" class="delete-link">🗑 Delete</a>
+                                    <form action="/restore/{{ file.name }}" method="post">
+                                        <button type="submit" class="menu-button">♻ Restore</button>
+                                    </form>
+
+                                {% else %}
+
+                                    <a href="/download/{{ file.name }}">⬇ Download</a>
+                                    <a href="#">✏ Rename</a>
+
+                                    <form action="/copy/{{ file.name }}" method="post">
+                                        <button type="submit" class="menu-button">📄 Make a copy</button>
+                                    </form>
+
+                                    <a href="#">🔗 Share</a>
+                                    <a href="#">📁 Move to directory</a>
+                                    <a href="/info/{{ file.name }}">ℹ File info</a>
+                                    <a href="/confirm-delete/{{ file.name }}" class="delete-link">🗑 Delete</a>
+
+                                {% endif %}
+
                             </div>
                         </div>
                     </div>

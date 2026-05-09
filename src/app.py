@@ -345,6 +345,32 @@ def bin_page():
     )
 
 
+@app.route("/restore/<filename>", methods=["POST"])
+def restore_file(filename):
+    if not has_access():
+        return redirect("/login")
+
+    bin_path = os.path.join(BIN_FOLDER, filename)
+    restore_path = get_file_path(filename)
+
+    if not os.path.exists(bin_path):
+        flash("File not found in Bin", "error")
+        return redirect("/bin")
+
+    counter = 1
+    name, extension = os.path.splitext(filename)
+
+    while os.path.exists(restore_path):
+        restored_filename = f"{name}_restored_{counter}{extension}"
+        restore_path = get_file_path(restored_filename)
+        counter += 1
+
+    shutil.move(bin_path, restore_path)
+
+    flash(f"File '{filename}' restored successfully", "success")
+    return redirect("/bin")
+
+
 @app.route("/logout")
 def logout():
     session.clear()
