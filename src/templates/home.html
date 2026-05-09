@@ -1,41 +1,54 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home page working</title>
+    <title>Smart Home Cloud Pi</title>
     <link rel="stylesheet" href="../static/style.css">
 </head>
 <body>
-    <h1>Smart Home Cloud Pi</h1>
 
-    <p>You are: {{ current_user }}</p>
+    <header class="top-bar">
+        <div>
+            <h1>Smart Home Cloud Pi</h1>
+            <p class="user-label">You are: {{ current_user }}</p>
+        </div>
 
-    <a href="/logout">Logout</a>
+        <a class="logout-link" href="/logout">Logout</a>
+    </header>
 
-    <h2>Upload File</h2>
+    <section class="upload-card">
+        <h2>Upload File</h2>
 
-    <form action="/upload" method="post" enctype="multipart/form-data">
-        <input type="file" name="file">
-        <button type="submit">Upload</button>
-    </form>
+        <form action="/upload" method="post" enctype="multipart/form-data">
+            <input type="file" name="file">
+            <button type="submit">Upload</button>
+        </form>
+    </section>
 
-    <h2>Stored Files</h2>
+    <section class="files-section">
+        <h2>Stored Files</h2>
 
-    <ul>
-        {% for file in files %}
-            <li>
-                <a href="/download/{{ file }}">{{ file }}</a>
+        <div class="file-grid">
+            {% for file in files %}
+                <div class="file-card">
+                    <div class="file-icon">📄</div>
 
-                <form action="/info/{{ file }}" method="get" style="display:inline;">
-                    <button type="submit">Info</button>
-                </form>
+                    <div class="file-name">
+                        <a href="/download/{{ file }}">{{ file }}</a>
+                    </div>
 
-                <form action="/confirm-delete/{{ file }}" method="get" style="display:inline;">
-                    <button type="submit">Delete</button>
-                </form>
-            </li>
-        {% endfor %}
-    </ul>
+                    <div class="file-actions">
+                        <form action="/info/{{ file }}" method="get">
+                            <button type="submit">Info</button>
+                        </form>
+
+                        <form action="/confirm-delete/{{ file }}" method="get">
+                            <button class="danger-btn" type="submit">Delete</button>
+                        </form>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+
 </body>
 </html>

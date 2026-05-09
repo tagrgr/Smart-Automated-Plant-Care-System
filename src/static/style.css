@@ -1,32 +1,88 @@
 body {
     font-family: Arial, sans-serif;
-    margin: 40px;
+    margin: 0;
     background-color: #f4f6f8;
     color: #222;
 }
 
-h1 {
+.top-bar {
+    background-color: white;
+    padding: 20px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+}
+
+.top-bar h1 {
+    margin: 0;
     color: #1f3a5f;
 }
 
-a {
-    color: #1f6feb;
+.user-label {
+    margin: 5px 0 0;
+    color: #666;
+}
+
+.logout-link {
+    background-color: #1f6feb;
+    color: white;
+    padding: 10px 16px;
+    border-radius: 8px;
     text-decoration: none;
 }
 
+.upload-card,
+.files-section {
+    background-color: white;
+    margin: 30px 40px;
+    padding: 25px;
+    border-radius: 12px;
+}
+
 button {
-    padding: 6px 12px;
-    margin: 4px;
+    padding: 8px 14px;
+    border: none;
+    border-radius: 6px;
+    background-color: #1f6feb;
+    color: white;
     cursor: pointer;
 }
 
-ul {
-    padding-left: 20px;
+.danger-btn {
+    background-color: #c0392b;
 }
 
-li {
-    background: white;
+.file-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 16px;
+}
+
+.file-card {
+    background-color: #f9fafb;
+    padding: 18px;
+    border-radius: 12px;
+    border: 1px solid #ddd;
+}
+
+.file-icon {
+    font-size: 32px;
     margin-bottom: 10px;
-    padding: 12px;
-    border-radius: 8px;
+}
+
+.file-name {
+    margin-bottom: 15px;
+    word-break: break-word;
+}
+
+.file-name a {
+    color: #1f3a5f;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.file-actions {
+    display: flex;
+    gap: 8px;
 }
