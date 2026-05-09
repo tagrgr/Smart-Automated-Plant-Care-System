@@ -147,10 +147,23 @@ button {
 }
 
 .message-box {
-    background-color: #e8f5e9;
-    color: #1b5e20;
     margin: 20px 40px;
     padding: 12px 18px;
     border-radius: 8px;
+}
+
+.message-box p {
+    margin: 0;
+}
+
+.message-box.success {
+    background-color: #e8f5e9;
+    color: #1b5e20;
     border: 1px solid #c8e6c9;
+}
+
+.message-box.error {
+    background-color: #fdecea;
+    color: #b71c1c;
+    border: 1px solid #f5c6cb;
 }

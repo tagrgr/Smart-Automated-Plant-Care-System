@@ -72,14 +72,14 @@ def upload_file():
 
     # Check if the request contains a file
     if "file" not in request.files:
-        flash("No file selected")
+        flash("No file selected", "error")
         return redirect("/")
 
     file = request.files["file"]
 
     # Check if the file has a name
     if file.filename == "":
-        flash("No file selected")
+        flash("No file selected", "error")
         return redirect("/")
 
     # Create the full save path inside the storage folder
@@ -87,7 +87,7 @@ def upload_file():
     # Save the uploaded file to the Raspberry Pi
     file.save(save_path)
 
-    flash(f"File '{file.filename}' uploaded successfully")
+    flash(f"File '{file.filename}' uploaded successfully", "success")
     return redirect("/")
 
 
@@ -141,6 +141,7 @@ def delete_file(filename):
     
     # Prevent deleting protected or hidden files
     if is_protected_file(filename):
+        flash("Action not allowed", "error")
         return "Action not allowed"
 
     # Create the full path to the selected file
@@ -149,6 +150,9 @@ def delete_file(filename):
     # Check if the file exists before trying to delete it
     if os.path.exists(file_path):
         os.remove(file_path)
+        flash(f"File '{filename}' deleted successfully", "success")
+    else:
+        flash("File not found", "error")
 
     # Send the user back to the home page after deleting
     return redirect("/")

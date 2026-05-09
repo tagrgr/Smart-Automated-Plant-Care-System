@@ -15,13 +15,13 @@
         <a class="logout-link" href="/logout">Logout</a>
     </header>
 
-    {% with messages = get_flashed_messages() %}
+    {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
-            <div class="message-box">
-                {% for message in messages %}
+            {% for category, message in messages %}
+                <div class="message-box {{ category }}">
                     <p>{{ message }}</p>
-                {% endfor %}
-            </div>
+                </div>
+            {% endfor %}
         {% endif %}
     {% endwith %}
 
