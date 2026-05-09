@@ -3,7 +3,7 @@
 
 import os
 import shutil
-from flask import Flask, render_template, request, send_from_directory, redirect, url_for, session
+from flask import Flask, render_template, request, send_from_directory, redirect, url_for, session, flash
 
 from config import (
     UPLOAD_FOLDER,
@@ -72,20 +72,23 @@ def upload_file():
 
     # Check if the request contains a file
     if "file" not in request.files:
-        return "No file selected"
+        flash("No file selected")
+        return redirect("/")
 
     file = request.files["file"]
 
     # Check if the file has a name
     if file.filename == "":
-        return "No file selected"
+        flash("No file selected")
+        return redirect("/")
 
     # Create the full save path inside the storage folder
     save_path = get_file_path(file.filename)
     # Save the uploaded file to the Raspberry Pi
     file.save(save_path)
 
-    return f"File '{file.filename}' uploaded successfully <br><a href='/'>Back</a>"
+    flash(f"File '{file.filename}' uploaded successfully")
+    return redirect("/")
 
 
 # download route

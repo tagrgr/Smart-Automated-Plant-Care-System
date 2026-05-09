@@ -15,6 +15,16 @@
         <a class="logout-link" href="/logout">Logout</a>
     </header>
 
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="message-box">
+                {% for message in messages %}
+                    <p>{{ message }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
     <section class="upload-card">
         <h2>Upload File</h2>
 

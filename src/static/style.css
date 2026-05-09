@@ -145,3 +145,12 @@ button {
 .menu-button:hover {
     background-color: #f4f6f8;
 }
+
+.message-box {
+    background-color: #e8f5e9;
+    color: #1b5e20;
+    margin: 20px 40px;
+    padding: 12px 18px;
+    border-radius: 8px;
+    border: 1px solid #c8e6c9;
+}
