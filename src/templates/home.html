@@ -140,6 +140,12 @@
                                         <button type="submit" class="menu-button">♻ Restore</button>
                                     </form>
 
+                                    <form action="/delete-permanently/{{ file.name }}" method="post">
+                                        <button type="submit" class="menu-button delete-link">
+                                            🗑 Delete permanently
+                                        </button>
+                                    </form>
+
                                 {% else %}
 
                                     <a href="/download/{{ file.name }}">⬇ Download</a>

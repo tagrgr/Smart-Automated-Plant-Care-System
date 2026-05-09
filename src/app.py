@@ -3,11 +3,15 @@
 
 import os
 import shutil
+
 from flask import Flask, render_template, request, send_from_directory, redirect, url_for, session, flash
+
+from datetime import datetime, timedelta
 
 from config import (
     UPLOAD_FOLDER,
     BIN_FOLDER,
+    BIN_METADATA_FILE,
     ACCESS_PASSWORD,
     SECRET_KEY,
     SESSION_LIFETIME
@@ -36,6 +40,38 @@ app.permanent_session_lifetime = SESSION_LIFETIME
 # Make sure the upload and bin fodler exists
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 os.makedirs(BIN_FOLDER, exist_ok=True)
+
+
+def load_bin_metadata():
+    if not os.path.exists(BIN_METADATA_FILE):
+        return {}
+
+    with open(BIN_METADATA_FILE, "r") as file:
+        return json.load(file)
+
+
+def save_bin_metadata(metadata):
+    with open(BIN_METADATA_FILE, "w") as file:
+        json.dump(metadata, file, indent=4)
+
+
+def cleanup_old_bin_files():
+    bin_metadata = load_bin_metadata()
+    updated_metadata = {}
+
+    for filename, data in bin_metadata.items():
+        deleted_at = datetime.strptime(data["deleted_at"], "%Y-%m-%d %H:%M:%S")
+        expiry_date = deleted_at + timedelta(days=30)
+
+        bin_path = os.path.join(BIN_FOLDER, filename)
+
+        if datetime.now() > expiry_date:
+            if os.path.exists(bin_path):
+                os.remove(bin_path)
+        else:
+            updated_metadata[filename] = data
+
+    save_bin_metadata(updated_metadata)
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -252,6 +288,12 @@ def delete_file(filename):
 
         shutil.move(file_path, bin_path)
 
+        bin_metadata = load_bin_metadata()
+        bin_metadata[os.path.basename(bin_path)] = {
+            "deleted_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        }
+        save_bin_metadata(bin_metadata)
+
         flash(f"File '{filename}' moved to Bin", "success")
     else:
         flash("File not found", "error")
@@ -319,7 +361,7 @@ def toggle_visibility(filename):
 
     return redirect("/")
 
-
+# bin page route
 @app.route("/bin")
 def bin_page():
     if not has_access():
@@ -329,12 +371,28 @@ def bin_page():
 
     files = []
 
+    bin_metadata = load_bin_metadata()
+
     for filename in get_bin_files():
+        deleted_data = bin_metadata.get(filename)
+
+        days_remaining = "Unknown"
+
+        if deleted_data:
+            deleted_at = datetime.strptime(
+                deleted_data["deleted_at"],
+                "%Y-%m-%d %H:%M:%S"
+            )
+
+            expiry_date = deleted_at + timedelta(days=30)
+            remaining = expiry_date - datetime.now()
+            days_remaining = max(0, remaining.days)
+
         files.append({
             "name": filename,
             "owner": "Deleted",
             "visibility": "bin",
-            "location": "Bin"
+            "location": f"Deletes in {days_remaining} days"
         })
 
     return render_template(
@@ -371,6 +429,23 @@ def restore_file(filename):
     return redirect("/bin")
 
 
+@app.route("/delete-permanently/<filename>", methods=["POST"])
+def delete_permanently(filename):
+    if not has_access():
+        return redirect("/login")
+
+    bin_path = os.path.join(BIN_FOLDER, filename)
+
+    if not os.path.exists(bin_path):
+        flash("File not found in Bin", "error")
+        return redirect("/bin")
+
+    os.remove(bin_path)
+
+    flash(f"File '{filename}' permanently deleted", "success")
+    return redirect("/bin")
+
+
 @app.route("/logout")
 def logout():
     session.clear()
@@ -381,6 +456,8 @@ def logout():
 def my_ip():
     return f"Your IP is: {request.remote_addr}"
 
+
+cleanup_old_bin_files()
 
 # Run the Flask app
 if __name__ == "__main__":

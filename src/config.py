@@ -27,3 +27,5 @@ PROTECTED_ITEMS = ["System Volume Information"]
 METADATA_FILE = "/mnt/hdd/metadata.json"
 
 BIN_FOLDER = "/mnt/hdd/.bin"
+
+BIN_METADATA_FILE = "/mnt/hdd/.bin_metadata.json"
