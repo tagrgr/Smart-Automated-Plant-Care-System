@@ -7,6 +7,7 @@ from flask import Flask, render_template, request, send_from_directory, redirect
 
 from config import (
     UPLOAD_FOLDER,
+    BIN_FOLDER,
     ACCESS_PASSWORD,
     SECRET_KEY,
     SESSION_LIFETIME
@@ -21,7 +22,8 @@ from file_manager import (
     add_file_metadata,
     get_file_metadata,
     load_metadata,
-    save_metadata
+    save_metadata,
+    get_bin_files
 )
 
 # Create flask application instance
@@ -31,8 +33,9 @@ app = Flask(__name__)
 app.secret_key = SECRET_KEY
 app.permanent_session_lifetime = SESSION_LIFETIME
 
-# Make sure the upload fodler exists
+# Make sure the upload and bin fodler exists
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+os.makedirs(BIN_FOLDER, exist_ok=True)
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -74,7 +77,72 @@ def home():
     return render_template(
         "home.html",
         current_user=current_user,
-        files=files
+        files=files,
+        current_page="home"
+    )
+
+
+# my drive route
+@app.route("/my-drive")
+def my_drive():
+    if not has_access():
+        return redirect("/login")
+
+    current_user = get_current_user()
+
+    files = []
+
+    for filename in get_visible_files():
+        metadata = get_file_metadata(filename)
+
+        if (
+            metadata["owner"] == current_user and
+            metadata["visibility"] == "private"
+        ):
+            files.append({
+                "name": filename,
+                "owner": metadata["owner"],
+                "visibility": metadata["visibility"],
+                "location": metadata["location"]
+            })
+
+    return render_template(
+        "home.html",
+        current_user=current_user,
+        files=files,
+        current_page="my-drive"
+    )
+
+
+# shared with me route
+@app.route("/shared")
+def shared_files():
+    if not has_access():
+        return redirect("/login")
+
+    current_user = get_current_user()
+
+    files = []
+
+    for filename in get_visible_files():
+        metadata = get_file_metadata(filename)
+
+        if (
+            metadata["visibility"] == "shared" and
+            metadata["owner"] != current_user
+        ):
+            files.append({
+                "name": filename,
+                "owner": metadata["owner"],
+                "visibility": metadata["visibility"],
+                "location": metadata["location"]
+            })
+
+    return render_template(
+        "home.html",
+        current_user=current_user,
+        files=files,
+        current_page="shared"
     )
 
 
@@ -172,8 +240,19 @@ def delete_file(filename):
 
     # Check if the file exists before trying to delete it
     if os.path.exists(file_path):
-        os.remove(file_path)
-        flash(f"File '{filename}' deleted successfully", "success")
+        bin_path = os.path.join(BIN_FOLDER, filename)
+
+        counter = 1
+        name, extension = os.path.splitext(filename)
+
+        while os.path.exists(bin_path):
+            new_filename = f"{name}_deleted_{counter}{extension}"
+            bin_path = os.path.join(BIN_FOLDER, new_filename)
+            counter += 1
+
+        shutil.move(file_path, bin_path)
+
+        flash(f"File '{filename}' moved to Bin", "success")
     else:
         flash("File not found", "error")
 
@@ -239,6 +318,31 @@ def toggle_visibility(filename):
     save_metadata(metadata)
 
     return redirect("/")
+
+
+@app.route("/bin")
+def bin_page():
+    if not has_access():
+        return redirect("/login")
+
+    current_user = get_current_user()
+
+    files = []
+
+    for filename in get_bin_files():
+        files.append({
+            "name": filename,
+            "owner": "Deleted",
+            "visibility": "bin",
+            "location": "Bin"
+        })
+
+    return render_template(
+        "home.html",
+        current_user=current_user,
+        files=files,
+        current_page="bin"
+    )
 
 
 @app.route("/logout")

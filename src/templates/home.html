@@ -15,10 +15,23 @@
         <button class="new-button">+ New</button>
 
         <nav class="side-nav">
-            <a href="/" class="active">Home</a>
-            <a href="#">My Drive</a>
-            <a href="#">Shared with me</a>
-            <a href="#">Bin</a>
+
+            <a href="/" class="{% if current_page == 'home' %}active{% endif %}">
+                Home
+            </a>
+
+            <a href="/my-drive" class="{% if current_page == 'my-drive' %}active{% endif %}">
+                My Drive
+            </a>
+
+            <a href="/shared" class="{% if current_page == 'shared' %}active{% endif %}">
+                Shared with me
+            </a>
+
+            <a href="/bin" class="{% if current_page == 'bin' %}active{% endif %}">
+                Bin
+            </a>
+
         </nav>
 
         <div class="storage-box">
@@ -88,17 +101,21 @@
 
                     <div class="access-cell">
 
-                        <form action="/toggle-visibility/{{ file.name }}" method="post">
-                            {% if file.visibility == "shared" %}
-                                <button type="submit" class="access-badge shared">
-                                    🌐 Shared
-                                </button>
-                            {% else %}
-                                <button type="submit" class="access-badge private">
-                                    🔒 Private
-                                </button>
-                            {% endif %}
-                        </form>
+                        {% if file.visibility == "bin" %}
+                            <span class="access-badge bin">🗑 Bin</span>
+                        {% else %}
+                            <form action="/toggle-visibility/{{ file.name }}" method="post">
+                                {% if file.visibility == "shared" %}
+                                    <button type="submit" class="access-badge shared">
+                                        🌐 Shared
+                                    </button>
+                                {% else %}
+                                    <button type="submit" class="access-badge private">
+                                        🔒 Private
+                                    </button>
+                                {% endif %}
+                            </form>
+                        {% endif %}
 
                     </div>
 

@@ -288,3 +288,8 @@ button {
 .access-badge.shared:hover {
     opacity: 0.8;
 }
+
+.access-badge.bin {
+    background-color: #fce8e6;
+    color: #c5221f;
+}

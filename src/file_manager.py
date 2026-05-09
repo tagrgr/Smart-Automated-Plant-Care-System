@@ -4,7 +4,7 @@ import os
 import json
 
 from datetime import datetime
-from config import UPLOAD_FOLDER, PROTECTED_ITEMS, METADATA_FILE
+from config import UPLOAD_FOLDER, PROTECTED_ITEMS, METADATA_FILE, BIN_FOLDER
 
 
 def get_visible_files():
@@ -79,3 +79,13 @@ def get_file_metadata(filename):
         "visibility": "private",
         "location": "/"
     })
+
+
+def get_bin_files():
+    if not os.path.exists(BIN_FOLDER):
+        return []
+
+    return [
+        f for f in os.listdir(BIN_FOLDER)
+        if not f.startswith(".")
+    ]

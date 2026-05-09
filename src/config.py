@@ -25,3 +25,5 @@ SESSION_LIFETIME = timedelta(minutes=30)
 PROTECTED_ITEMS = ["System Volume Information"]
 
 METADATA_FILE = "/mnt/hdd/metadata.json"
+
+BIN_FOLDER = "/mnt/hdd/.bin"
