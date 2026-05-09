@@ -19,7 +19,9 @@ from file_manager import (
     get_file_path,
     get_file_info,
     add_file_metadata,
-    get_file_metadata
+    get_file_metadata,
+    load_metadata,
+    save_metadata
 )
 
 # Create flask application instance
@@ -207,6 +209,35 @@ def copy_file(filename):
     shutil.copy2(original_path, copied_path)
 
     flash(f"File copied as '{copied_filename}'", "success")
+    return redirect("/")
+
+
+@app.route("/toggle-visibility/<filename>", methods=["POST"])
+def toggle_visibility(filename):
+    if not has_access():
+        return redirect("/login")
+
+    if is_protected_file(filename):
+        flash("Action not allowed", "error")
+        return redirect("/")
+
+    metadata = load_metadata()
+
+    if filename not in metadata:
+        flash("File metadata not found", "error")
+        return redirect("/")
+
+    current_visibility = metadata[filename]["visibility"]
+
+    if current_visibility == "private":
+        metadata[filename]["visibility"] = "shared"
+        flash(f"'{filename}' is now shared", "success")
+    else:
+        metadata[filename]["visibility"] = "private"
+        flash(f"'{filename}' is now private", "success")
+
+    save_metadata(metadata)
+
     return redirect("/")
 
 

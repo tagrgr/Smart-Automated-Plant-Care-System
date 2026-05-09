@@ -225,7 +225,7 @@ button {
 }
 
 .profile-box,
-.ark-box {
+.hive-box {
     text-align: center;
     margin-bottom: 30px;
 }
@@ -234,7 +234,7 @@ button {
     font-size: 36px;
 }
 
-.ark-icon {
+.hive-icon {
     font-size: 34px;
 }
 
@@ -273,4 +273,18 @@ button {
 .access-badge.shared {
     background-color: #e8f0fe;
     color: #174ea6;
+}
+
+.access-cell form {
+    margin: 0;
+}
+
+.access-badge {
+    border: none;
+    cursor: pointer;
+}
+
+.access-badge.private:hover,
+.access-badge.shared:hover {
+    opacity: 0.8;
 }

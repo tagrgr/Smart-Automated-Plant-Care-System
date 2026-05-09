@@ -87,11 +87,19 @@
                     </div>
 
                     <div class="access-cell">
-                        {% if file.visibility == "shared" %}
-                            <span class="access-badge shared">🌐 Shared</span>
-                        {% else %}
-                            <span class="access-badge private">🔒 Private</span>
-                        {% endif %}
+
+                        <form action="/toggle-visibility/{{ file.name }}" method="post">
+                            {% if file.visibility == "shared" %}
+                                <button type="submit" class="access-badge shared">
+                                    🌐 Shared
+                                </button>
+                            {% else %}
+                                <button type="submit" class="access-badge private">
+                                    🔒 Private
+                                </button>
+                            {% endif %}
+                        </form>
+
                     </div>
 
                     <div class="owner-cell">
@@ -135,10 +143,10 @@
             <p>{{ current_user }}</p>
         </div>
 
-        <div class="ark-box">
-            <div class="ark-icon">🛶</div>
-            <p>The Ark</p>
-            <small>Noah assistant</small>
+        <div class="hive-box">
+            <div class="hive-icon">🛶</div>
+            <p>The Hive</p>
+            <small>bumblebee</small>
         </div>
 
         <a href="#" class="settings-button">⚙ Settings</a>
