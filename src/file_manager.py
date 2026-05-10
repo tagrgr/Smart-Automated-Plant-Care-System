@@ -7,10 +7,10 @@ from datetime import datetime
 from config import UPLOAD_FOLDER, PROTECTED_ITEMS, METADATA_FILE, BIN_FOLDER
 
 
-def get_visible_files():
+def get_visible_files(folder_path=UPLOAD_FOLDER):
     # Return only user files, hiding protected and hiden files
     return [
-        f for f in os.listdir(UPLOAD_FOLDER)
+        f for f in os.listdir(folder_path)
         if f not in PROTECTED_ITEMS and not f.startswith(".")
     ]
 
@@ -20,9 +20,9 @@ def is_protected_file(filename):
     return filename in PROTECTED_ITEMS or filename.startswith(".")
 
 
-def get_file_path(filename):
+def get_file_path(filename, current_path=""):
     # Build the full file path inside the upload folder
-    return os.path.join(UPLOAD_FOLDER, filename)
+    return os.path.join(UPLOAD_FOLDER, current_path, filename)
 
 
 def get_file_info(filename):
@@ -113,3 +113,16 @@ def create_folder(folder_name):
 
     os.makedirs(folder_path)
     return True
+
+
+def is_folder(filename):
+    return os.path.isdir(get_file_path(filename))
+
+
+def get_folders():
+    return [
+        item for item in os.listdir(UPLOAD_FOLDER)
+        if os.path.isdir(os.path.join(UPLOAD_FOLDER, item))
+        and item not in PROTECTED_ITEMS
+        and not item.startswith(".")
+    ]

@@ -30,7 +30,9 @@ from file_manager import (
     save_metadata,
     get_bin_files,
     create_missing_metadata,
-    create_folder
+    create_folder,
+    is_folder,
+    get_folders
 )
 
 # Create flask application instance
@@ -110,9 +112,11 @@ def home():
 
         files.append({
             "name": filename,
+            "full_path": filename,
             "owner": metadata["owner"],
             "visibility": metadata["visibility"],
-            "location": metadata["location"]
+            "location": metadata["location"],
+            "is_folder": is_folder(filename)
         })
 
     return render_template(
@@ -142,9 +146,11 @@ def my_drive():
         ):
             files.append({
                 "name": filename,
+                "full_path": filename,
                 "owner": metadata["owner"],
                 "visibility": metadata["visibility"],
-                "location": metadata["location"]
+                "location": metadata["location"],
+                "is_folder": is_folder(filename)
             })
 
     return render_template(
@@ -174,9 +180,11 @@ def shared_files():
         ):
             files.append({
                 "name": filename,
+                "full_path": filename,
                 "owner": metadata["owner"],
                 "visibility": metadata["visibility"],
-                "location": metadata["location"]
+                "location": metadata["location"],
+                "is_folder": is_folder(filename)
             })
 
     return render_template(
@@ -395,9 +403,11 @@ def bin_page():
 
         files.append({
             "name": filename,
+            "full_path": filename,
             "owner": "Deleted",
             "visibility": "bin",
-            "location": f"Deletes in {days_remaining} days"
+            "location": f"Deletes in {days_remaining} days",
+            "is_folder": is_folder(filename)
         })
 
     return render_template(
@@ -468,6 +478,92 @@ def create_new_folder():
     else:
         flash("A folder with this name already exists", "error")
 
+    return redirect("/")
+
+
+@app.route("/folder/<path:folder_name>")
+def open_folder(folder_name):
+    if not has_access():
+        return redirect("/login")
+
+    current_user = get_current_user()
+
+    folder_path = get_file_path(folder_name)
+
+    if not os.path.isdir(folder_path):
+        flash("Folder not found", "error")
+        return redirect("/")
+
+    files = []
+
+    for filename in get_visible_files(folder_path):
+        full_relative_path = os.path.join(folder_name, filename)
+
+        metadata = get_file_metadata(full_relative_path)
+
+        files.append({
+            "name": filename,
+            "full_path": full_relative_path,
+            "owner": metadata["owner"],
+            "visibility": metadata["visibility"],
+            "location": folder_name,
+            "is_folder": is_folder(full_relative_path)
+        })
+
+    return render_template(
+        "home.html",
+        current_user=current_user,
+        files=files,
+        current_page="home",
+        current_folder=folder_name
+    )
+
+
+@app.route("/move-page/<path:filename>")
+def move_page(filename):
+    if not has_access():
+        return redirect("/login")
+
+    folders = get_folders()
+
+    return render_template(
+        "move_file.html",
+        filename=filename,
+        folders=folders
+    )
+
+
+@app.route("/move/<path:filename>", methods=["POST"])
+def move_file(filename):
+    if not has_access():
+        return redirect("/login")
+
+    destination = request.form.get("destination")
+
+    source_path = get_file_path(filename)
+
+    if destination == "":
+        destination_path = get_file_path(os.path.basename(filename))
+        new_location = "/"
+    else:
+        destination_path = get_file_path(os.path.join(destination, os.path.basename(filename)))
+        new_location = destination
+
+    if not os.path.exists(source_path):
+        flash("File not found", "error")
+        return redirect("/")
+
+    shutil.move(source_path, destination_path)
+
+    metadata = load_metadata()
+
+    if filename in metadata:
+        metadata[os.path.join(destination, os.path.basename(filename)) if destination else os.path.basename(filename)] = metadata.pop(filename)
+        metadata[os.path.join(destination, os.path.basename(filename)) if destination else os.path.basename(filename)]["location"] = new_location
+
+    save_metadata(metadata)
+
+    flash(f"Moved '{os.path.basename(filename)}' successfully", "success")
     return redirect("/")
 
 

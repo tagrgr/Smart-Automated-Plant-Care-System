@@ -120,8 +120,13 @@
             {% for file in files %}
                 <div class="file-row">
                     <div class="file-name-cell">
-                        <span class="file-icon">📄</span>
-                        <a href="/download/{{ file.name }}">{{ file.name }}</a>
+                        {% if file.is_folder %}
+                            <span class="file-icon">📁</span>
+                            <a href="/folder/{{ file.full_path }}">{{ file.name }}</a>
+                        {% else %}
+                            <span class="file-icon">📄</span>
+                            <a href="/download/{{ file.full_path }}">{{ file.name }}</a>
+                        {% endif %}
                     </div>
 
                     <div class="access-cell">
@@ -129,7 +134,7 @@
                         {% if file.visibility == "bin" %}
                             <span class="access-badge bin">🗑 Bin</span>
                         {% else %}
-                            <form action="/toggle-visibility/{{ file.name }}" method="post">
+                            <form action="/toggle-visibility/{{ file.full_path if file.full_path else file.name }}" method="post">
                                 {% if file.visibility == "shared" %}
                                     <button type="submit" class="access-badge shared">
                                         🌐 Shared
@@ -173,17 +178,17 @@
 
                                 {% else %}
 
-                                    <a href="/download/{{ file.name }}">⬇ Download</a>
+                                    <a href="/download/{{ file.full_path if file.full_path else file.name }}">⬇ Download</a>
                                     <a href="#">✏ Rename</a>
 
-                                    <form action="/copy/{{ file.name }}" method="post">
+                                    <form action="/copy/{{ file.full_path if file.full_path else file.name }}" method="post">
                                         <button type="submit" class="menu-button">📄 Make a copy</button>
                                     </form>
 
                                     <a href="#">🔗 Share</a>
-                                    <a href="#">📁 Move to directory</a>
-                                    <a href="/info/{{ file.name }}">ℹ File info</a>
-                                    <a href="/confirm-delete/{{ file.name }}" class="delete-link">🗑 Delete</a>
+                                    <a href="/move-page/{{ file.full_path if file.full_path else file.name }}">📁 Move to directory</a>
+                                    <a href="/info/{{ file.full_path if file.full_path else file.name }}">ℹ File info</a>
+                                    <a href="/confirm-delete/{{ file.full_path if file.full_path else file.name }}" class="delete-link">🗑 Delete</a>
 
                                 {% endif %}
 
