@@ -702,7 +702,10 @@ def rename_file(filename):
         return redirect("/")
 
     old_path = get_file_path(filename)
-    new_path = get_file_path(new_name)
+
+    folder = os.path.dirname(filename)
+    new_relative_path = os.path.join(folder, new_name) if folder else new_name
+    new_path = get_file_path(new_relative_path)
 
     if not os.path.exists(old_path):
         flash("File not found", "error")
@@ -717,11 +720,16 @@ def rename_file(filename):
     metadata = load_metadata()
 
     if filename in metadata:
-        metadata[new_name] = metadata.pop(filename)
+        metadata[new_relative_path] = metadata.pop(filename)
+        metadata[new_relative_path]["location"] = folder if folder else "/"
 
     save_metadata(metadata)
 
     flash(f"Renamed to '{new_name}'", "success")
+
+    if folder:
+        return redirect(f"/folder/{folder}")
+
     return redirect("/")
 
 
