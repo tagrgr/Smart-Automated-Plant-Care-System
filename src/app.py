@@ -99,7 +99,7 @@ def home():
         return redirect("/login")
 
     current_user = get_current_user()
-    current_user = get_current_user()
+    create_missing_metadata(current_user)
 
     # Get list of files from storage and hide System Volume Information directory  and hidden system files as they're useless for our project
     files = []
