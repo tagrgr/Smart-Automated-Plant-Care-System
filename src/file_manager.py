@@ -89,3 +89,16 @@ def get_bin_files():
         f for f in os.listdir(BIN_FOLDER)
         if not f.startswith(".")
     ]
+
+def create_missing_metadata(owner):
+    metadata = load_metadata()
+
+    for filename in get_visible_files():
+        if filename not in metadata:
+            metadata[filename] = {
+                "owner": owner,
+                "visibility": "private",
+                "location": "/"
+            }
+
+    save_metadata(metadata)

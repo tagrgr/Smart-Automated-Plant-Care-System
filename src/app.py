@@ -28,7 +28,8 @@ from file_manager import (
     get_file_metadata,
     load_metadata,
     save_metadata,
-    get_bin_files
+    get_bin_files,
+    create_missing_metadata
 )
 
 # Create flask application instance
@@ -98,7 +99,9 @@ def home():
         return redirect("/login")
 
     current_user = get_current_user()
-    # Get list of files from storage and hide System Volume Information directory  and hidden system files as they're useless for our project 
+    current_user = get_current_user()
+
+    # Get list of files from storage and hide System Volume Information directory  and hidden system files as they're useless for our project
     files = []
 
     for filename in get_visible_files():
