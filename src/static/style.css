@@ -124,9 +124,9 @@ button {
 .file-list-header,
 .file-row {
     display: grid;
-    grid-template-columns: 2fr 1fr 1.4fr 1fr 80px;
+    grid-template-columns: 40px 2fr 1fr 1.4fr 1fr 80px;
     align-items: center;
-    gap: 12px;
+    gap: 5px;
 }
 
 .file-list-header {
@@ -320,4 +320,33 @@ button {
 .new-dropdown input[type="file"] {
     width: 100%;
     margin-bottom: 10px;
+}
+
+.selection-toolbar {
+    display: none;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    margin-bottom: 12px;
+    background-color: #e8f0fe;
+    border-radius: 12px;
+}
+
+.selection-toolbar.active {
+    display: flex;
+}
+
+.selection-toolbar button {
+    background-color: transparent;
+    color: #202124;
+    border-radius: 8px;
+}
+
+.selection-toolbar button:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.selection-toolbar button:hover:not(:disabled) {
+    background-color: #d2e3fc;
 }

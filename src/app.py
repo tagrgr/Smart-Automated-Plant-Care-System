@@ -567,6 +567,121 @@ def move_file(filename):
     return redirect("/")
 
 
+@app.route("/bulk-bin", methods=["POST"])
+def bulk_move_to_bin():
+    if not has_access():
+        return redirect("/login")
+
+    selected_files = request.form.getlist("selected_files")
+
+    if not selected_files:
+        flash("No files selected", "error")
+        return redirect("/")
+
+    moved_count = 0
+
+    for filename in selected_files:
+        if is_protected_file(filename):
+            continue
+
+        file_path = get_file_path(filename)
+
+        if os.path.exists(file_path):
+            bin_path = os.path.join(BIN_FOLDER, os.path.basename(filename))
+
+            counter = 1
+            name, extension = os.path.splitext(os.path.basename(filename))
+
+            while os.path.exists(bin_path):
+                new_filename = f"{name}_deleted_{counter}{extension}"
+                bin_path = os.path.join(BIN_FOLDER, new_filename)
+                counter += 1
+
+            shutil.move(file_path, bin_path)
+            moved_count += 1
+
+    flash(f"{moved_count} item(s) moved to Bin", "success")
+    return redirect("/")
+
+
+@app.route("/bulk-copy", methods=["POST"])
+def bulk_copy_files():
+    if not has_access():
+        return redirect("/login")
+
+    selected_files = request.form.getlist("selected_files")
+
+    if not selected_files:
+        flash("No files selected", "error")
+        return redirect("/")
+
+    copied_count = 0
+
+    for filename in selected_files:
+        original_path = get_file_path(filename)
+
+        if not os.path.exists(original_path) or os.path.isdir(original_path):
+            continue
+
+        folder = os.path.dirname(filename)
+        base_name = os.path.basename(filename)
+        name, extension = os.path.splitext(base_name)
+
+        copied_filename = f"{name}_copy{extension}"
+        copied_relative_path = os.path.join(folder, copied_filename) if folder else copied_filename
+        copied_path = get_file_path(copied_relative_path)
+
+        counter = 1
+        while os.path.exists(copied_path):
+            copied_filename = f"{name}_copy_{counter}{extension}"
+            copied_relative_path = os.path.join(folder, copied_filename) if folder else copied_filename
+            copied_path = get_file_path(copied_relative_path)
+            counter += 1
+
+        shutil.copy2(original_path, copied_path)
+
+        metadata = get_file_metadata(filename)
+        add_file_metadata(
+            copied_relative_path,
+            metadata["owner"],
+            metadata["visibility"]
+        )
+
+        copied_count += 1
+
+    flash(f"{copied_count} file(s) copied successfully", "success")
+    return redirect("/")
+
+
+@app.route("/bulk-toggle-visibility", methods=["POST"])
+def bulk_toggle_visibility():
+    if not has_access():
+        return redirect("/login")
+
+    selected_files = request.form.getlist("selected_files")
+
+    if not selected_files:
+        flash("No files selected", "error")
+        return redirect("/")
+
+    metadata = load_metadata()
+    changed_count = 0
+
+    for filename in selected_files:
+        if filename in metadata:
+            if metadata[filename]["visibility"] == "private":
+                metadata[filename]["visibility"] = "shared"
+            else:
+                metadata[filename]["visibility"] = "private"
+
+            changed_count += 1
+
+    save_metadata(metadata)
+
+    flash(f"Visibility changed for {changed_count} item(s)", "success")
+    return redirect("/")
+
+
 @app.route("/logout")
 def logout():
     session.clear()

@@ -109,7 +109,40 @@
         <section class="file-list-section">
             <h2>Files</h2>
 
+            <form class="selection-toolbar" id="selectionToolbar" method="post">
+                <span id="selectedCount">0 selected</span>
+
+                <button type="submit" formaction="/bulk-toggle-visibility">
+                    🔒/🌐 Change access
+                </button>
+
+                <button type="submit" formaction="/bulk-copy">
+                    📄 Make a copy
+                </button>
+
+                <button type="submit" formaction="/bulk-bin">
+                    🗑 Move to Bin
+                </button>
+
+                <button type="button" disabled>
+                    ⬇ Download
+                </button>
+
+                <button type="button" disabled>
+                    📁 Move
+                </button>
+
+                <button type="button" disabled>
+                    ℹ File info
+                </button>
+
+                <button type="button" disabled>
+                    ✏ Rename
+                </button>
+            </form>
+
             <div class="file-list-header">
+                <br>
                 <span>Name</span>
                 <span>Access</span>
                 <span>Owner</span>
@@ -119,6 +152,15 @@
 
             {% for file in files %}
                 <div class="file-row">
+
+                    <input
+                        type="checkbox"
+                        class="file-checkbox"
+                        name="selected_files"
+                        value="{{ file.full_path if file.full_path else file.name }}"
+                        form="selectionToolbar"
+                    >
+
                     <div class="file-name-cell">
                         {% if file.is_folder %}
                             <span class="file-icon">📁</span>
@@ -219,5 +261,6 @@
 
 </div>
 
+<script src="../static/script.js"></script>
 </body>
 </html>
