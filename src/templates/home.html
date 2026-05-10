@@ -12,7 +12,32 @@
     <aside class="left-sidebar">
         <a href="/" class="logo">RPi Cloud</a>
 
-        <button class="new-button">+ New</button>
+        <div class="new-menu">
+            <button class="new-button">+ New</button>
+
+            <div class="new-dropdown">
+                <form action="/create-folder" method="post">
+                    <input type="text" name="folder_name" placeholder="Folder name">
+                    <button type="submit">New folder</button>
+                </form>
+
+                <form action="/upload" method="post" enctype="multipart/form-data">
+                    <input type="file" name="files" multiple>
+
+                    <label>
+                        <input type="radio" name="visibility" value="private" checked>
+                        Private
+                    </label>
+
+                    <label>
+                        <input type="radio" name="visibility" value="shared">
+                        Shared
+                    </label>
+
+                    <button type="submit">Upload files</button>
+                </form>
+            </div>
+        </div>
 
         <nav class="side-nav">
 

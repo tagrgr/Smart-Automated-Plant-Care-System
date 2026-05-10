@@ -29,7 +29,8 @@ from file_manager import (
     load_metadata,
     save_metadata,
     get_bin_files,
-    create_missing_metadata
+    create_missing_metadata,
+    create_folder
 )
 
 # Create flask application instance
@@ -448,6 +449,26 @@ def delete_permanently(filename):
 
     flash(f"File '{filename}' permanently deleted", "success")
     return redirect("/bin")
+
+
+@app.route("/create-folder", methods=["POST"])
+def create_new_folder():
+    if not has_access():
+        return redirect("/login")
+
+    folder_name = request.form.get("folder_name")
+
+    if not folder_name:
+        flash("Folder name is required", "error")
+        return redirect("/")
+
+    if create_folder(folder_name):
+        add_file_metadata(folder_name, get_current_user(), "private")
+        flash(f"Folder '{folder_name}' created successfully", "success")
+    else:
+        flash("A folder with this name already exists", "error")
+
+    return redirect("/")
 
 
 @app.route("/logout")

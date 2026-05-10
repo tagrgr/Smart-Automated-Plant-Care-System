@@ -90,6 +90,7 @@ def get_bin_files():
         if not f.startswith(".")
     ]
 
+
 def create_missing_metadata(owner):
     metadata = load_metadata()
 
@@ -102,3 +103,13 @@ def create_missing_metadata(owner):
             }
 
     save_metadata(metadata)
+
+
+def create_folder(folder_name):
+    folder_path = os.path.join(UPLOAD_FOLDER, folder_name)
+
+    if os.path.exists(folder_path):
+        return False
+
+    os.makedirs(folder_path)
+    return True

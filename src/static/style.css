@@ -293,3 +293,31 @@ button {
     background-color: #fce8e6;
     color: #c5221f;
 }
+
+.new-menu {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.new-dropdown {
+    display: none;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 15px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+}
+
+.new-menu:hover .new-dropdown {
+    display: block;
+}
+
+.new-dropdown form {
+    margin-bottom: 15px;
+}
+
+.new-dropdown input[type="text"],
+.new-dropdown input[type="file"] {
+    width: 100%;
+    margin-bottom: 10px;
+}
