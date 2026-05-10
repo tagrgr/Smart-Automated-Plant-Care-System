@@ -74,7 +74,12 @@
 
         <h1>Welcome to RPi's Home Server</h1>
 
-        <input class="search-bar" type="text" placeholder="Search in Home Server">
+        <input
+            class="search-bar"
+            id="searchInput"
+            type="text"
+            placeholder="Search in Home Server"
+        >
 
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
@@ -124,19 +129,19 @@
                     🗑 Move to Bin
                 </button>
 
-                <button type="button" disabled>
+                <button type="button" id="downloadButton" disabled>
                     ⬇ Download
                 </button>
 
-                <button type="button" disabled>
+                <button type="button" id="moveButton" disabled>
                     📁 Move
                 </button>
 
-                <button type="button" disabled>
+                <button type="button" id="infoButton" disabled>
                     ℹ File info
                 </button>
 
-                <button type="button" disabled>
+                <button type="button" id="renameButton" disabled>
                     ✏ Rename
                 </button>
             </form>
@@ -151,7 +156,7 @@
             </div>
 
             {% for file in files %}
-                <div class="file-row">
+                <div class="file-row" data-filename="{{ file.name | lower }}">
 
                     <input
                         type="checkbox"

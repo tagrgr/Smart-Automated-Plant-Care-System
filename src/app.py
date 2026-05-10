@@ -682,6 +682,120 @@ def bulk_toggle_visibility():
     return redirect("/")
 
 
+@app.route("/rename-page/<path:filename>")
+def rename_page(filename):
+    if not has_access():
+        return redirect("/login")
+
+    return render_template("rename_file.html", filename=filename)
+
+
+@app.route("/rename/<path:filename>", methods=["POST"])
+def rename_file(filename):
+    if not has_access():
+        return redirect("/login")
+
+    new_name = request.form.get("new_name")
+
+    if not new_name:
+        flash("New name is required", "error")
+        return redirect("/")
+
+    old_path = get_file_path(filename)
+    new_path = get_file_path(new_name)
+
+    if not os.path.exists(old_path):
+        flash("File not found", "error")
+        return redirect("/")
+
+    if os.path.exists(new_path):
+        flash("A file with this name already exists", "error")
+        return redirect("/")
+
+    os.rename(old_path, new_path)
+
+    metadata = load_metadata()
+
+    if filename in metadata:
+        metadata[new_name] = metadata.pop(filename)
+
+    save_metadata(metadata)
+
+    flash(f"Renamed to '{new_name}'", "success")
+    return redirect("/")
+
+
+@app.route("/bulk-move-page", methods=["POST"])
+def bulk_move_page():
+    if not has_access():
+        return redirect("/login")
+
+    selected_files = request.form.getlist("selected_files")
+
+    if not selected_files:
+        flash("No files selected", "error")
+        return redirect("/")
+
+    folders = get_folders()
+
+    return render_template(
+        "bulk_move.html",
+        selected_files=selected_files,
+        folders=folders
+    )
+
+
+@app.route("/bulk-move", methods=["POST"])
+def bulk_move():
+    if not has_access():
+        return redirect("/login")
+
+    selected_files = request.form.getlist("selected_files")
+    destination = request.form.get("destination")
+
+    moved_count = 0
+    metadata = load_metadata()
+
+    for filename in selected_files:
+        source_path = get_file_path(filename)
+
+        if not os.path.exists(source_path):
+            continue
+
+        base_name = os.path.basename(filename)
+
+        if destination == "":
+            new_relative_path = base_name
+            new_location = "/"
+        else:
+            new_relative_path = os.path.join(destination, base_name)
+            new_location = destination
+
+        destination_path = get_file_path(new_relative_path)
+
+        counter = 1
+        name, extension = os.path.splitext(base_name)
+
+        while os.path.exists(destination_path):
+            new_name = f"{name}_moved_{counter}{extension}"
+            new_relative_path = os.path.join(destination, new_name) if destination else new_name
+            destination_path = get_file_path(new_relative_path)
+            counter += 1
+
+        shutil.move(source_path, destination_path)
+
+        if filename in metadata:
+            metadata[new_relative_path] = metadata.pop(filename)
+            metadata[new_relative_path]["location"] = new_location
+
+        moved_count += 1
+
+    save_metadata(metadata)
+
+    flash(f"{moved_count} item(s) moved successfully", "success")
+    return redirect("/")
+
+
 @app.route("/logout")
 def logout():
     session.clear()
