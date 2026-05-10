@@ -8,8 +8,6 @@ const moveButton = document.getElementById("moveButton");
 const infoButton = document.getElementById("infoButton");
 const renameButton = document.getElementById("renameButton");
 
-const infoButton = document.getElementById("infoButton");
-
 function updateSelectionToolbar() {
     const selected = document.querySelectorAll(".file-checkbox:checked");
     const count = selected.length;
