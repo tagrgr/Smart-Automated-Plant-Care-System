@@ -86,6 +86,20 @@ def redirect_back(default="/"):
     return redirect(request.referrer or default)
 
 
+def is_image_file(filename):
+    image_extensions = [
+        ".png",
+        ".jpg",
+        ".jpeg",
+        ".gif",
+        ".webp"
+    ]
+
+    extension = os.path.splitext(filename)[1].lower()
+
+    return extension in image_extensions
+
+
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
@@ -123,7 +137,8 @@ def home():
             "owner": metadata["owner"],
             "visibility": metadata["visibility"],
             "location": metadata["location"],
-            "is_folder": is_folder(filename)
+            "is_folder": is_folder(filename),
+            "is_image": is_image_file(filename)
         })
 
     return render_template(
@@ -159,7 +174,8 @@ def my_drive():
                 "owner": metadata["owner"],
                 "visibility": metadata["visibility"],
                 "location": metadata["location"],
-                "is_folder": is_folder(filename)
+                "is_folder": is_folder(filename),
+                "is_image": is_image_file(filename)
             })
 
     return render_template(
@@ -193,7 +209,8 @@ def shared_files():
                 "owner": metadata["owner"],
                 "visibility": metadata["visibility"],
                 "location": metadata["location"],
-                "is_folder": is_folder(filename)
+                "is_folder": is_folder(filename),
+                "is_image": is_image_file(filename)
             })
 
     return render_template(
@@ -467,7 +484,8 @@ def bin_page():
             "owner": "Deleted",
             "visibility": "bin",
             "location": f"Deletes in {days_remaining} days",
-            "is_folder": os.path.isdir(os.path.join(BIN_FOLDER, filename))
+            "is_folder": os.path.isdir(os.path.join(BIN_FOLDER, filename)),
+            "is_image": is_image_file(filename)
         })
 
     return render_template(
@@ -610,7 +628,8 @@ def open_folder(folder_name):
             "owner": metadata["owner"],
             "visibility": metadata["visibility"],
             "location": folder_name,
-            "is_folder": is_folder(full_relative_path)
+            "is_folder": is_folder(full_relative_path),
+            "is_image": is_image_file(filename)
         })
 
     return render_template(

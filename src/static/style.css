@@ -367,3 +367,11 @@ button {
     margin: 0 8px;
     color: #777;
 }
+
+.image-thumbnail {
+    width: 42px;
+    height: 42px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+}

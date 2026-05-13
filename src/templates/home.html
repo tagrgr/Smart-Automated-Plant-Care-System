@@ -21,7 +21,7 @@
                     <input type="hidden" name="current_folder" value="{{ current_folder }}">
 
                     <input type="text" name="folder_name" placeholder="Folder name">
-                    
+
                     <button type="submit">New folder</button>
                 </form>
 
@@ -186,13 +186,36 @@
                     >
 
                     <div class="file-name-cell">
+
                         {% if file.is_folder %}
+
                             <span class="file-icon">📁</span>
-                            <a href="/folder/{{ file.full_path }}">{{ file.name }}</a>
+
+                            <a href="/folder/{{ file.full_path }}">
+                                {{ file.name }}
+                            </a>
+
+                        {% elif file.is_image %}
+
+                            <img
+                                src="/download/{{ file.full_path }}"
+                                class="image-thumbnail"
+                            >
+
+                            <a href="/download/{{ file.full_path }}">
+                                {{ file.name }}
+                            </a>
+
                         {% else %}
+
                             <span class="file-icon">📄</span>
-                            <a href="/download/{{ file.full_path }}">{{ file.name }}</a>
+
+                            <a href="/download/{{ file.full_path }}">
+                                {{ file.name }}
+                            </a>
+
                         {% endif %}
+
                     </div>
 
                     <div class="access-cell">
