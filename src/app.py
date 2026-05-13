@@ -883,12 +883,15 @@ def bulk_move_page():
         flash("No files selected", "error")
         return redirect_back()
 
+    return_to = request.form.get("return_to", "/")
+
     folders = get_folders()
 
     return render_template(
         "bulk_move.html",
         selected_files=selected_files,
-        folders=folders
+        folders=folders,
+        return_to=return_to
     )
 
 

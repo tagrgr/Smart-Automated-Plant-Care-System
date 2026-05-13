@@ -94,6 +94,11 @@ moveButton.addEventListener("click", function () {
     const form = document.createElement("form");
     form.method = "post";
     form.action = "/bulk-move-page";
+    const returnInput = document.createElement("input");
+    returnInput.type = "hidden";
+    returnInput.name = "return_to";
+    returnInput.value = window.location.pathname;
+    form.appendChild(returnInput);
 
     selected.forEach(function (checkbox) {
         const input = document.createElement("input");
