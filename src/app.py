@@ -135,6 +135,21 @@ def get_file_icon(filename):
     return icons.get(extension, "📄")
 
 
+def get_storage_info():
+    total, used, free = shutil.disk_usage(UPLOAD_FOLDER)
+
+    total_gb = round(total / (1024 ** 3), 2)
+    used_gb = round(used / (1024 ** 3), 2)
+
+    percent_used = round((used / total) * 100)
+
+    return {
+        "total_gb": total_gb,
+        "used_gb": used_gb,
+        "percent_used": percent_used
+    }
+
+
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
@@ -183,7 +198,8 @@ def home():
         files=files,
         current_page="home",
         breadcrumbs=[],
-        current_folder=""
+        current_folder="",
+        storage=get_storage_info()
     )
 
 
@@ -219,7 +235,8 @@ def my_drive():
         "home.html",
         current_user=current_user,
         files=files,
-        current_page="my-drive"
+        current_page="my-drive",
+        storage=get_storage_info()
     )
 
 
@@ -255,7 +272,8 @@ def shared_files():
         "home.html",
         current_user=current_user,
         files=files,
-        current_page="shared"
+        current_page="shared",
+        storage=get_storage_info()
     )
 
 
@@ -531,7 +549,8 @@ def bin_page():
         "home.html",
         current_user=current_user,
         files=files,
-        current_page="bin"
+        current_page="bin",
+        storage=get_storage_info()
     )
 
 
@@ -678,7 +697,8 @@ def open_folder(folder_name):
         files=files,
         current_page="home",
         current_folder=folder_name,
-        breadcrumbs=breadcrumbs        
+        breadcrumbs=breadcrumbs,
+        storage=get_storage_info()        
     )
 
 

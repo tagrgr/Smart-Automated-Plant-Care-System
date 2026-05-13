@@ -68,12 +68,15 @@
 
         <div class="storage-box">
             <p><strong>Storage</strong></p>
-            <p>79% full</p>
+            <p>{{ storage.percent_used }}% full</p>
+
             <div class="storage-bar">
-                <div class="storage-used"></div>
+                <div class="storage-used" style="width: {{ storage.percent_used }}%;"></div>
             </div>
-            <p>11.85 GB of 15 GB used</p>
+
+            <p>{{ storage.used_gb }} GB of {{ storage.total_gb }} GB used</p>
         </div>
+        
     </aside>
 
     <!-- MAIN CONTENT -->
