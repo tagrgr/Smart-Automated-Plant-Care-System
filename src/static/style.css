@@ -478,3 +478,10 @@ body.dark .dropdown-menu a,
 body.dark .menu-button {
     color: #e8eaed;
 }
+
+.settings-back-button {
+    display: inline-block;
+    margin-bottom: 20px;
+    color: #1f6feb;
+    text-decoration: none;
+}

@@ -1,4 +1,5 @@
 <link rel="stylesheet" href="../static/style.css">
+<body class="{{ session.get('theme', 'light') }}">
 <h2>Are you sure you want to delete '{{ filename }}'?</h2>
 
 <form action="/delete/{{ filename }}" method="post">
@@ -8,3 +9,4 @@
 <br>
 
 <a href="/">Cancel</a>
+</body>

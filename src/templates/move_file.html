@@ -4,7 +4,7 @@
     <title>Move File</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-<body>
+<body class="{{ session.get('theme', 'light') }}">
 
 <div class="move-page">
     <h1>Move "{{ filename }}"</h1>
