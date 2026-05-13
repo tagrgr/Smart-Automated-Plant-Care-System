@@ -131,7 +131,8 @@ def home():
         current_user=current_user,
         files=files,
         current_page="home",
-        breadcrumbs=[]
+        breadcrumbs=[],
+        current_folder=""
     )
 
 
@@ -212,6 +213,8 @@ def upload_file():
     uploaded_files = request.files.getlist("files")
     visibility = request.form.get("visibility", "private")
 
+    current_folder = request.form.get("current_folder", "")
+
     # Check if the request contains a file
     if not uploaded_files or uploaded_files[0].filename == "":
         flash("No file selected", "error")
@@ -229,10 +232,13 @@ def upload_file():
             continue
 
         # Create the full save path inside the storage folder
-        save_path = get_file_path(file.filename)
-        # Save the uploaded file to the Raspberry Pi
+        relative_path = os.path.join(current_folder, file.filename) if current_folder else file.filename
+
+        save_path = get_file_path(relative_path)
         file.save(save_path)
-        add_file_metadata(file.filename, get_current_user(), visibility)
+
+        add_file_metadata(relative_path, get_current_user(), visibility)
+
         uploaded_count += 1
 
     flash(f"{uploaded_count} file(s) uploaded as {visibility}", "success")
@@ -544,17 +550,25 @@ def create_new_folder():
         return redirect("/login")
 
     folder_name = request.form.get("folder_name")
+    current_folder = request.form.get("current_folder", "")
 
     if not folder_name:
         flash("Folder name is required", "error")
         return redirect_back()
 
-    if create_folder(folder_name):
-        add_file_metadata(folder_name, get_current_user(), "private")
-        flash(f"Folder '{folder_name}' created successfully", "success")
-    else:
-        flash("A folder with this name already exists", "error")
+    relative_path = os.path.join(current_folder, folder_name) if current_folder else folder_name
 
+    folder_path = get_file_path(relative_path)
+
+    if os.path.exists(folder_path):
+        flash("A folder with this name already exists", "error")
+        return redirect_back()
+
+    os.makedirs(folder_path)
+
+    add_file_metadata(relative_path, get_current_user(), "private")
+
+    flash(f"Folder '{folder_name}' created successfully", "success")
     return redirect_back()
 
 
