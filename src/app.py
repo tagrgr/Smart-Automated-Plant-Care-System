@@ -72,11 +72,18 @@ def cleanup_old_bin_files():
 
         if datetime.now() > expiry_date:
             if os.path.exists(bin_path):
-                os.remove(bin_path)
+                if os.path.isdir(bin_path):
+                    shutil.rmtree(bin_path)
+                else:
+                    os.remove(bin_path)
         else:
             updated_metadata[filename] = data
 
     save_bin_metadata(updated_metadata)
+
+
+def redirect_back(default="/"):
+    return redirect(request.referrer or default)
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -207,11 +214,11 @@ def upload_file():
     # Check if the request contains a file
     if not uploaded_files or uploaded_files[0].filename == "":
         flash("No file selected", "error")
-        return redirect("/")
+        return redirect_back()
 
     if len(uploaded_files) > 30:
         flash("You can upload a maximum of 30 files at a time", "error")
-        return redirect("/")
+        return redirect_back()
 
     uploaded_count = 0
 
@@ -228,22 +235,34 @@ def upload_file():
         uploaded_count += 1
 
     flash(f"{uploaded_count} file(s) uploaded as {visibility}", "success")
-    return redirect("/")
+    return redirect_back()
 
 
 # download route
-@app.route("/download/<filename>")
+@app.route("/download/<path:filename>")
 def download_file(filename):
     if not has_access():
         return redirect("/login")
-    
+
     if is_protected_file(filename):
         return "Action not allowed"
-            
-    return send_from_directory(UPLOAD_FOLDER, filename, as_attachment=True)
+
+    file_path = get_file_path(filename)
+
+    if not os.path.exists(file_path):
+        return "File not found"
+
+    folder = os.path.dirname(file_path)
+    base_name = os.path.basename(file_path)
+
+    return send_from_directory(
+        folder,
+        base_name,
+        as_attachment=True
+    )
 
 
-@app.route("/info/<filename>")
+@app.route("/info/<path:filename>")
 def file_info(filename):
     if not has_access():
         return redirect("/login")
@@ -261,7 +280,7 @@ def file_info(filename):
     return render_template("file_info.html", info=info)
 
 
-@app.route("/confirm-delete/<filename>")
+@app.route("/confirm-delete/<path:filename>")
 def confirm_delete(filename):
     if not has_access():
         return redirect("/login")
@@ -274,25 +293,25 @@ def confirm_delete(filename):
 
 
 # delete route
-@app.route("/delete/<filename>", methods=["POST"])
+@app.route("/delete/<path:filename>", methods=["POST"])
 def delete_file(filename):
     if not has_access():
         return redirect("/login")
-    
+
     # Prevent deleting protected or hidden files
     if is_protected_file(filename):
         flash("Action not allowed", "error")
-        return "Action not allowed"
+        return redirect_back()
 
-    # Create the full path to the selected file
     file_path = get_file_path(filename)
 
-    # Check if the file exists before trying to delete it
     if os.path.exists(file_path):
-        bin_path = os.path.join(BIN_FOLDER, filename)
+        base_name = os.path.basename(filename)
+
+        bin_path = os.path.join(BIN_FOLDER, base_name)
 
         counter = 1
-        name, extension = os.path.splitext(filename)
+        name, extension = os.path.splitext(base_name)
 
         while os.path.exists(bin_path):
             new_filename = f"{name}_deleted_{counter}{extension}"
@@ -301,78 +320,112 @@ def delete_file(filename):
 
         shutil.move(file_path, bin_path)
 
+        bin_filename = os.path.basename(bin_path)
+
         bin_metadata = load_bin_metadata()
-        bin_metadata[os.path.basename(bin_path)] = {
+        bin_metadata[bin_filename] = {
             "deleted_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         }
         save_bin_metadata(bin_metadata)
 
-        flash(f"File '{filename}' moved to Bin", "success")
+        # Remove file from normal metadata after moving to Bin
+        metadata = load_metadata()
+        if filename in metadata:
+            metadata.pop(filename)
+            save_metadata(metadata)
+
+        flash(f"File '{base_name}' moved to Bin", "success")
     else:
         flash("File not found", "error")
 
-    # Send the user back to the home page after deleting
-    return redirect("/")
+    return redirect_back()
 
 
-@app.route("/copy/<filename>", methods=["POST"])
+@app.route("/copy/<path:filename>", methods=["POST"])
 def copy_file(filename):
     if not has_access():
         return redirect("/login")
 
     if is_protected_file(filename):
         flash("Action not allowed", "error")
-        return redirect("/")
+        return redirect_back()
 
     original_path = get_file_path(filename)
 
     if not os.path.exists(original_path):
         flash("File not found", "error")
-        return redirect("/")
+        return redirect_back()
 
-    name, extension = os.path.splitext(filename)
+    folder = os.path.dirname(filename)
+    base_name = os.path.basename(filename)
+
+    name, extension = os.path.splitext(base_name)
+
     copied_filename = f"{name}_copy{extension}"
-    copied_path = get_file_path(copied_filename)
+
+    copied_relative_path = (
+        os.path.join(folder, copied_filename)
+        if folder else copied_filename
+    )
+
+    copied_path = get_file_path(copied_relative_path)
 
     counter = 1
     while os.path.exists(copied_path):
         copied_filename = f"{name}_copy_{counter}{extension}"
-        copied_path = get_file_path(copied_filename)
+
+        copied_relative_path = (
+            os.path.join(folder, copied_filename)
+            if folder else copied_filename
+        )
+
+        copied_path = get_file_path(copied_relative_path)
+
         counter += 1
 
     shutil.copy2(original_path, copied_path)
 
+    # Copy metadata too
+    metadata = get_file_metadata(filename)
+
+    add_file_metadata(
+        copied_relative_path,
+        metadata["owner"],
+        metadata["visibility"]
+    )
+
     flash(f"File copied as '{copied_filename}'", "success")
-    return redirect("/")
+
+    return redirect_back()
 
 
-@app.route("/toggle-visibility/<filename>", methods=["POST"])
+@app.route("/toggle-visibility/<path:filename>", methods=["POST"])
 def toggle_visibility(filename):
     if not has_access():
         return redirect("/login")
 
     if is_protected_file(filename):
         flash("Action not allowed", "error")
-        return redirect("/")
+        return redirect_back()
 
     metadata = load_metadata()
 
     if filename not in metadata:
         flash("File metadata not found", "error")
-        return redirect("/")
+        return redirect_back()
 
     current_visibility = metadata[filename]["visibility"]
 
     if current_visibility == "private":
         metadata[filename]["visibility"] = "shared"
-        flash(f"'{filename}' is now shared", "success")
+        flash(f"'{os.path.basename(filename)}' is now shared", "success")
     else:
         metadata[filename]["visibility"] = "private"
-        flash(f"'{filename}' is now private", "success")
+        flash(f"'{os.path.basename(filename)}' is now private", "success")
 
     save_metadata(metadata)
 
-    return redirect("/")
+    return redirect_back()
 
 # bin page route
 @app.route("/bin")
@@ -407,7 +460,7 @@ def bin_page():
             "owner": "Deleted",
             "visibility": "bin",
             "location": f"Deletes in {days_remaining} days",
-            "is_folder": is_folder(filename)
+            "is_folder": os.path.isdir(os.path.join(BIN_FOLDER, filename))
         })
 
     return render_template(
@@ -418,20 +471,21 @@ def bin_page():
     )
 
 
-@app.route("/restore/<filename>", methods=["POST"])
+@app.route("/restore/<path:filename>", methods=["POST"])
 def restore_file(filename):
     if not has_access():
         return redirect("/login")
 
     bin_path = os.path.join(BIN_FOLDER, filename)
-    restore_path = get_file_path(filename)
+    base_name = os.path.basename(filename)
+    restore_path = get_file_path(base_name)
 
     if not os.path.exists(bin_path):
         flash("File not found in Bin", "error")
         return redirect("/bin")
 
     counter = 1
-    name, extension = os.path.splitext(filename)
+    name, extension = os.path.splitext(base_name)
 
     while os.path.exists(restore_path):
         restored_filename = f"{name}_restored_{counter}{extension}"
@@ -440,11 +494,21 @@ def restore_file(filename):
 
     shutil.move(bin_path, restore_path)
 
-    flash(f"File '{filename}' restored successfully", "success")
+    # Remove restored file from Bin metadata
+    bin_metadata = load_bin_metadata()
+    if filename in bin_metadata:
+        bin_metadata.pop(filename)
+        save_bin_metadata(bin_metadata)
+
+    # Add normal metadata again
+    restored_filename = os.path.basename(restore_path)
+    add_file_metadata(restored_filename, get_current_user(), "private")
+
+    flash(f"File '{restored_filename}' restored successfully", "success")
     return redirect("/bin")
 
 
-@app.route("/delete-permanently/<filename>", methods=["POST"])
+@app.route("/delete-permanently/<path:filename>", methods=["POST"])
 def delete_permanently(filename):
     if not has_access():
         return redirect("/login")
@@ -455,9 +519,21 @@ def delete_permanently(filename):
         flash("File not found in Bin", "error")
         return redirect("/bin")
 
-    os.remove(bin_path)
+    # Delete file or folder
+    if os.path.isdir(bin_path):
+        shutil.rmtree(bin_path)
+    else:
+        os.remove(bin_path)
 
-    flash(f"File '{filename}' permanently deleted", "success")
+    # Remove Bin metadata
+    bin_metadata = load_bin_metadata()
+
+    if filename in bin_metadata:
+        bin_metadata.pop(filename)
+        save_bin_metadata(bin_metadata)
+
+    flash(f"'{os.path.basename(filename)}' permanently deleted", "success")
+
     return redirect("/bin")
 
 
@@ -470,7 +546,7 @@ def create_new_folder():
 
     if not folder_name:
         flash("Folder name is required", "error")
-        return redirect("/")
+        return redirect_back()
 
     if create_folder(folder_name):
         add_file_metadata(folder_name, get_current_user(), "private")
@@ -478,7 +554,7 @@ def create_new_folder():
     else:
         flash("A folder with this name already exists", "error")
 
-    return redirect("/")
+    return redirect_back()
 
 
 @app.route("/folder/<path:folder_name>")
@@ -492,7 +568,7 @@ def open_folder(folder_name):
 
     if not os.path.isdir(folder_path):
         flash("Folder not found", "error")
-        return redirect("/")
+        return redirect_back()
 
     files = []
 
@@ -543,28 +619,47 @@ def move_file(filename):
     source_path = get_file_path(filename)
 
     if destination == "":
-        destination_path = get_file_path(os.path.basename(filename))
+        new_relative_path = os.path.basename(filename)
+        destination_path = get_file_path(new_relative_path)
         new_location = "/"
     else:
-        destination_path = get_file_path(os.path.join(destination, os.path.basename(filename)))
+        new_relative_path = os.path.join(destination, os.path.basename(filename))
+        destination_path = get_file_path(new_relative_path)
         new_location = destination
 
     if not os.path.exists(source_path):
         flash("File not found", "error")
-        return redirect("/")
+        return redirect_back()
+
+    counter = 1
+    base_name = os.path.basename(filename)
+    name, extension = os.path.splitext(base_name)
+
+    while os.path.exists(destination_path):
+        moved_filename = f"{name}_moved_{counter}{extension}"
+
+        new_relative_path = (
+            os.path.join(destination, moved_filename)
+            if destination else moved_filename
+        )
+
+        destination_path = get_file_path(new_relative_path)
+
+        counter += 1
 
     shutil.move(source_path, destination_path)
 
     metadata = load_metadata()
 
     if filename in metadata:
-        metadata[os.path.join(destination, os.path.basename(filename)) if destination else os.path.basename(filename)] = metadata.pop(filename)
-        metadata[os.path.join(destination, os.path.basename(filename)) if destination else os.path.basename(filename)]["location"] = new_location
+        metadata[new_relative_path] = metadata.pop(filename)
+        metadata[new_relative_path]["location"] = new_location
 
     save_metadata(metadata)
 
-    flash(f"Moved '{os.path.basename(filename)}' successfully", "success")
-    return redirect("/")
+    flash(f"Moved '{os.path.basename(new_relative_path)}' successfully", "success")
+
+    return redirect_back()
 
 
 @app.route("/bulk-bin", methods=["POST"])
@@ -576,9 +671,11 @@ def bulk_move_to_bin():
 
     if not selected_files:
         flash("No files selected", "error")
-        return redirect("/")
+        return redirect_back()
 
     moved_count = 0
+    metadata = load_metadata()
+    bin_metadata = load_bin_metadata()
 
     for filename in selected_files:
         if is_protected_file(filename):
@@ -587,10 +684,11 @@ def bulk_move_to_bin():
         file_path = get_file_path(filename)
 
         if os.path.exists(file_path):
-            bin_path = os.path.join(BIN_FOLDER, os.path.basename(filename))
+            base_name = os.path.basename(filename)
+            bin_path = os.path.join(BIN_FOLDER, base_name)
 
             counter = 1
-            name, extension = os.path.splitext(os.path.basename(filename))
+            name, extension = os.path.splitext(base_name)
 
             while os.path.exists(bin_path):
                 new_filename = f"{name}_deleted_{counter}{extension}"
@@ -598,10 +696,23 @@ def bulk_move_to_bin():
                 counter += 1
 
             shutil.move(file_path, bin_path)
+
+            bin_filename = os.path.basename(bin_path)
+
+            bin_metadata[bin_filename] = {
+                "deleted_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            }
+
+            if filename in metadata:
+                metadata.pop(filename)
+
             moved_count += 1
 
+    save_metadata(metadata)
+    save_bin_metadata(bin_metadata)
+
     flash(f"{moved_count} item(s) moved to Bin", "success")
-    return redirect("/")
+    return redirect_back()
 
 
 @app.route("/bulk-copy", methods=["POST"])
@@ -613,7 +724,7 @@ def bulk_copy_files():
 
     if not selected_files:
         flash("No files selected", "error")
-        return redirect("/")
+        return redirect_back()
 
     copied_count = 0
 
@@ -650,7 +761,7 @@ def bulk_copy_files():
         copied_count += 1
 
     flash(f"{copied_count} file(s) copied successfully", "success")
-    return redirect("/")
+    return redirect_back()
 
 
 @app.route("/bulk-toggle-visibility", methods=["POST"])
@@ -662,7 +773,7 @@ def bulk_toggle_visibility():
 
     if not selected_files:
         flash("No files selected", "error")
-        return redirect("/")
+        return redirect_back()
 
     metadata = load_metadata()
     changed_count = 0
@@ -679,7 +790,7 @@ def bulk_toggle_visibility():
     save_metadata(metadata)
 
     flash(f"Visibility changed for {changed_count} item(s)", "success")
-    return redirect("/")
+    return redirect_back()
 
 
 @app.route("/rename-page/<path:filename>")
@@ -699,7 +810,7 @@ def rename_file(filename):
 
     if not new_name:
         flash("New name is required", "error")
-        return redirect("/")
+        return redirect_back()
 
     old_path = get_file_path(filename)
 
@@ -709,11 +820,11 @@ def rename_file(filename):
 
     if not os.path.exists(old_path):
         flash("File not found", "error")
-        return redirect("/")
+        return redirect_back()
 
     if os.path.exists(new_path):
         flash("A file with this name already exists", "error")
-        return redirect("/")
+        return redirect_back()
 
     os.rename(old_path, new_path)
 
@@ -742,7 +853,7 @@ def bulk_move_page():
 
     if not selected_files:
         flash("No files selected", "error")
-        return redirect("/")
+        return redirect_back()
 
     folders = get_folders()
 
@@ -801,7 +912,7 @@ def bulk_move():
     save_metadata(metadata)
 
     flash(f"{moved_count} item(s) moved successfully", "success")
-    return redirect("/")
+    return redirect_back()
 
 
 @app.route("/logout")
