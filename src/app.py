@@ -1006,6 +1006,29 @@ def bulk_move():
     return redirect(return_to)
 
 
+@app.route("/preview/<path:filename>")
+def preview_image(filename):
+    if not has_access():
+        return redirect("/login")
+
+    if not is_image_file(filename):
+        flash("Preview only available for images", "error")
+        return redirect_back()
+
+    file_path = get_file_path(filename)
+
+    if not os.path.exists(file_path):
+        flash("File not found", "error")
+        return redirect_back()
+
+    return render_template(
+        "image_preview.html",
+        filename=os.path.basename(filename),
+        file_path=filename,
+        back_url=request.referrer or "/"
+    )
+
+
 @app.route("/logout")
 def logout():
     session.clear()

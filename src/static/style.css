@@ -375,3 +375,46 @@ button {
     border-radius: 8px;
     border: 1px solid #ddd;
 }
+
+.preview-body {
+    margin: 0;
+    background-color: #111;
+    color: white;
+}
+
+.image-preview-page {
+    min-height: 100vh;
+}
+
+.preview-top-bar {
+    height: 60px;
+    padding: 0 25px;
+    background-color: #202124;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.preview-top-bar a {
+    color: white;
+    text-decoration: none;
+}
+
+.preview-download {
+    background-color: #1f6feb;
+    padding: 8px 14px;
+    border-radius: 8px;
+}
+
+.preview-image-wrapper {
+    height: calc(100vh - 60px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.large-preview-image {
+    max-width: 95%;
+    max-height: 90%;
+    object-fit: contain;
+}

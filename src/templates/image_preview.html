@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Image Preview</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="preview-body">
+
+<div class="image-preview-page">
+
+    <div class="preview-top-bar">
+        <a href="{{ back_url }}" class="preview-close">← Back</a>
+
+        <span>{{ filename }}</span>
+
+        <a href="/download/{{ file_path }}" class="preview-download">Download</a>
+    </div>
+
+    <div class="preview-image-wrapper">
+        <img src="/download/{{ file_path }}" class="large-preview-image">
+    </div>
+
+</div>
+
+</body>
+</html>
