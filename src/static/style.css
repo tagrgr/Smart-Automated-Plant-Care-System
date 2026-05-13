@@ -350,3 +350,20 @@ button {
 .selection-toolbar button:hover:not(:disabled) {
     background-color: #d2e3fc;
 }
+
+.breadcrumbs {
+    margin: 0 auto 20px;
+    width: 60%;
+    font-size: 14px;
+    color: #5f6368;
+}
+
+.breadcrumbs a {
+    color: #1f6feb;
+    text-decoration: none;
+}
+
+.breadcrumbs span {
+    margin: 0 8px;
+    color: #777;
+}

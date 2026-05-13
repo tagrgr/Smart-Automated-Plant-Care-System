@@ -74,6 +74,15 @@
 
         <h1>Welcome to RPi's Home Server</h1>
 
+        <div class="breadcrumbs">
+            <a href="/">Home</a>
+
+            {% for crumb in breadcrumbs %}
+                <span>›</span>
+                <a href="/folder/{{ crumb.path }}">{{ crumb.name }}</a>
+            {% endfor %}
+        </div>
+
         <input
             class="search-bar"
             id="searchInput"

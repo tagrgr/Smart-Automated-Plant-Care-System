@@ -130,7 +130,8 @@ def home():
         "home.html",
         current_user=current_user,
         files=files,
-        current_page="home"
+        current_page="home",
+        breadcrumbs=[]
     )
 
 
@@ -564,6 +565,18 @@ def open_folder(folder_name):
 
     current_user = get_current_user()
 
+    breadcrumbs = []
+    parts = folder_name.split("/")
+
+    current_path = ""
+
+    for part in parts:
+        current_path = os.path.join(current_path, part)
+        breadcrumbs.append({
+            "name": part,
+            "path": current_path
+        })
+
     folder_path = get_file_path(folder_name)
 
     if not os.path.isdir(folder_path):
@@ -591,7 +604,8 @@ def open_folder(folder_name):
         current_user=current_user,
         files=files,
         current_page="home",
-        current_folder=folder_name
+        current_folder=folder_name,
+        breadcrumbs=breadcrumbs        
     )
 
 
