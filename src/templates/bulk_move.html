@@ -11,6 +11,8 @@
 
     <form action="/bulk-move" method="post">
 
+        <input type="hidden" name="return_to" value="{{ return_to }}">
+
         {% for file in selected_files %}
             <input type="hidden" name="selected_files" value="{{ file }}">
         {% endfor %}

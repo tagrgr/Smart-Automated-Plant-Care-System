@@ -902,6 +902,7 @@ def bulk_move():
 
     selected_files = request.form.getlist("selected_files")
     destination = request.form.get("destination")
+    return_to = request.form.get("return_to", "/")
 
     moved_count = 0
     metadata = load_metadata()
@@ -943,7 +944,7 @@ def bulk_move():
     save_metadata(metadata)
 
     flash(f"{moved_count} item(s) moved successfully", "success")
-    return redirect("/")
+    return redirect(return_to)
 
 
 @app.route("/logout")
