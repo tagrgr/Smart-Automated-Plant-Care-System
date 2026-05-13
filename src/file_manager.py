@@ -120,9 +120,18 @@ def is_folder(filename):
 
 
 def get_folders():
-    return [
-        item for item in os.listdir(UPLOAD_FOLDER)
-        if os.path.isdir(os.path.join(UPLOAD_FOLDER, item))
-        and item not in PROTECTED_ITEMS
-        and not item.startswith(".")
-    ]
+    folders = []
+
+    for root, dirs, files in os.walk(UPLOAD_FOLDER):
+        dirs[:] = [
+            d for d in dirs
+            if d not in PROTECTED_ITEMS and not d.startswith(".")
+        ]
+
+        for directory in dirs:
+            full_path = os.path.join(root, directory)
+            relative_path = os.path.relpath(full_path, UPLOAD_FOLDER)
+
+            folders.append(relative_path)
+
+    return folders
