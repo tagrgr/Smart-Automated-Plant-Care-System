@@ -1049,6 +1049,33 @@ def preview_image(filename):
     )
 
 
+@app.route("/settings")
+def settings_page():
+    if not has_access():
+        return redirect("/login")
+
+    current_theme = session.get("theme", "light")
+
+    return render_template(
+        "settings.html",
+        current_theme=current_theme
+    )
+
+
+@app.route("/set-theme", methods=["POST"])
+def set_theme():
+    if not has_access():
+        return redirect("/login")
+
+    selected_theme = request.form.get("theme", "light")
+
+    session["theme"] = selected_theme
+
+    flash(f"{selected_theme.capitalize()} mode enabled", "success")
+
+    return redirect("/settings")
+
+
 @app.route("/logout")
 def logout():
     session.clear()

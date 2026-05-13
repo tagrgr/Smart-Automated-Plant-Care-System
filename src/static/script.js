@@ -99,7 +99,7 @@ moveButton.addEventListener("click", function () {
     returnInput.type = "hidden";
     returnInput.name = "return_to";
     returnInput.value = window.location.pathname;
-    
+
     form.appendChild(returnInput);
 
     selected.forEach(function (checkbox) {
@@ -131,4 +131,10 @@ if (searchInput) {
             }
         });
     });
+}
+
+const storageUsed = document.querySelector(".storage-used");
+
+if (storageUsed) {
+    storageUsed.style.width = storageUsed.dataset.storage + "%";
 }

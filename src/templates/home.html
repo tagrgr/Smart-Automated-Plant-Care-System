@@ -71,7 +71,7 @@
             <p>{{ storage.percent_used }}% full</p>
 
             <div class="storage-bar">
-                <div class="storage-used" style="width: {{ storage.percent_used }}%;"></div>
+                <div class="storage-used" data-storage="{{ storage.percent_used }}"></div>
             </div>
 
             <p>{{ storage.used_gb }} GB of {{ storage.total_gb }} GB used</p>
@@ -314,7 +314,7 @@
             <small>bumblebee</small>
         </div>
 
-        <a href="#" class="settings-button">⚙ Settings</a>
+        <a href="/settings" class="settings-button">⚙ Settings</a>
     </aside>
 
 </div>
