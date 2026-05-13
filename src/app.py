@@ -940,7 +940,7 @@ def bulk_move():
     save_metadata(metadata)
 
     flash(f"{moved_count} item(s) moved successfully", "success")
-    return redirect_back()
+    return redirect("/")
 
 
 @app.route("/logout")
