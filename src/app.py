@@ -100,6 +100,41 @@ def is_image_file(filename):
     return extension in image_extensions
 
 
+def get_file_icon(filename):
+    extension = os.path.splitext(filename)[1].lower()
+
+    icons = {
+        ".pdf": "📕",
+        ".zip": "🗜",
+        ".rar": "🗜",
+        ".7z": "🗜",
+
+        ".mp4": "🎥",
+        ".mov": "🎥",
+        ".avi": "🎥",
+
+        ".mp3": "🎵",
+        ".wav": "🎵",
+
+        ".xlsx": "📊",
+        ".xls": "📊",
+        ".csv": "📊",
+
+        ".txt": "📝",
+
+        ".py": "💻",
+        ".js": "💻",
+        ".html": "💻",
+        ".css": "💻",
+        ".json": "💻",
+
+        ".docx": "📘",
+        ".doc": "📘"
+    }
+
+    return icons.get(extension, "📄")
+
+
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
@@ -138,7 +173,8 @@ def home():
             "visibility": metadata["visibility"],
             "location": metadata["location"],
             "is_folder": is_folder(filename),
-            "is_image": is_image_file(filename)
+            "is_image": is_image_file(filename),
+            "file_icon": get_file_icon(filename)
         })
 
     return render_template(
@@ -175,7 +211,8 @@ def my_drive():
                 "visibility": metadata["visibility"],
                 "location": metadata["location"],
                 "is_folder": is_folder(filename),
-                "is_image": is_image_file(filename)
+                "is_image": is_image_file(filename),
+                "file_icon": get_file_icon(filename)
             })
 
     return render_template(
@@ -210,7 +247,8 @@ def shared_files():
                 "visibility": metadata["visibility"],
                 "location": metadata["location"],
                 "is_folder": is_folder(filename),
-                "is_image": is_image_file(filename)
+                "is_image": is_image_file(filename),
+                "file_icon": get_file_icon(filename)
             })
 
     return render_template(
@@ -485,7 +523,8 @@ def bin_page():
             "visibility": "bin",
             "location": f"Deletes in {days_remaining} days",
             "is_folder": os.path.isdir(os.path.join(BIN_FOLDER, filename)),
-            "is_image": is_image_file(filename)
+            "is_image": is_image_file(filename),
+            "file_icon": get_file_icon(filename)
         })
 
     return render_template(
@@ -629,7 +668,8 @@ def open_folder(folder_name):
             "visibility": metadata["visibility"],
             "location": folder_name,
             "is_folder": is_folder(full_relative_path),
-            "is_image": is_image_file(filename)
+            "is_image": is_image_file(filename),
+            "file_icon": get_file_icon(filename)
         })
 
     return render_template(

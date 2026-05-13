@@ -188,32 +188,40 @@
                     <div class="file-name-cell">
 
                         {% if file.is_folder %}
-
                             <span class="file-icon">📁</span>
-
+                            
                             <a href="/folder/{{ file.full_path }}">
                                 {{ file.name }}
                             </a>
-
-                        {% elif file.is_image %}
-
+                        
+                            {% elif file.is_image %}
+                            
                             <img
                                 src="/download/{{ file.full_path }}"
                                 class="image-thumbnail"
                             >
-
+                            
                             <a href="/download/{{ file.full_path }}">
                                 {{ file.name }}
                             </a>
 
                         {% else %}
 
-                            <span class="file-icon">📄</span>
+                            <span class="file-icon">{{ file.file_icon }}</span>
 
-                            <a href="/download/{{ file.full_path }}">
-                                {{ file.name }}
-                            </a>
+                            {% if file.name.lower().endswith('.pdf') %}
 
+                                <a href="/download/{{ file.full_path }}" target="_blank">
+                                    {{ file.name }}
+                                </a>
+
+                            {% else %}
+
+                                <a href="/download/{{ file.full_path }}">
+                                    {{ file.name }}
+                                </a>
+
+                            {% endif %}
                         {% endif %}
 
                     </div>
