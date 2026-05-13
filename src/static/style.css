@@ -430,3 +430,51 @@ button {
     border-radius: 16px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.08);
 }
+
+body.dark {
+    background-color: #121212;
+    color: #e8eaed;
+}
+
+body.dark .left-sidebar,
+body.dark .right-sidebar,
+body.dark .upload-card,
+body.dark .file-list-section,
+body.dark .settings-card {
+    background-color: #1f1f1f;
+    border-color: #333;
+}
+
+body.dark .file-row:hover {
+    background-color: #2a2a2a;
+}
+
+body.dark .search-bar {
+    background-color: #2a2a2a;
+    color: white;
+}
+
+body.dark a,
+body.dark .file-name-cell a {
+    color: #8ab4f8;
+}
+
+body.dark .side-nav a {
+    color: #e8eaed;
+}
+
+body.dark .side-nav a.active,
+body.dark .side-nav a:hover {
+    background-color: #263850;
+}
+
+body.dark .dropdown-menu,
+body.dark .new-dropdown {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark .dropdown-menu a,
+body.dark .menu-button {
+    color: #e8eaed;
+}

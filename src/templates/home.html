@@ -4,7 +4,7 @@
     <title>Smart Home Cloud Pi</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-<body>
+<body class="{{ session.get('theme', 'light') }}">
 
 <div class="app-layout">
 
