@@ -559,3 +559,7 @@ body.dark .dashboard-card {
     border-radius: 50%;
     display: block;
 }
+
+.user-dashboard-card .profile-picture img {
+    margin: 0 auto 10px;
+}

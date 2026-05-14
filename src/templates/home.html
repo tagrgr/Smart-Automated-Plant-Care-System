@@ -148,7 +148,9 @@
                 </form>
             </div>
             <a href="/profile" class="dashboard-card user-dashboard-card profile-card-link">
-                <div class="profile-picture">{{ current_avatar }}</div>
+                <div class="profile-picture">
+                    <img src="{{ url_for('static', filename='avatars/' + current_avatar) }}">
+                </div>
                 <h2>{{ current_user }}</h2>
                 <p>Current device profile</p>
             </a>
