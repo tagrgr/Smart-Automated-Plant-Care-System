@@ -15,7 +15,8 @@ from config import (
     BIN_METADATA_FILE,
     ACCESS_PASSWORD,
     SECRET_KEY,
-    SESSION_LIFETIME
+    SESSION_LIFETIME,
+    ADMIN_DEVICES
 )
 
 from auth import has_access, get_current_user, get_current_avatar, is_admin_device
