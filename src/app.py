@@ -1102,7 +1102,10 @@ def set_avatar():
 
     selected_avatar = request.form.get("avatar")
 
-    allowed_avatars = ["🐝", "🦊", "🐼", "🐸", "🐧", "🐵"]
+    allowed_avatars = [
+        "avatar1.jpg",
+        "avatar2.jpg"
+    ]
 
     if selected_avatar in allowed_avatars:
         session["avatar"] = selected_avatar

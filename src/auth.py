@@ -49,9 +49,13 @@ def get_current_avatar():
     if "avatar" in session:
         return session["avatar"]
 
-    avatars = ["🐝", "🦊", "🐼", "🐸", "🐧", "🐵"]
+    avatars = [
+        "avatar1.jpg",
+        "avatar2.jpg"
+    ]
 
     avatar = random.choice(avatars)
+
     session["avatar"] = avatar
     session.permanent = True
 
