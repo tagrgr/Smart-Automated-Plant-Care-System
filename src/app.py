@@ -19,7 +19,7 @@ from config import (
     ADMIN_DEVICES
 )
 
-from auth import has_access, get_current_user, get_current_avatar, is_admin_device
+from auth import has_access, get_current_user, get_current_avatar, is_admin_device, get_available_avatars
 from file_manager import (
     get_visible_files,
     is_protected_file,
@@ -1091,10 +1091,7 @@ def profile_page():
         "profile.html",
         current_user=get_current_user(),
         current_avatar=get_current_avatar(),
-        avatars=[
-            "avatar1.jpg",
-            "avatar2.jpg"
-        ],
+        avatars=get_available_avatars(),
         is_admin=is_admin_device()
     )
 
@@ -1106,10 +1103,7 @@ def set_avatar():
 
     selected_avatar = request.form.get("avatar")
 
-    allowed_avatars = [
-        "avatar1.jpg",
-        "avatar2.jpg"
-    ]
+    allowed_avatars = get_available_avatars()
 
     if selected_avatar in allowed_avatars:
         session["avatar"] = selected_avatar

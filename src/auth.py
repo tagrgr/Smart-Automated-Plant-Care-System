@@ -2,6 +2,7 @@
 
 import random
 import string
+import os
 
 from flask import request, session
 from config import ADMIN_DEVICES
@@ -45,14 +46,30 @@ def generate_guest_name():
     return f"Guest-{random_part}"
 
 
+def is_admin_device():
+    user_ip = request.remote_addr
+    return user_ip in ADMIN_DEVICES
+
+
+def get_available_avatars():
+    avatar_folder = os.path.join("src", "static", "avatars")
+
+    allowed_extensions = (".png", ".jpg", ".jpeg", ".webp")
+
+    avatars = []
+
+    for filename in os.listdir(avatar_folder):
+        if filename.lower().endswith(allowed_extensions):
+            avatars.append(filename)
+
+    return avatars
+
+
 def get_current_avatar():
     if "avatar" in session:
         return session["avatar"]
 
-    avatars = [
-        "avatar1.jpg",
-        "avatar2.jpg"
-    ]
+    avatars = get_available_avatars()
 
     avatar = random.choice(avatars)
 
@@ -60,8 +77,3 @@ def get_current_avatar():
     session.permanent = True
 
     return avatar
-
-
-def is_admin_device():
-    user_ip = request.remote_addr
-    return user_ip in ADMIN_DEVICES
