@@ -551,3 +551,11 @@ body.dark .dashboard-card {
     color: #202124;
     padding: 12px;
 }
+
+.profile-picture img {
+    width: 90px;
+    height: 90px;
+    object-fit: cover;
+    border-radius: 50%;
+    display: block;
+}
