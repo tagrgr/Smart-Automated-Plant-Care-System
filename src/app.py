@@ -1090,7 +1090,10 @@ def profile_page():
         "profile.html",
         current_user=get_current_user(),
         current_avatar=get_current_avatar(),
-        avatars=["🐝", "🦊", "🐼", "🐸", "🐧", "🐵"],
+        avatars=[
+            "avatar1.jpg",
+            "avatar2.jpg"
+        ],
         is_admin=is_admin_device()
     )
 
