@@ -485,3 +485,69 @@ body.dark .menu-button {
     color: #1f6feb;
     text-decoration: none;
 }
+
+.dashboard-cards {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 18px;
+    margin-bottom: 25px;
+}
+
+.dashboard-card {
+    background-color: white;
+    border-radius: 16px;
+    padding: 22px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+.dashboard-card h2 {
+    margin-top: 0;
+}
+
+.upload-dashboard-card form,
+.folder-dashboard-card form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.visibility-options {
+    display: flex;
+    gap: 12px;
+}
+
+.user-dashboard-card {
+    text-align: center;
+}
+
+.user-dashboard-card .profile-picture {
+    font-size: 42px;
+    margin-bottom: 10px;
+}
+
+body.dark .dashboard-card {
+    background-color: #1f1f1f;
+    border-color: #333;
+}
+
+.profile-card-link {
+    color: inherit;
+    text-decoration: none;
+}
+
+.profile-card-link:hover {
+    transform: translateY(-2px);
+}
+
+.avatar-form {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.avatar-choice {
+    font-size: 28px;
+    background-color: #f1f3f4;
+    color: #202124;
+    padding: 12px;
+}

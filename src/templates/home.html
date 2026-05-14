@@ -110,27 +110,49 @@
             {% endif %}
         {% endwith %}
 
-        <section class="upload-card">
-            <h2>Upload Files</h2>
+        <section class="dashboard-cards">
 
-            <form action="/upload" method="post" enctype="multipart/form-data">
+            <div class="dashboard-card upload-dashboard-card">
+                <h2>⬆ Upload Files</h2>
+                <p>Upload up to 30 files into the current folder.</p>
 
-                <input type="hidden" name="current_folder" value="{{ current_folder }}">
+                <form action="/upload" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="current_folder" value="{{ current_folder }}">
 
-                <input type="file" name="files" multiple>
-                
-                <label>
-                    <input type="radio" name="visibility" value="private" checked>
-                    Private
-                </label>
+                    <input type="file" name="files" multiple>
 
-                <label>
-                    <input type="radio" name="visibility" value="shared">
-                    Shared
-                </label>
+                    <div class="visibility-options">
+                        <label>
+                            <input type="radio" name="visibility" value="private" checked>
+                            Private
+                        </label>
 
-                <button type="submit">Upload</button>
-            </form>
+                        <label>
+                            <input type="radio" name="visibility" value="shared">
+                            Shared
+                        </label>
+                    </div>
+
+                    <button type="submit">Upload</button>
+                </form>
+            </div>
+            <div class="dashboard-card folder-dashboard-card">
+                <h2>📁 New Folder</h2>
+                <p>Create a folder here.</p>
+
+                <form action="/create-folder" method="post">
+                    <input type="hidden" name="current_folder" value="{{ current_folder }}">
+
+                    <input type="text" name="folder_name" placeholder="Folder name">
+                    <button type="submit">Create</button>
+                </form>
+            </div>
+            <a href="/profile" class="dashboard-card user-dashboard-card profile-card-link">
+                <div class="profile-picture">{{ current_avatar }}</div>
+                <h2>{{ current_user }}</h2>
+                <p>Current device profile</p>
+            </a>
+
         </section>
 
         <section class="file-list-section">

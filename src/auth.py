@@ -43,3 +43,21 @@ def generate_guest_name():
     # 4 random characters (letters + numbers)
     random_part = ''.join(random.choices(string.ascii_uppercase + string.digits, k=4))
     return f"Guest-{random_part}"
+
+
+def get_current_avatar():
+    if "avatar" in session:
+        return session["avatar"]
+
+    avatars = ["🐝", "🦊", "🐼", "🐸", "🐧", "🐵"]
+
+    avatar = random.choice(avatars)
+    session["avatar"] = avatar
+    session.permanent = True
+
+    return avatar
+
+
+def is_admin_device():
+    user_ip = request.remote_addr
+    return user_ip in ADMIN_DEVICES

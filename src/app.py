@@ -18,7 +18,7 @@ from config import (
     SESSION_LIFETIME
 )
 
-from auth import has_access, get_current_user
+from auth import has_access, get_current_user, get_current_avatar, is_admin_device
 from file_manager import (
     get_visible_files,
     is_protected_file,
@@ -199,7 +199,8 @@ def home():
         current_page="home",
         breadcrumbs=[],
         current_folder="",
-        storage=get_storage_info()
+        storage=get_storage_info(),
+        current_avatar=get_current_avatar()
     )
 
 
@@ -236,7 +237,8 @@ def my_drive():
         current_user=current_user,
         files=files,
         current_page="my-drive",
-        storage=get_storage_info()
+        storage=get_storage_info(),
+        current_avatar=get_current_avatar()
     )
 
 
@@ -273,7 +275,8 @@ def shared_files():
         current_user=current_user,
         files=files,
         current_page="shared",
-        storage=get_storage_info()
+        storage=get_storage_info(),
+        current_avatar=get_current_avatar()
     )
 
 
@@ -550,7 +553,8 @@ def bin_page():
         current_user=current_user,
         files=files,
         current_page="bin",
-        storage=get_storage_info()
+        storage=get_storage_info(),
+        current_avatar=get_current_avatar()
     )
 
 
@@ -698,7 +702,8 @@ def open_folder(folder_name):
         current_page="home",
         current_folder=folder_name,
         breadcrumbs=breadcrumbs,
-        storage=get_storage_info()        
+        storage=get_storage_info(),
+        current_avatar=get_current_avatar()        
     )
 
 
@@ -1074,6 +1079,60 @@ def set_theme():
     flash(f"{selected_theme.capitalize()} mode enabled", "success")
 
     return redirect("/settings")
+
+
+@app.route("/profile")
+def profile_page():
+    if not has_access():
+        return redirect("/login")
+
+    return render_template(
+        "profile.html",
+        current_user=get_current_user(),
+        current_avatar=get_current_avatar(),
+        avatars=["🐝", "🦊", "🐼", "🐸", "🐧", "🐵"],
+        is_admin=is_admin_device()
+    )
+
+
+@app.route("/set-avatar", methods=["POST"])
+def set_avatar():
+    if not has_access():
+        return redirect("/login")
+
+    selected_avatar = request.form.get("avatar")
+
+    allowed_avatars = ["🐝", "🦊", "🐼", "🐸", "🐧", "🐵"]
+
+    if selected_avatar in allowed_avatars:
+        session["avatar"] = selected_avatar
+        flash("Avatar updated successfully", "success")
+
+    return redirect("/profile")
+
+
+@app.route("/set-nickname", methods=["POST"])
+def set_nickname():
+    if not has_access():
+        return redirect("/login")
+
+    if not is_admin_device():
+        flash("Only admin devices can change nicknames", "error")
+        return redirect("/profile")
+
+    new_nickname = request.form.get("nickname", "").strip()
+
+    if not new_nickname:
+        flash("Nickname cannot be empty", "error")
+        return redirect("/profile")
+
+    user_ip = request.remote_addr
+
+    ADMIN_DEVICES[user_ip] = new_nickname
+
+    flash("Nickname updated successfully", "success")
+
+    return redirect("/profile")
 
 
 @app.route("/logout")

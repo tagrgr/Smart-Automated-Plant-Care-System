@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Profile</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="{{ session.get('theme', 'light') }}">
+
+<div class="settings-page">
+    <h1>Profile</h1>
+
+    <a href="/" class="settings-back-button">← Back to Home</a>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="message-box {{ category }}">
+                    <p>{{ message }}</p>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <div class="settings-card">
+        <div class="profile-picture">{{ current_avatar }}</div>
+
+        <h2>{{ current_user }}</h2>
+
+        <p>This is your current device profile.</p>
+
+        {% if is_admin %}
+            <h3>Change Nickname</h3>
+
+            <form action="/set-nickname" method="post">
+                <input type="text" name="nickname" value="{{ current_user }}" required>
+                <button type="submit">Save Nickname</button>
+            </form>
+        {% else %}
+            <p>Guest nicknames are automatic and cannot be changed.</p>
+        {% endif %}
+
+        <h3>Choose Avatar</h3>
+
+        <form action="/set-avatar" method="post" class="avatar-form">
+            {% for avatar in avatars %}
+                <button type="submit" name="avatar" value="{{ avatar }}" class="avatar-choice">
+                    {{ avatar }}
+                </button>
+            {% endfor %}
+        </form>
+    </div>
+</div>
+
+</body>
+</html>
