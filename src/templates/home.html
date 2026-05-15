@@ -147,13 +147,13 @@
                     <button type="submit">Create</button>
                 </form>
             </div>
-            <a href="/profile" class="dashboard-card user-dashboard-card profile-card-link">
+            <div class="dashboard-card user-dashboard-card profile-card-link" id="openProfileModal">
                 <div class="profile-picture">
                     <img src="{{ url_for('static', filename='avatars/' + current_avatar) }}">
                 </div>
                 <h2>{{ current_user }}</h2>
                 <p>Current device profile</p>
-            </a>
+            </div>
 
         </section>
 
@@ -328,7 +328,9 @@
     <!-- RIGHT SIDEBAR -->
     <aside class="right-sidebar">
         <div class="profile-box">
-            <div class="profile-picture">👤</div>
+            <div class="profile-picture">
+                <img src="{{ url_for('static', filename='avatars/' + current_avatar) }}">
+            </div>
             <p>{{ current_user }}</p>
         </div>
 
@@ -340,6 +342,51 @@
 
         <a href="/settings" class="settings-button">⚙ Settings</a>
     </aside>
+
+</div>
+
+<div class="profile-modal" id="profileModal">
+
+    <div class="profile-modal-content">
+
+        <button class="close-modal-btn" id="closeProfileModal">✕</button>
+
+        <div class="profile-picture">
+            <img src="{{ url_for('static', filename='avatars/' + current_avatar) }}">
+        </div>
+
+        <h2>{{ current_user }}</h2>
+
+        {% if is_admin %}
+            <h3>Change Nickname</h3>
+
+            <form action="/set-nickname" method="post">
+                <input type="text" name="nickname" value="{{ current_user }}" required>
+                <button type="submit">Save Nickname</button>
+            </form>
+        {% else %}
+            <p>Guest nicknames are automatic and cannot be changed.</p>
+        {% endif %}
+
+        <h3>Choose Avatar</h3>
+
+        <form action="/set-avatar" method="post" class="avatar-form">
+            {% for avatar in avatars %}
+                <button type="submit" name="avatar" value="{{ avatar }}" class="avatar-choice">
+                    <img src="{{ url_for('static', filename='avatars/' + avatar) }}">
+                </button>
+            {% endfor %}
+        </form>
+
+        <hr>
+
+        <a href="/settings" class="modal-settings-link">⚙ Settings</a>
+
+        <br><br>
+
+        <a href="/logout" class="delete-link">Logout</a>
+
+    </div>
 
 </div>
 

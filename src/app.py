@@ -201,7 +201,9 @@ def home():
         breadcrumbs=[],
         current_folder="",
         storage=get_storage_info(),
-        current_avatar=get_current_avatar()
+        current_avatar=get_current_avatar(),
+        avatars=get_available_avatars(),
+        is_admin=is_admin_device()
     )
 
 
@@ -239,7 +241,9 @@ def my_drive():
         files=files,
         current_page="my-drive",
         storage=get_storage_info(),
-        current_avatar=get_current_avatar()
+        current_avatar=get_current_avatar(),
+        avatars=get_available_avatars(),
+        is_admin=is_admin_device()
     )
 
 
@@ -277,7 +281,9 @@ def shared_files():
         files=files,
         current_page="shared",
         storage=get_storage_info(),
-        current_avatar=get_current_avatar()
+        current_avatar=get_current_avatar(),
+        avatars=get_available_avatars(),
+        is_admin=is_admin_device()
     )
 
 
@@ -555,7 +561,9 @@ def bin_page():
         files=files,
         current_page="bin",
         storage=get_storage_info(),
-        current_avatar=get_current_avatar()
+        current_avatar=get_current_avatar(),
+        avatars=get_available_avatars(),
+        is_admin=is_admin_device()
     )
 
 
@@ -704,7 +712,9 @@ def open_folder(folder_name):
         current_folder=folder_name,
         breadcrumbs=breadcrumbs,
         storage=get_storage_info(),
-        current_avatar=get_current_avatar()        
+        current_avatar=get_current_avatar(),
+        avatars=get_available_avatars(),
+        is_admin=is_admin_device()        
     )
 
 

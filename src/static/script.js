@@ -138,3 +138,31 @@ const storageUsed = document.querySelector(".storage-used");
 if (storageUsed) {
     storageUsed.style.width = storageUsed.dataset.storage + "%";
 }
+
+const profileModal = document.getElementById("profileModal");
+const openProfileModal = document.getElementById("openProfileModal");
+const closeProfileModal = document.getElementById("closeProfileModal");
+
+if (openProfileModal && profileModal) {
+
+    openProfileModal.addEventListener("click", function () {
+        profileModal.classList.add("active");
+    });
+
+}
+
+if (closeProfileModal && profileModal) {
+
+    closeProfileModal.addEventListener("click", function () {
+        profileModal.classList.remove("active");
+    });
+
+}
+
+window.addEventListener("click", function (event) {
+
+    if (event.target === profileModal) {
+        profileModal.classList.remove("active");
+    }
+
+});

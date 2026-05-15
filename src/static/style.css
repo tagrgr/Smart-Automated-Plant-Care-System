@@ -563,3 +563,43 @@ body.dark .dashboard-card {
 .user-dashboard-card .profile-picture img {
     margin: 0 auto 10px;
 }
+
+.profile-modal {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0,0,0,0.5);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+}
+
+.profile-modal.active {
+    display: flex;
+}
+
+.profile-modal-content {
+    width: 420px;
+    max-width: 90%;
+    background-color: white;
+    border-radius: 18px;
+    padding: 28px;
+    position: relative;
+}
+
+.close-modal-btn {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    background: transparent;
+    font-size: 20px;
+}
+
+.modal-settings-link {
+    color: #1f6feb;
+    text-decoration: none;
+}
+
+body.dark .profile-modal-content {
+    background-color: #1f1f1f;
+}
