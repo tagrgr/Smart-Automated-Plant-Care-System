@@ -151,6 +151,14 @@ def get_storage_info():
     }
 
 
+def is_video_file(filename):
+    video_extensions = [".mp4", ".mov", ".avi", ".webm"]
+
+    extension = os.path.splitext(filename)[1].lower()
+
+    return extension in video_extensions
+
+
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
@@ -190,6 +198,7 @@ def home():
             "location": metadata["location"],
             "is_folder": is_folder(filename),
             "is_image": is_image_file(filename),
+            "is_video": is_video_file(filename),
             "file_icon": get_file_icon(filename)
         })
 
@@ -233,6 +242,7 @@ def my_drive():
                 "location": metadata["location"],
                 "is_folder": is_folder(filename),
                 "is_image": is_image_file(filename),
+                "is_video": is_video_file(filename),
                 "file_icon": get_file_icon(filename)
             })
 
@@ -274,6 +284,7 @@ def shared_files():
                 "location": metadata["location"],
                 "is_folder": is_folder(filename),
                 "is_image": is_image_file(filename),
+                "is_video": is_video_file(filename),
                 "file_icon": get_file_icon(filename)
             })
 
@@ -555,6 +566,7 @@ def bin_page():
             "location": f"Deletes in {days_remaining} days",
             "is_folder": os.path.isdir(os.path.join(BIN_FOLDER, filename)),
             "is_image": is_image_file(filename),
+            "is_video": is_video_file(filename),
             "file_icon": get_file_icon(filename)
         })
 
@@ -705,6 +717,7 @@ def open_folder(folder_name):
             "location": folder_name,
             "is_folder": is_folder(full_relative_path),
             "is_image": is_image_file(filename),
+            "is_video": is_video_file(filename),
             "file_icon": get_file_icon(filename)
         })
 

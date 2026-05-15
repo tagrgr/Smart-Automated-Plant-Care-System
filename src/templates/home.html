@@ -213,27 +213,38 @@
                     >
 
                     <div class="file-name-cell">
-
                         {% if file.is_folder %}
                             <span class="file-icon">📁</span>
-                            
                             <a href="/folder/{{ file.full_path }}">
                                 {{ file.name }}
                             </a>
                         
                             {% elif file.is_image %}
-                            
                             <img
                                 src="/download/{{ file.full_path }}"
                                 class="image-thumbnail"
                             >
-                            
                             <a href="/preview/{{ file.full_path }}">
                                 {{ file.name }}
                             </a>
 
-                        {% else %}
+                        {% elif file.is_video %}
 
+                            <div class="video-thumbnail-wrapper">
+                                <video
+                                    src="/download/{{ file.full_path }}"
+                                    class="video-thumbnail"
+                                    muted
+                                    preload="metadata"
+                                ></video>
+                                <span class="play-badge">▶</span>
+                            </div>
+
+                            <a href="/download/{{ file.full_path }}">
+                                {{ file.name }}
+                            </a>
+
+                        {% else %}
                             <span class="file-icon">{{ file.file_icon }}</span>
 
                             {% if file.name.lower().endswith('.pdf') %}
@@ -250,7 +261,6 @@
 
                             {% endif %}
                         {% endif %}
-
                     </div>
 
                     <div class="access-cell">

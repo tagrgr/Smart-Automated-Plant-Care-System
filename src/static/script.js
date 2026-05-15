@@ -172,3 +172,9 @@ const openProfileAfterReload = document.getElementById("openProfileAfterReload")
 if (openProfileAfterReload && openProfileAfterReload.value === "True") {
     profileModal.classList.add("active");
 }
+
+document.addEventListener("keydown", function (event) {
+    if (event.key === "Escape" && profileModal) {
+        profileModal.classList.remove("active");
+    }
+});
