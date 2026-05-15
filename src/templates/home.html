@@ -157,6 +157,19 @@
 
         </section>
 
+        <div class="sort-bar">
+
+            <label for="sortSelect">Sort by:</label>
+
+            <select id="sortSelect">
+                <option value="name-asc">Name (A-Z)</option>
+                <option value="name-desc">Name (Z-A)</option>
+                <option value="owner">Owner</option>
+                <option value="location">Location</option>
+            </select>
+
+        </div>
+
         <section class="file-list-section">
             <h2>Files</h2>
 
@@ -202,7 +215,14 @@
             </div>
 
             {% for file in files %}
-                <div class="file-row" data-filename="{{ file.name | lower }}">
+                <div 
+                    class="file-row" 
+                    data-filename="{{ file.name | lower }}"
+                    data-name="{{ file.name.lower() }}"
+                    data-type="{% if file.is_folder %}folder{% else %}file{% endif %}"
+                    data-owner="{{ file.owner.lower() }}"
+                    data-location="{{ file.location.lower() }}"
+                >
 
                     <input
                         type="checkbox"

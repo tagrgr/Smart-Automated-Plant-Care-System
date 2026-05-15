@@ -747,3 +747,15 @@ body.dark .profile-modal-content {
     border-radius: 12px;
     background-color: black;
 }
+
+.sort-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 18px;
+}
+
+.sort-bar select {
+    padding: 8px 12px;
+    border-radius: 8px;
+}

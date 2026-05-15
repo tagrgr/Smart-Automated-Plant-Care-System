@@ -178,3 +178,43 @@ document.addEventListener("keydown", function (event) {
         profileModal.classList.remove("active");
     }
 });
+
+const sortSelect = document.getElementById("sortSelect");
+
+if (sortSelect) {
+
+    sortSelect.addEventListener("change", function () {
+
+        const fileList = document.querySelector(".file-list");
+        const rows = Array.from(document.querySelectorAll(".file-row"));
+
+        const selectedSort = sortSelect.value;
+
+        rows.sort(function (a, b) {
+
+            if (selectedSort === "name-asc") {
+                return a.dataset.name.localeCompare(b.dataset.name);
+            }
+
+            if (selectedSort === "name-desc") {
+                return b.dataset.name.localeCompare(a.dataset.name);
+            }
+
+            if (selectedSort === "owner") {
+                return a.dataset.owner.localeCompare(b.dataset.owner);
+            }
+
+            if (selectedSort === "location") {
+                return a.dataset.location.localeCompare(b.dataset.location);
+            }
+
+            return 0;
+        });
+
+        rows.forEach(function (row) {
+            fileList.appendChild(row);
+        });
+
+    });
+
+}
