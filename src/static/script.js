@@ -166,3 +166,9 @@ window.addEventListener("click", function (event) {
     }
 
 });
+
+const openProfileAfterReload = document.getElementById("openProfileAfterReload");
+
+if (openProfileAfterReload && openProfileAfterReload.value === "True") {
+    profileModal.classList.add("active");
+}

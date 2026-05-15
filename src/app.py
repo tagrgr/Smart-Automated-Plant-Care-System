@@ -203,7 +203,8 @@ def home():
         storage=get_storage_info(),
         current_avatar=get_current_avatar(),
         avatars=get_available_avatars(),
-        is_admin=is_admin_device()
+        is_admin=is_admin_device(),
+        open_profile_modal=request.args.get("profile") == "open"
     )
 
 
@@ -243,7 +244,8 @@ def my_drive():
         storage=get_storage_info(),
         current_avatar=get_current_avatar(),
         avatars=get_available_avatars(),
-        is_admin=is_admin_device()
+        is_admin=is_admin_device(),
+        open_profile_modal=request.args.get("profile") == "open"
     )
 
 
@@ -283,7 +285,8 @@ def shared_files():
         storage=get_storage_info(),
         current_avatar=get_current_avatar(),
         avatars=get_available_avatars(),
-        is_admin=is_admin_device()
+        is_admin=is_admin_device(),
+        open_profile_modal=request.args.get("profile") == "open"
     )
 
 
@@ -563,7 +566,8 @@ def bin_page():
         storage=get_storage_info(),
         current_avatar=get_current_avatar(),
         avatars=get_available_avatars(),
-        is_admin=is_admin_device()
+        is_admin=is_admin_device(),
+        open_profile_modal=request.args.get("profile") == "open"
     )
 
 
@@ -714,7 +718,8 @@ def open_folder(folder_name):
         storage=get_storage_info(),
         current_avatar=get_current_avatar(),
         avatars=get_available_avatars(),
-        is_admin=is_admin_device()        
+        is_admin=is_admin_device(),
+        open_profile_modal=request.args.get("profile") == "open"        
     )
 
 
@@ -1119,7 +1124,7 @@ def set_avatar():
         session["avatar"] = selected_avatar
         flash("Avatar updated successfully", "success")
 
-    return redirect_back()
+    return redirect(request.referrer + "?profile=open")
 
 
 @app.route("/set-nickname", methods=["POST"])
@@ -1143,7 +1148,7 @@ def set_nickname():
 
     flash("Nickname updated successfully", "success")
 
-    return redirect_back()
+    return redirect((request.referrer or "/") + "?profile=open")
 
 
 @app.route("/logout")
