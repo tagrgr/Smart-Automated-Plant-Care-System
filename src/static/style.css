@@ -666,3 +666,52 @@ body.dark .profile-modal-content {
 .avatar-choice.selected-avatar {
     transform: scale(1.05);
 }
+
+.profile-modal {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0,0,0,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+}
+
+.profile-modal.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.profile-modal-content {
+    width: 460px;
+    max-width: 92%;
+    max-height: 85vh;
+    overflow-y: auto;
+
+    background-color: white;
+    border-radius: 18px;
+    padding: 28px;
+    position: relative;
+
+    transform: scale(0.95);
+    transition: transform 0.2s ease;
+}
+
+.profile-modal.active .profile-modal-content {
+    transform: scale(1);
+}
+
+.dashboard-card {
+    transition:
+        transform 0.15s ease,
+        box-shadow 0.15s ease;
+}
+
+.dashboard-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+}
