@@ -620,3 +620,41 @@ body.dark .profile-modal-content {
     display: block;
     margin: 0 auto 10px;
 }
+
+.avatar-form {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+    gap: 14px;
+    margin-top: 12px;
+}
+
+.avatar-choice {
+    background: transparent;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    transition: transform 0.15s ease;
+}
+
+.avatar-choice:hover {
+    transform: scale(1.08);
+}
+
+.avatar-choice img {
+    width: 70px;
+    height: 70px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid transparent;
+}
+
+.avatar-choice img:hover {
+    border-color: #1f6feb;
+}
+
+.profile-modal-content {
+    width: 460px;
+    max-width: 92%;
+    max-height: 85vh;
+    overflow-y: auto;
+}
