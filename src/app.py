@@ -1092,18 +1092,18 @@ def set_theme():
     return redirect("/settings")
 
 
-@app.route("/profile")
-def profile_page():
-    if not has_access():
-        return redirect("/login")
+# @app.route("/profile")
+# def profile_page():
+#     if not has_access():
+#         return redirect("/login")
 
-    return render_template(
-        "profile.html",
-        current_user=get_current_user(),
-        current_avatar=get_current_avatar(),
-        avatars=get_available_avatars(),
-        is_admin=is_admin_device()
-    )
+#     return render_template(
+#         "profile.html",
+#         current_user=get_current_user(),
+#         current_avatar=get_current_avatar(),
+#         avatars=get_available_avatars(),
+#         is_admin=is_admin_device()
+#     )
 
 
 @app.route("/set-avatar", methods=["POST"])
