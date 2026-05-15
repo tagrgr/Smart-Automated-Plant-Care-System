@@ -552,7 +552,8 @@ body.dark .dashboard-card {
     padding: 12px;
 }
 
-.profile-picture img {
+.user-dashboard-card .profile-picture img,
+.profile-modal .profile-picture img {
     width: 90px;
     height: 90px;
     object-fit: cover;
@@ -602,4 +603,11 @@ body.dark .dashboard-card {
 
 body.dark .profile-modal-content {
     background-color: #1f1f1f;
+}
+
+.avatar-choice img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 50%;
 }

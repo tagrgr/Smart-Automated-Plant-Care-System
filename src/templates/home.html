@@ -351,6 +351,16 @@
 
         <button class="close-modal-btn" id="closeProfileModal">✕</button>
 
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="message-box {{ category }}">
+                        <p>{{ message }}</p>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
         <div class="profile-picture">
             <img src="{{ url_for('static', filename='avatars/' + current_avatar) }}">
         </div>
