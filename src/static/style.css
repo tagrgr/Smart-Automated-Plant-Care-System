@@ -611,3 +611,12 @@ body.dark .profile-modal-content {
     object-fit: cover;
     border-radius: 50%;
 }
+
+.right-sidebar .profile-picture img {
+    width: 70px;
+    height: 70px;
+    object-fit: cover;
+    border-radius: 50%;
+    display: block;
+    margin: 0 auto 10px;
+}
