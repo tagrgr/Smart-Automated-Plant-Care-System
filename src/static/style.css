@@ -658,3 +658,11 @@ body.dark .profile-modal-content {
     max-height: 85vh;
     overflow-y: auto;
 }
+
+.avatar-choice.selected-avatar img {
+    border-color: #1f6feb;
+}
+
+.avatar-choice.selected-avatar {
+    transform: scale(1.05);
+}

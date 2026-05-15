@@ -382,7 +382,12 @@
 
         <form action="/set-avatar" method="post" class="avatar-form">
             {% for avatar in avatars %}
-                <button type="submit" name="avatar" value="{{ avatar }}" class="avatar-choice">
+                <button 
+                    type="submit"  
+                    name="avatar" 
+                    value="{{ avatar }}" 
+                    class="avatar-choice {% if avatar == current_avatar %}selected-avatar{% endif %}"
+                >
                     <img src="{{ url_for('static', filename='avatars/' + avatar) }}">
                 </button>
             {% endfor %}

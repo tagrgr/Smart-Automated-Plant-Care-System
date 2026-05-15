@@ -1119,7 +1119,7 @@ def set_avatar():
         session["avatar"] = selected_avatar
         flash("Avatar updated successfully", "success")
 
-    return redirect("/profile")
+    return redirect_back()
 
 
 @app.route("/set-nickname", methods=["POST"])
@@ -1129,13 +1129,13 @@ def set_nickname():
 
     if not is_admin_device():
         flash("Only admin devices can change nicknames", "error")
-        return redirect("/profile")
+        return redirect_back()
 
     new_nickname = request.form.get("nickname", "").strip()
 
     if not new_nickname:
         flash("Nickname cannot be empty", "error")
-        return redirect("/profile")
+        return redirect_back()
 
     user_ip = request.remote_addr
 
@@ -1143,7 +1143,7 @@ def set_nickname():
 
     flash("Nickname updated successfully", "success")
 
-    return redirect("/profile")
+    return redirect_back()
 
 
 @app.route("/logout")
