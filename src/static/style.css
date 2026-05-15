@@ -740,3 +740,10 @@ body.dark .profile-modal-content {
     padding: 2px 4px;
     border-radius: 6px;
 }
+
+.large-preview-video {
+    max-width: 95%;
+    max-height: 90%;
+    border-radius: 12px;
+    background-color: black;
+}

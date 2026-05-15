@@ -1164,6 +1164,29 @@ def set_nickname():
     return redirect((request.referrer or "/") + "?profile=open")
 
 
+@app.route("/video-preview/<path:filename>")
+def preview_video(filename):
+    if not has_access():
+        return redirect("/login")
+
+    if not is_video_file(filename):
+        flash("Preview only available for videos", "error")
+        return redirect_back()
+
+    file_path = get_file_path(filename)
+
+    if not os.path.exists(file_path):
+        flash("File not found", "error")
+        return redirect_back()
+
+    return render_template(
+        "video_preview.html",
+        filename=os.path.basename(filename),
+        file_path=filename,
+        back_url=request.referrer or "/"
+    )
+
+
 @app.route("/logout")
 def logout():
     session.clear()
