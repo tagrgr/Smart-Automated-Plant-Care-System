@@ -185,13 +185,14 @@ if (sortSelect) {
 
     sortSelect.addEventListener("change", function () {
 
+        localStorage.setItem("selectedSort", sortSelect.value);
+
         const fileList = document.querySelector(".file-list");
         const rows = Array.from(document.querySelectorAll(".file-row"));
 
         const selectedSort = sortSelect.value;
 
         rows.sort(function (a, b) {
-
             if (selectedSort === "name-asc") {
                 return a.dataset.name.localeCompare(b.dataset.name);
             }
@@ -216,5 +217,12 @@ if (sortSelect) {
         });
 
     });
+
+    const savedSort = localStorage.getItem("selectedSort");
+
+    if (savedSort && sortSelect) {
+        sortSelect.value = savedSort;
+        sortSelect.dispatchEvent(new Event("change"));
+    }
 
 }
