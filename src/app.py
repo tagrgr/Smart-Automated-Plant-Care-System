@@ -199,7 +199,8 @@ def home():
             "is_folder": is_folder(filename),
             "is_image": is_image_file(filename),
             "is_video": is_video_file(filename),
-            "file_icon": get_file_icon(filename)
+            "file_icon": get_file_icon(filename),
+            "modified_time": os.path.getmtime(get_file_path(filename))
         })
 
     return render_template(
@@ -243,7 +244,8 @@ def my_drive():
                 "is_folder": is_folder(filename),
                 "is_image": is_image_file(filename),
                 "is_video": is_video_file(filename),
-                "file_icon": get_file_icon(filename)
+                "file_icon": get_file_icon(filename),
+                "modified_time": os.path.getmtime(get_file_path(filename))
             })
 
     return render_template(
@@ -285,7 +287,8 @@ def shared_files():
                 "is_folder": is_folder(filename),
                 "is_image": is_image_file(filename),
                 "is_video": is_video_file(filename),
-                "file_icon": get_file_icon(filename)
+                "file_icon": get_file_icon(filename),
+                "modified_time": os.path.getmtime(get_file_path(filename))
             })
 
     return render_template(
@@ -567,7 +570,8 @@ def bin_page():
             "is_folder": os.path.isdir(os.path.join(BIN_FOLDER, filename)),
             "is_image": is_image_file(filename),
             "is_video": is_video_file(filename),
-            "file_icon": get_file_icon(filename)
+            "file_icon": get_file_icon(filename),
+            "modified_time": os.path.getmtime(os.path.join(BIN_FOLDER, filename))
         })
 
     return render_template(
@@ -718,7 +722,8 @@ def open_folder(folder_name):
             "is_folder": is_folder(full_relative_path),
             "is_image": is_image_file(filename),
             "is_video": is_video_file(filename),
-            "file_icon": get_file_icon(filename)
+            "file_icon": get_file_icon(filename),
+            "modified_time": os.path.getmtime(get_file_path(full_relative_path))
         })
 
     return render_template(

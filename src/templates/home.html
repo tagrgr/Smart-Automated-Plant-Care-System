@@ -12,7 +12,7 @@
     <aside class="left-sidebar">
         <a href="/" class="logo">RPi Cloud</a>
 
-        <div class="new-menu">
+        <!-- <div class="new-menu">
             <button class="new-button">+ New</button>
 
             <div class="new-dropdown">
@@ -44,7 +44,7 @@
                     <button type="submit">Upload files</button>
                 </form>
             </div>
-        </div>
+        </div> -->
 
         <nav class="side-nav">
 
@@ -162,6 +162,8 @@
             <label for="sortSelect">Sort by:</label>
 
             <select id="sortSelect">
+                <option value="newest">Newest first</option>
+                <option value="oldest">Oldest first</option>
                 <option value="name-asc">Name (A-Z)</option>
                 <option value="name-desc">Name (Z-A)</option>
                 <option value="owner">Owner</option>
@@ -223,6 +225,7 @@
                         data-type="{% if file.is_folder %}folder{% else %}file{% endif %}"
                         data-owner="{{ file.owner.lower() }}"
                         data-location="{{ file.location.lower() }}"
+                        data-modified="{{ file.modified_time }}"
                     >
 
                         <input

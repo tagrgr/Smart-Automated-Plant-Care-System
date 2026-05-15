@@ -193,6 +193,14 @@ if (sortSelect) {
         const selectedSort = sortSelect.value;
 
         rows.sort(function (a, b) {
+            if (selectedSort === "newest") {
+                return Number(b.dataset.modified) - Number(a.dataset.modified);
+            }
+
+            if (selectedSort === "oldest") {
+                return Number(a.dataset.modified) - Number(b.dataset.modified);
+            }
+            
             if (selectedSort === "name-asc") {
                 return a.dataset.name.localeCompare(b.dataset.name);
             }

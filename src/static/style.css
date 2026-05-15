@@ -294,25 +294,25 @@ button {
     color: #c5221f;
 }
 
-.new-menu {
+/* .new-menu {
     position: relative;
     margin-bottom: 20px;
-}
+} */
 
-.new-dropdown {
+/* .new-dropdown {
     display: none;
     background-color: white;
     border: 1px solid #ddd;
     border-radius: 12px;
     padding: 15px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.12);
-}
+} */
 
-.new-menu:hover .new-dropdown {
+/* .new-menu:hover .new-dropdown {
     display: block;
-}
+} */
 
-.new-dropdown form {
+/* .new-dropdown form {
     margin-bottom: 15px;
 }
 
@@ -320,7 +320,7 @@ button {
 .new-dropdown input[type="file"] {
     width: 100%;
     margin-bottom: 10px;
-}
+} */
 
 .selection-toolbar {
     display: none;
@@ -469,7 +469,7 @@ body.dark .side-nav a:hover {
 }
 
 body.dark .dropdown-menu,
-body.dark .new-dropdown {
+body.dark /* .new-dropdown */{ 
     background-color: #2a2a2a;
     border-color: #444;
 }
@@ -758,4 +758,31 @@ body.dark .profile-modal-content {
 .sort-bar select {
     padding: 8px 12px;
     border-radius: 8px;
+}
+
+.dashboard-card {
+    min-height: 160px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.dashboard-card p {
+    color: #5f6368;
+}
+
+body.dark .dashboard-card p {
+    color: #bdc1c6;
+}
+
+.upload-dashboard-card {
+    border-left: 5px solid #1f6feb;
+}
+
+.folder-dashboard-card {
+    border-left: 5px solid #f9ab00;
+}
+
+.user-dashboard-card {
+    border-left: 5px solid #34a853;
 }
