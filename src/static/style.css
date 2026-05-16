@@ -954,3 +954,27 @@ body.dark .folder-card-count {
 body.dark .folder-card-owner {
     color: #9aa0a6;
 }
+
+.upload-dashboard-card.dragover {
+    border: 2px dashed #1f6feb;
+    background-color: #e8f0fe;
+    transform: scale(1.01);
+    box-shadow: 0 8px 24px rgba(31, 111, 235, 0.18);
+}
+
+body.dark .upload-dashboard-card.dragover {
+    background-color: #263850;
+}
+
+.drag-drop-text {
+    font-size: 13px;
+    color: #5f6368;
+}
+
+body.dark .drag-drop-text {
+    color: #9aa0a6;
+}
+
+.upload-dashboard-card input[type="file"] {
+    display: none;
+}

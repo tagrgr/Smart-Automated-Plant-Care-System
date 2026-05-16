@@ -116,6 +116,7 @@ moveButton.addEventListener("click", function () {
 
 const searchInput = document.getElementById("searchInput");
 const fileRows = document.querySelectorAll(".file-row");
+const folderCards = document.querySelectorAll(".folder-card-wrapper");
 
 if (searchInput) {
     searchInput.addEventListener("input", function () {
@@ -124,11 +125,13 @@ if (searchInput) {
         fileRows.forEach(function (row) {
             const filename = row.dataset.filename;
 
-            if (filename.includes(searchText)) {
-                row.style.display = "grid";
-            } else {
-                row.style.display = "none";
-            }
+            row.style.display = filename.includes(searchText) ? "grid" : "none";
+        });
+
+        folderCards.forEach(function (card) {
+            const foldername = card.dataset.foldername;
+
+            card.style.display = foldername.includes(searchText) ? "block" : "none";
         });
     });
 }
@@ -200,7 +203,7 @@ if (sortSelect) {
             if (selectedSort === "oldest") {
                 return Number(a.dataset.modified) - Number(b.dataset.modified);
             }
-            
+
             if (selectedSort === "name-asc") {
                 return a.dataset.name.localeCompare(b.dataset.name);
             }
@@ -232,5 +235,57 @@ if (sortSelect) {
         sortSelect.value = savedSort;
         sortSelect.dispatchEvent(new Event("change"));
     }
+
+}
+
+const uploadDropZone = document.getElementById("uploadDropZone");
+const uploadInput = document.querySelector('input[type="file"]');
+
+if (uploadDropZone && uploadInput) {
+
+    uploadDropZone.addEventListener("dragover", function (event) {
+        event.preventDefault();
+        uploadDropZone.classList.add("dragover");
+    });
+
+    uploadDropZone.addEventListener("dragleave", function () {
+        uploadDropZone.classList.remove("dragover");
+    });
+
+    uploadDropZone.addEventListener("drop", function (event) {
+        event.preventDefault();
+
+        uploadDropZone.classList.remove("dragover");
+
+        const droppedFiles = event.dataTransfer.files;
+
+        if (droppedFiles.length > 30) {
+            alert("You can upload a maximum of 30 files at a time.");
+            return;
+        }
+
+        uploadInput.files = droppedFiles;
+
+        const uploadForm = uploadInput.closest("form");
+        uploadForm.submit();
+    });
+
+}
+
+const hiddenUploadInput = document.getElementById("hiddenUploadInput");
+
+if (uploadDropZone && hiddenUploadInput) {
+
+    uploadDropZone.addEventListener("click", function (event) {
+
+        if (
+            event.target.tagName !== "BUTTON" &&
+            event.target.tagName !== "INPUT" &&
+            event.target.tagName !== "LABEL"
+        ) {
+            hiddenUploadInput.click();
+        }
+
+    });
 
 }
