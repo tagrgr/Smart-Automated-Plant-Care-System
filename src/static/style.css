@@ -1089,14 +1089,6 @@ body.dark .side-panel-placeholder {
     transition: width 0.2s ease;
 }
 
-/* .right-sidebar.expanded.preview-mode {
-    width: 33vw;
-}
-
-.right-sidebar.expanded.info-mode {
-    width: 20vw;
-} */
-
 .side-panel-content {
     margin-top: 25px;
 }
