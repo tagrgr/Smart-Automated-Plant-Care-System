@@ -811,10 +811,6 @@ body.dark .dashboard-card p {
     text-decoration: none;
 }
 
-.folder-card:hover {
-    background-color: #e8f0fe;
-}
-
 .folder-card-icon {
     font-size: 24px;
 }
@@ -849,9 +845,17 @@ body.dark .folder-card:hover {
         background-color 0.15s ease;
 }
 
-.folder-card:hover {
+.folder-card-wrapper:hover .folder-card {
     transform: translateY(-2px);
     background-color: #e8f0fe;
+}
+
+.folder-card-wrapper:hover .folder-card-menu {
+    transform: translateY(-2px);
+}
+
+.folder-card-menu {
+    transition: transform 0.15s ease;
 }
 
 .folder-card-top {
