@@ -343,6 +343,7 @@ function showDownloadOverlay() {
 
 const rightSidebar = document.getElementById("rightSidebar");
 const sidePanelContent = document.getElementById("sidePanelContent");
+const appLayout = document.querySelector(".app-layout");
 
 function openSidePanel(row, mode) {
     if (!rightSidebar || !sidePanelContent) {
@@ -358,11 +359,14 @@ function openSidePanel(row, mode) {
     const icon = row.dataset.icon || "📄";
 
     rightSidebar.classList.remove("info-mode", "preview-mode");
+    appLayout.classList.remove("sidebar-info-open", "sidebar-preview-open");
 
     if (mode === "info") {
-        rightSidebar.classList.add("expanded", "info-mode");
+        rightSidebar.classList.add("info-mode");
+        appLayout.classList.add("sidebar-info-open");
     } else {
-        rightSidebar.classList.add("expanded", "preview-mode");
+        rightSidebar.classList.add("preview-mode");
+        appLayout.classList.add("sidebar-preview-open");
     }
 
     let previewHtml = "";
@@ -400,7 +404,8 @@ function openSidePanel(row, mode) {
     `;
 
     document.getElementById("closeSidePanel").addEventListener("click", function () {
-        rightSidebar.classList.remove("expanded", "info-mode", "preview-mode");
+        rightSidebar.classList.remove("info-mode", "preview-mode");
+        appLayout.classList.remove("sidebar-info-open", "sidebar-preview-open");
 
         sidePanelContent.innerHTML = `
             <p>Select a file to preview details here.</p>
