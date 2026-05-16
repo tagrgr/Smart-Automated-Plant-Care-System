@@ -136,7 +136,7 @@
                         </label>
                     </div>
 
-                    <button type="submit">Upload</button>
+                    <button type="button" id="chooseFilesButton">Choose files</button>
                 </form>
             </div>
             <div class="dashboard-card folder-dashboard-card">
@@ -508,6 +508,20 @@
 
     </div>
 
+</div>
+
+<div class="upload-overlay" id="uploadOverlay">
+    <div class="upload-overlay-content">
+        <div class="upload-spinner"></div>
+        <p>Uploading files...</p>
+    </div>
+</div>
+
+<div class="download-overlay" id="downloadOverlay">
+    <div class="upload-overlay-content">
+        <div class="upload-spinner"></div>
+        <p>Preparing download...</p>
+    </div>
 </div>
 
 <script src="{{ url_for('static', filename='script.js') }}"></script>

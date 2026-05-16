@@ -65,6 +65,9 @@ renameButton.addEventListener("click", function () {
 });
 
 downloadButton.addEventListener("click", function () {
+
+    showDownloadOverlay();
+
     const selected = document.querySelectorAll(".file-checkbox:checked");
 
     if (selected.length > 30) {
@@ -78,10 +81,18 @@ downloadButton.addEventListener("click", function () {
         const downloadLink = document.createElement("a");
         downloadLink.href = "/download/" + filename;
         downloadLink.download = "";
+
         document.body.appendChild(downloadLink);
+
         downloadLink.click();
+
         document.body.removeChild(downloadLink);
     });
+
+    setTimeout(function () {
+        downloadOverlay.classList.remove("active");
+    }, 1200);
+
 });
 
 moveButton.addEventListener("click", function () {
@@ -267,6 +278,7 @@ if (uploadDropZone && uploadInput) {
         uploadInput.files = droppedFiles;
 
         const uploadForm = uploadInput.closest("form");
+        showUploadOverlay();
         uploadForm.submit();
     });
 
@@ -299,7 +311,32 @@ if (hiddenUploadInput) {
 
         if (hiddenUploadInput.files.length > 0) {
             const uploadForm = hiddenUploadInput.closest("form");
+            showUploadOverlay();
             uploadForm.submit();
         }
     });
+}
+
+const chooseFilesButton = document.getElementById("chooseFilesButton");
+
+if (chooseFilesButton && hiddenUploadInput) {
+    chooseFilesButton.addEventListener("click", function () {
+        hiddenUploadInput.click();
+    });
+}
+
+const uploadOverlay = document.getElementById("uploadOverlay");
+
+function showUploadOverlay() {
+    if (uploadOverlay) {
+        uploadOverlay.classList.add("active");
+    }
+}
+
+const downloadOverlay = document.getElementById("downloadOverlay");
+
+function showDownloadOverlay() {
+    if (downloadOverlay) {
+        downloadOverlay.classList.add("active");
+    }
 }
