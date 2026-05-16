@@ -1261,3 +1261,39 @@ body.dark .delete-modal-content {
     top: 0;
     z-index: 800;
 }
+
+.move-modal {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0,0,0,0.45);
+
+    display: none;
+    align-items: center;
+    justify-content: center;
+
+    z-index: 2700;
+}
+
+.move-modal.active {
+    display: flex;
+}
+
+.move-modal-content {
+    width: 420px;
+    max-width: 90%;
+
+    background-color: white;
+    border-radius: 16px;
+    padding: 24px;
+}
+
+.move-modal-content select {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    margin: 16px 0 20px;
+}
+
+body.dark .move-modal-content {
+    background-color: #1f1f1f;
+}

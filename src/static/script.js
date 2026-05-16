@@ -47,9 +47,11 @@ infoButton.addEventListener("click", function () {
         return;
     }
 
-    const filename = selected.value;
+    const row = selected.closest(".file-row");
 
-    window.location.href = "/info/" + filename;
+    if (row) {
+        openSidePanel(row, "info");
+    }
 });
 
 renameButton.addEventListener("click", function () {
@@ -105,33 +107,15 @@ downloadButton.addEventListener("click", function () {
 });
 
 moveButton.addEventListener("click", function () {
+
     const selected = document.querySelectorAll(".file-checkbox:checked");
 
     if (selected.length === 0) {
         return;
     }
 
-    const form = document.createElement("form");
-    form.method = "post";
-    form.action = "/bulk-move-page";
+    moveModal.classList.add("active");
 
-    const returnInput = document.createElement("input");
-    returnInput.type = "hidden";
-    returnInput.name = "return_to";
-    returnInput.value = window.location.pathname;
-
-    form.appendChild(returnInput);
-
-    selected.forEach(function (checkbox) {
-        const input = document.createElement("input");
-        input.type = "hidden";
-        input.name = "selected_files";
-        input.value = checkbox.value;
-        form.appendChild(input);
-    });
-
-    document.body.appendChild(form);
-    form.submit();
 });
 
 const searchInput = document.getElementById("searchInput");
@@ -537,6 +521,11 @@ const bulkDeleteButton = document.getElementById("bulkDeleteButton");
 
 if (bulkDeleteButton) {
     bulkDeleteButton.addEventListener("click", function () {
+
+        deleteForm.querySelectorAll('input[name="selected_files"]').forEach(function (input) {
+            input.remove();
+        });
+
         const selected = document.querySelectorAll(".file-checkbox:checked");
 
         if (selected.length === 0) {
@@ -558,3 +547,75 @@ if (bulkDeleteButton) {
         deleteModal.classList.add("active");
     });
 }
+
+const moveModal = document.getElementById("moveModal");
+const moveForm = document.getElementById("moveForm");
+const cancelMoveButton = document.getElementById("cancelMoveButton");
+
+moveButton.addEventListener("click", function () {
+
+    moveForm.querySelectorAll('input[name="selected_files"]').forEach(function (input) {
+        input.remove();
+    });
+
+    const selected = document.querySelectorAll(".file-checkbox:checked");
+
+    if (selected.length === 0) {
+        return;
+    }
+
+    selected.forEach(function (checkbox) {
+
+        const input = document.createElement("input");
+
+        input.type = "hidden";
+        input.name = "selected_files";
+        input.value = checkbox.value;
+
+        moveForm.appendChild(input);
+
+    });
+
+    moveModal.classList.add("active");
+
+});
+
+if (cancelMoveButton) {
+
+    cancelMoveButton.addEventListener("click", function () {
+        moveModal.classList.remove("active");
+    });
+
+}
+
+window.addEventListener("click", function (event) {
+
+    if (event.target === moveModal) {
+        moveModal.classList.remove("active");
+    }
+
+});
+
+document.querySelectorAll(".open-move-modal").forEach(function (link) {
+
+    link.addEventListener("click", function (event) {
+
+        event.preventDefault();
+
+        moveForm.querySelectorAll('input[name="selected_files"]').forEach(function (input) {
+            input.remove();
+        });
+
+        const input = document.createElement("input");
+
+        input.type = "hidden";
+        input.name = "selected_files";
+        input.value = link.dataset.file;
+
+        moveForm.appendChild(input);
+
+        moveModal.classList.add("active");
+
+    });
+
+});

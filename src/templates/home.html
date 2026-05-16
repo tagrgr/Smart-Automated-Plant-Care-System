@@ -190,7 +190,11 @@
 
                                     <div class="dropdown-menu">
                                         <a href="#" class="open-rename-modal" data-file="{{ file.full_path }}" data-name="{{ file.name }}">✏ Rename</a>
-                                        <a href="/move-page/{{ file.full_path }}">📁 Move to directory</a>
+                                        <a  href="#"
+                                            class="open-move-modal"
+                                            data-file="{{ file.full_path }}">
+                                            📁 Move to directory
+                                        </a>
                                         <a href="/info/{{ file.full_path }}">ℹ File info</a>
                                         <a  href="#"
                                             class="delete-link open-delete-modal"
@@ -385,7 +389,11 @@
                                             </form>
 
                                             <a href="#">🔗 Share</a>
-                                            <a href="/move-page/{{ file.full_path if file.full_path else file.name }}">📁 Move to directory</a>
+                                            <a  href="#"
+                                                class="open-move-modal"
+                                                data-file="{{ file.full_path if file.full_path else file.name }}">
+                                                📁 Move to directory
+                                            </a>
                                             <a href="#" class="open-side-info">ℹ File info</a>
                                             <a  href="#"
                                                 class="delete-link open-delete-modal"
@@ -541,6 +549,35 @@
                 <button type="submit" class="delete-confirm-button">
                     Move to Bin
                 </button>
+            </div>
+
+        </form>
+
+    </div>
+</div>
+
+<div class="move-modal" id="moveModal">
+    <div class="move-modal-content">
+
+        <h2>Move item(s)</h2>
+
+        <form id="moveForm" action="/bulk-move" method="post">
+
+            <input type="hidden" name="return_to" value="{{ request.path }}">
+
+            <label>Select destination folder:</label>
+
+            <select name="destination">
+                <option value="">Home / Root</option>
+
+                {% for folder in folders %}
+                    <option value="{{ folder }}">{{ folder }}</option>
+                {% endfor %}
+            </select>
+
+            <div class="modal-actions">
+                <button type="button" id="cancelMoveButton">Cancel</button>
+                <button type="submit">Move</button>
             </div>
 
         </form>
