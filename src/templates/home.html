@@ -179,18 +179,40 @@
                 <div class="folder-card-grid">
                     {% for file in files %}
                         {% if file.is_folder %}
-                            <a href="/folder/{{ file.full_path }}" class="folder-card">
-                                <div class="folder-card-top">
-                                    <span class="folder-card-icon">📁</span>
-                                </div>
-                                <div class="folder-card-info">
-                                    <span class="folder-card-name">{{ file.name }}</span>
 
-                                    <span class="folder-card-meta">
-                                        Folder
-                                    </span>
+                            <div class="folder-card-wrapper">
+
+                                <a href="/folder/{{ file.full_path }}" class="folder-card">
+
+                                    <div class="folder-card-top">
+                                        <span class="folder-card-icon">📁</span>
+                                    </div>
+
+                                    <div class="folder-card-info">
+                                        <span class="folder-card-name">{{ file.name }}</span>
+
+                                        <span class="folder-card-meta">
+                                            Folder
+                                        </span>
+                                    </div>
+
+                                </a>
+
+                                <div class="folder-card-menu">
+                                    <button class="dots-btn">⋮</button>
+
+                                    <div class="dropdown-menu">
+                                        <a href="/rename-page/{{ file.full_path }}">✏ Rename</a>
+                                        <a href="/move-page/{{ file.full_path }}">📁 Move to directory</a>
+                                        <a href="/info/{{ file.full_path }}">ℹ File info</a>
+                                        <a href="/confirm-delete/{{ file.full_path }}" class="delete-link">
+                                            🗑 Delete
+                                        </a>
+                                    </div>
                                 </div>
-                            </a>
+
+                            </div>
+
                         {% endif %}
                     {% endfor %}
                 </div>
