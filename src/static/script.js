@@ -451,3 +451,35 @@ document.querySelectorAll(".open-side-info").forEach(function (link) {
         }
     });
 });
+
+const renameModal = document.getElementById("renameModal");
+const renameForm = document.getElementById("renameForm");
+const renameInput = document.getElementById("renameInput");
+const cancelRenameButton = document.getElementById("cancelRenameButton");
+
+document.querySelectorAll(".open-rename-modal").forEach(function (link) {
+    link.addEventListener("click", function (event) {
+        event.preventDefault();
+
+        const filePath = link.dataset.file;
+        const fileName = link.dataset.name;
+
+        renameForm.action = "/rename/" + filePath;
+        renameInput.value = fileName;
+
+        renameModal.classList.add("active");
+        renameInput.focus();
+    });
+});
+
+if (cancelRenameButton && renameModal) {
+    cancelRenameButton.addEventListener("click", function () {
+        renameModal.classList.remove("active");
+    });
+}
+
+window.addEventListener("click", function (event) {
+    if (event.target === renameModal) {
+        renameModal.classList.remove("active");
+    }
+});

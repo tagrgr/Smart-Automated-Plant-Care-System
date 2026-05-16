@@ -189,7 +189,7 @@
                                     <button class="dots-btn">⋮</button>
 
                                     <div class="dropdown-menu">
-                                        <a href="/rename-page/{{ file.full_path }}">✏ Rename</a>
+                                        <a href="#" class="open-rename-modal" data-file="{{ file.full_path }}" data-name="{{ file.name }}">✏ Rename</a>
                                         <a href="/move-page/{{ file.full_path }}">📁 Move to directory</a>
                                         <a href="/info/{{ file.full_path }}">ℹ File info</a>
                                         <a href="/confirm-delete/{{ file.full_path }}" class="delete-link">
@@ -375,7 +375,7 @@
                                         {% else %}
 
                                             <a href="/download/{{ file.full_path if file.full_path else file.name }}">⬇ Download</a>
-                                            <a href="#">✏ Rename</a>
+                                            <a href="#" class="open-rename-modal" data-file="{{ file.full_path if file.full_path else file.name }}" data-name="{{ file.name }}">✏ Rename</a>
 
                                             <form action="/copy/{{ file.full_path if file.full_path else file.name }}" method="post">
                                                 <button type="submit" class="menu-button">📄 Make a copy</button>
@@ -500,6 +500,21 @@
 
     </div>
 
+</div>
+
+<div class="rename-modal" id="renameModal">
+    <div class="rename-modal-content">
+        <h2>Rename</h2>
+
+        <form id="renameForm" method="post">
+            <input type="text" name="new_name" id="renameInput" required>
+
+            <div class="modal-actions">
+                <button type="button" id="cancelRenameButton">Cancel</button>
+                <button type="submit">Rename</button>
+            </div>
+        </form>
+    </div>
 </div>
 
 <div class="upload-overlay" id="uploadOverlay">

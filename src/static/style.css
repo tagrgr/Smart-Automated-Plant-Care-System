@@ -1175,3 +1175,49 @@ body.dark .side-file-details {
 .side-panel-content {
     padding-bottom: 80px;
 }
+
+.rename-modal {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0,0,0,0.45);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 2500;
+}
+
+.rename-modal.active {
+    display: flex;
+}
+
+.rename-modal-content {
+    width: 360px;
+    max-width: 90%;
+    background-color: white;
+    border-radius: 16px;
+    padding: 24px;
+}
+
+.rename-modal-content input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    margin: 12px 0 18px;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.modal-actions button:first-child {
+    background-color: transparent;
+    color: #1f6feb;
+}
+
+body.dark .rename-modal-content {
+    background-color: #1f1f1f;
+}
