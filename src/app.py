@@ -759,18 +759,18 @@ def open_folder(folder_name):
     )
 
 
-@app.route("/move-page/<path:filename>")
-def move_page(filename):
-    if not has_access():
-        return redirect("/login")
+# @app.route("/move-page/<path:filename>")
+# def move_page(filename):
+#     if not has_access():
+#         return redirect("/login")
 
-    folders = get_folders()
+#     folders = get_folders()
 
-    return render_template(
-        "move_file.html",
-        filename=filename,
-        folders=folders
-    )
+#     return render_template(
+#         "move_file.html",
+#         filename=filename,
+#         folders=folders
+#     )
 
 
 @app.route("/move/<path:filename>", methods=["POST"])
@@ -1008,27 +1008,27 @@ def rename_file(filename):
     return redirect("/")
 
 
-@app.route("/bulk-move-page", methods=["POST"])
-def bulk_move_page():
-    if not has_access():
-        return redirect("/login")
+# @app.route("/bulk-move-page", methods=["POST"])
+# def bulk_move_page():
+#     if not has_access():
+#         return redirect("/login")
 
-    selected_files = request.form.getlist("selected_files")
+#     selected_files = request.form.getlist("selected_files")
 
-    if not selected_files:
-        flash("No files selected", "error")
-        return redirect_back()
+#     if not selected_files:
+#         flash("No files selected", "error")
+#         return redirect_back()
 
-    return_to = request.form.get("return_to", "/")
+#     return_to = request.form.get("return_to", "/")
 
-    folders = get_folders()
+#     folders = get_folders()
 
-    return render_template(
-        "bulk_move.html",
-        selected_files=selected_files,
-        folders=folders,
-        return_to=return_to
-    )
+#     return render_template(
+#         "bulk_move.html",
+#         selected_files=selected_files,
+#         folders=folders,
+#         return_to=return_to
+#     )
 
 
 @app.route("/bulk-move", methods=["POST"])
