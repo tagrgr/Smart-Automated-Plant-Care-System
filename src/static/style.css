@@ -1141,3 +1141,37 @@ body.dark .side-preview-video {
 body.dark .side-file-details {
     border-color: #333;
 }
+
+.side-panel-content {
+    margin-top: 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.side-preview-image,
+.side-preview-video {
+    width: 100%;
+    max-height: 45vh;
+    object-fit: contain;
+    border-radius: 12px;
+    background-color: #f1f3f4;
+}
+
+.side-preview-file-icon {
+    font-size: 80px;
+    text-align: center;
+    padding: 40px 0;
+}
+
+.side-file-details {
+    word-break: break-word;
+}
+
+.right-sidebar {
+    overflow-x: hidden;
+}
+
+.side-panel-content {
+    padding-bottom: 80px;
+}
