@@ -135,3 +135,11 @@ def get_folders():
             folders.append(relative_path)
 
     return folders
+
+def get_folder_item_count(folder_relative_path):
+    folder_path = get_file_path(folder_relative_path)
+
+    if not os.path.isdir(folder_path):
+        return 0
+
+    return len(os.listdir(folder_path))

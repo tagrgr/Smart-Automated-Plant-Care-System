@@ -936,3 +936,12 @@ body.dark .folder-card-meta {
     border-radius: 8px;
     font-size: 12px;
 }
+
+.folder-card-count {
+    font-size: 12px;
+    color: #5f6368;
+}
+
+body.dark .folder-card-count {
+    color: #9aa0a6;
+}

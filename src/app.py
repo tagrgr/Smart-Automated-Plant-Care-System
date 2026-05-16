@@ -19,7 +19,14 @@ from config import (
     ADMIN_DEVICES
 )
 
-from auth import has_access, get_current_user, get_current_avatar, is_admin_device, get_available_avatars
+from auth import (
+    has_access, 
+    get_current_user, 
+    get_current_avatar, 
+    is_admin_device, 
+    get_available_avatars
+)
+
 from file_manager import (
     get_visible_files,
     is_protected_file,
@@ -33,7 +40,8 @@ from file_manager import (
     create_missing_metadata,
     create_folder,
     is_folder,
-    get_folders
+    get_folders,
+    get_folder_item_count
 )
 
 # Create flask application instance
@@ -200,7 +208,8 @@ def home():
             "is_image": is_image_file(filename),
             "is_video": is_video_file(filename),
             "file_icon": get_file_icon(filename),
-            "modified_time": os.path.getmtime(get_file_path(filename))
+            "modified_time": os.path.getmtime(get_file_path(filename)),
+            "item_count": get_folder_item_count(filename) if is_folder(filename) else 0,
         })
 
     return render_template(
@@ -245,7 +254,8 @@ def my_drive():
                 "is_image": is_image_file(filename),
                 "is_video": is_video_file(filename),
                 "file_icon": get_file_icon(filename),
-                "modified_time": os.path.getmtime(get_file_path(filename))
+                "modified_time": os.path.getmtime(get_file_path(filename)),
+                "item_count": get_folder_item_count(filename) if is_folder(filename) else 0,
             })
 
     return render_template(
@@ -288,7 +298,8 @@ def shared_files():
                 "is_image": is_image_file(filename),
                 "is_video": is_video_file(filename),
                 "file_icon": get_file_icon(filename),
-                "modified_time": os.path.getmtime(get_file_path(filename))
+                "modified_time": os.path.getmtime(get_file_path(filename)),
+                "item_count": get_folder_item_count(filename) if is_folder(filename) else 0,
             })
 
     return render_template(
@@ -571,7 +582,8 @@ def bin_page():
             "is_image": is_image_file(filename),
             "is_video": is_video_file(filename),
             "file_icon": get_file_icon(filename),
-            "modified_time": os.path.getmtime(os.path.join(BIN_FOLDER, filename))
+            "modified_time": os.path.getmtime(os.path.join(BIN_FOLDER, filename)),
+            "item_count": get_folder_item_count(filename) if is_folder(filename) else 0,
         })
 
     return render_template(
@@ -723,7 +735,8 @@ def open_folder(folder_name):
             "is_image": is_image_file(filename),
             "is_video": is_video_file(filename),
             "file_icon": get_file_icon(filename),
-            "modified_time": os.path.getmtime(get_file_path(full_relative_path))
+            "modified_time": os.path.getmtime(get_file_path(full_relative_path)),
+            "item_count": get_folder_item_count(full_relative_path) if is_folder(full_relative_path) else 0
         })
 
     return render_template(
