@@ -945,3 +945,12 @@ body.dark .folder-card-meta {
 body.dark .folder-card-count {
     color: #9aa0a6;
 }
+
+.folder-card-owner {
+    font-size: 12px;
+    color: #5f6368;
+}
+
+body.dark .folder-card-owner {
+    color: #9aa0a6;
+}

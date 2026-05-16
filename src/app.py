@@ -595,7 +595,7 @@ def bin_page():
         current_avatar=get_current_avatar(),
         avatars=get_available_avatars(),
         is_admin=is_admin_device(),
-        open_profile_modal=request.args.get("profile") == "open"
+        open_profile_modal=request.args.get("profile") == "open",
     )
 
 
@@ -736,7 +736,7 @@ def open_folder(folder_name):
             "is_video": is_video_file(filename),
             "file_icon": get_file_icon(filename),
             "modified_time": os.path.getmtime(get_file_path(full_relative_path)),
-            "item_count": get_folder_item_count(full_relative_path) if is_folder(full_relative_path) else 0
+            "item_count": get_folder_item_count(full_relative_path) if is_folder(full_relative_path) else 0,
         })
 
     return render_template(
