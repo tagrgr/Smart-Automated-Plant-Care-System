@@ -1125,7 +1125,7 @@ def set_theme():
 
     flash(f"{selected_theme.capitalize()} mode enabled", "success")
 
-    return redirect("/settings")
+    return redirect((request.referrer or "/") + "?profile=open")
 
 
 @app.route("/set-avatar", methods=["POST"])

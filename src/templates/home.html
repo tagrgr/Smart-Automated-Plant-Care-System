@@ -12,40 +12,6 @@
     <aside class="left-sidebar">
         <a href="/" class="logo">RPi Cloud</a>
 
-        <!-- <div class="new-menu">
-            <button class="new-button">+ New</button>
-
-            <div class="new-dropdown">
-                <form action="/create-folder" method="post">
-
-                    <input type="hidden" name="current_folder" value="{{ current_folder }}">
-
-                    <input type="text" name="folder_name" placeholder="Folder name">
-
-                    <button type="submit">New folder</button>
-                </form>
-
-                <form action="/upload" method="post" enctype="multipart/form-data">
-                    
-                    <input type="hidden" name="current_folder" value="{{ current_folder }}">
-
-                    <input type="file" name="files" multiple>
-
-                    <label>
-                        <input type="radio" name="visibility" value="private" checked>
-                        Private
-                    </label>
-
-                    <label>
-                        <input type="radio" name="visibility" value="shared">
-                        Shared
-                    </label>
-
-                    <button type="submit">Upload files</button>
-                </form>
-            </div>
-        </div> -->
-
         <nav class="side-nav">
 
             <a href="/" class="{% if current_page == 'home' %}active{% endif %}">
@@ -429,23 +395,20 @@
     </main>
 
     <!-- RIGHT SIDEBAR -->
-    <aside class="right-sidebar">
-        <div class="profile-box">
-            <div class="profile-picture">
-                <img src="{{ url_for('static', filename='avatars/' + current_avatar) }}">
-            </div>
-            <p>{{ current_user }}</p>
-        </div>
+    <aside class="right-sidebar" id="rightSidebar">
 
         <div class="hive-box">
             <div class="hive-icon">🛶</div>
-            <p>The Hive</p>
-            <small>bumblebee</small>
+            <p>The Ship</p>
+            <small>The Crane</small>
         </div>
 
-        <a href="/settings" class="settings-button">⚙ Settings</a>
-    </aside>
+        <div class="side-panel-placeholder">
+            <p>Select a file to preview details here.</p>
+        </div>
 
+    </aside>
+    
 </div>
 
 <div class="profile-modal" id="profileModal">
@@ -500,9 +463,33 @@
 
         <hr>
 
-        <a href="/settings" class="modal-settings-link">⚙ Settings</a>
+        <h3>Appearance</h3>
 
-        <br><br>
+        <form action="/set-theme" method="post" class="theme-form">
+            <label>
+                <input
+                    type="radio"
+                    name="theme"
+                    value="light"
+                    {% if session.get('theme', 'light') == "light" %}checked{% endif %}
+                >
+                Light mode
+            </label>
+
+            <label>
+                <input
+                    type="radio"
+                    name="theme"
+                    value="dark"
+                    {% if session.get('theme', 'light') == "dark" %}checked{% endif %}
+                >
+                Dark mode
+            </label>
+
+            <button type="submit">Save Theme</button>
+        </form>
+
+        <br>
 
         <a href="/logout" class="delete-link">Logout</a>
 

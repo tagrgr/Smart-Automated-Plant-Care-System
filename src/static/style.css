@@ -1041,3 +1041,30 @@ body.dark .upload-overlay-content {
 .download-overlay.active {
     display: flex;
 }
+
+.side-panel-placeholder {
+    margin-top: 25px;
+    padding: 14px;
+    border-radius: 12px;
+    background-color: #f1f3f4;
+    font-size: 13px;
+    color: #5f6368;
+    text-align: center;
+}
+
+.theme-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.theme-form label {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+body.dark .side-panel-placeholder {
+    background-color: #2a2a2a;
+    color: #bdc1c6;
+}
