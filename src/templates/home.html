@@ -255,6 +255,11 @@
                             class="file-row" 
                             data-filename="{{ file.name | lower }}"
                             data-name="{{ file.name.lower() }}"
+                            data-fullpath="{{ file.full_path }}"
+                            data-displayname="{{ file.name }}"
+                            data-isimage="{{ file.is_image }}"
+                            data-isvideo="{{ file.is_video }}"
+                            data-icon="{{ file.file_icon }}"
                             data-type="{% if file.is_folder %}folder{% else %}file{% endif %}"
                             data-owner="{{ file.owner.lower() }}"
                             data-location="{{ file.location.lower() }}"
@@ -281,7 +286,7 @@
                                         src="/download/{{ file.full_path }}"
                                         class="image-thumbnail"
                                     >
-                                    <a href="/preview/{{ file.full_path }}">
+                                    <a href="#" class="open-side-preview">
                                         {{ file.name }}
                                     </a>
 
@@ -297,7 +302,7 @@
                                         <span class="play-badge">▶</span>
                                     </div>
 
-                                    <a href="/video-preview/{{ file.full_path }}">
+                                    <a href="#" class="open-side-preview">
                                         {{ file.name }}
                                     </a>
 
@@ -378,7 +383,7 @@
 
                                             <a href="#">🔗 Share</a>
                                             <a href="/move-page/{{ file.full_path if file.full_path else file.name }}">📁 Move to directory</a>
-                                            <a href="/info/{{ file.full_path if file.full_path else file.name }}">ℹ File info</a>
+                                            <a href="#" class="open-side-info">ℹ File info</a>
                                             <a href="/confirm-delete/{{ file.full_path if file.full_path else file.name }}" class="delete-link">🗑 Delete</a>
 
                                         {% endif %}
@@ -403,7 +408,7 @@
             <small>The Crane</small>
         </div>
 
-        <div class="side-panel-placeholder">
+        <div class="side-panel-content" id="sidePanelContent">
             <p>Select a file to preview details here.</p>
         </div>
 

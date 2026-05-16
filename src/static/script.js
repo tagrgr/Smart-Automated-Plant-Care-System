@@ -340,3 +340,109 @@ function showDownloadOverlay() {
         downloadOverlay.classList.add("active");
     }
 }
+
+const rightSidebar = document.getElementById("rightSidebar");
+const sidePanelContent = document.getElementById("sidePanelContent");
+
+function openSidePanel(row, mode) {
+    if (!rightSidebar || !sidePanelContent) {
+        return;
+    }
+
+    const fileName = row.dataset.displayname;
+    const fullPath = row.dataset.fullpath;
+    const owner = row.dataset.owner;
+    const location = row.dataset.location;
+    const isImage = row.dataset.isimage === "True";
+    const isVideo = row.dataset.isvideo === "True";
+    const icon = row.dataset.icon || "📄";
+
+    rightSidebar.classList.remove("info-mode", "preview-mode");
+
+    if (mode === "info") {
+        rightSidebar.classList.add("expanded", "info-mode");
+    } else {
+        rightSidebar.classList.add("expanded", "preview-mode");
+    }
+
+    let previewHtml = "";
+
+    if (mode === "preview") {
+        if (isImage) {
+            previewHtml = `
+                <img src="/download/${fullPath}" class="side-preview-image">
+            `;
+        } else if (isVideo) {
+            previewHtml = `
+                <video src="/download/${fullPath}" class="side-preview-video" controls></video>
+            `;
+        } else {
+            previewHtml = `
+                <div class="side-preview-file-icon">${icon}</div>
+            `;
+        }
+    }
+
+    sidePanelContent.innerHTML = `
+        <div class="side-panel-header">
+            <strong>${fileName}</strong>
+            <button type="button" id="closeSidePanel">✕</button>
+        </div>
+
+        ${previewHtml}
+
+        <div class="side-file-details">
+            <h3>File details</h3>
+            <p><strong>Name:</strong> ${fileName}</p>
+            <p><strong>Owner:</strong> ${owner}</p>
+            <p><strong>Location:</strong> ${location}</p>
+        </div>
+    `;
+
+    document.getElementById("closeSidePanel").addEventListener("click", function () {
+        rightSidebar.classList.remove("expanded", "info-mode", "preview-mode");
+
+        sidePanelContent.innerHTML = `
+            <p>Select a file to preview details here.</p>
+        `;
+    });
+}
+
+document.querySelectorAll(".file-row").forEach(function (row) {
+    row.addEventListener("click", function (event) {
+        if (
+            event.target.tagName === "INPUT" ||
+            event.target.tagName === "BUTTON" ||
+            event.target.tagName === "A" ||
+            event.target.closest(".dropdown-menu")
+        ) {
+            return;
+        }
+
+        openSidePanel(row, "preview");
+    });
+});
+
+document.querySelectorAll(".open-side-preview").forEach(function (link) {
+    link.addEventListener("click", function (event) {
+        event.preventDefault();
+
+        const row = link.closest(".file-row");
+
+        if (row) {
+            openSidePanel(row, "preview");
+        }
+    });
+});
+
+document.querySelectorAll(".open-side-info").forEach(function (link) {
+    link.addEventListener("click", function (event) {
+        event.preventDefault();
+
+        const row = link.closest(".file-row");
+
+        if (row) {
+            openSidePanel(row, "info");
+        }
+    });
+});
