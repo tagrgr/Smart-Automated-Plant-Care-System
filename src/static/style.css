@@ -907,3 +907,28 @@ body.dark .folder-card-meta {
     right: 0;
     left: auto;
 }
+
+.folder-card-menu:hover .dropdown-menu {
+    display: block;
+}
+
+.folder-card-menu {
+    z-index: 20;
+}
+
+.folder-card-menu .dots-btn {
+    background-color: transparent;
+    color: #202124;
+}
+
+.folder-share-form {
+    display: inline;
+}
+
+.folder-share-btn {
+    background-color: white;
+    color: #202124;
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-size: 12px;
+}

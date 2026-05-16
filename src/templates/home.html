@@ -192,13 +192,25 @@
                                         <span class="folder-card-name">{{ file.name }}</span>
 
                                         <span class="folder-card-meta">
-                                            Folder
+                                            {% if file.visibility == "shared" %}
+                                                Shared
+                                            {% else %}
+                                                In My Drive · Private
+                                            {% endif %}
                                         </span>
                                     </div>
 
                                 </a>
 
                                 <div class="folder-card-menu">
+                                    <form action="/toggle-visibility/{{ file.full_path }}" method="post" class="folder-share-form">
+                                        {% if file.visibility == "shared" %}
+                                            <button type="submit" class="folder-share-btn">Shared</button>
+                                        {% else %}
+                                            <button type="submit" class="folder-share-btn">Share?</button>
+                                        {% endif %}
+                                    </form>
+
                                     <button class="dots-btn">⋮</button>
 
                                     <div class="dropdown-menu">
