@@ -786,3 +786,109 @@ body.dark .dashboard-card p {
 .user-dashboard-card {
     border-left: 5px solid #34a853;
 }
+
+.folder-section {
+    background-color: white;
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 25px;
+}
+
+.folder-card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 14px;
+}
+
+.folder-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background-color: #f1f3f4;
+    padding: 14px 16px;
+    border-radius: 12px;
+    color: #202124;
+    text-decoration: none;
+}
+
+.folder-card:hover {
+    background-color: #e8f0fe;
+}
+
+.folder-card-icon {
+    font-size: 24px;
+}
+
+body.dark .folder-section {
+    background-color: #1f1f1f;
+}
+
+body.dark .folder-card {
+    background-color: #2a2a2a;
+    color: #e8eaed;
+}
+
+body.dark .folder-card:hover {
+    background-color: #263850;
+}
+
+.folder-card {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+
+    background-color: #f1f3f4;
+    padding: 18px;
+    border-radius: 14px;
+
+    text-decoration: none;
+    color: #202124;
+
+    transition:
+        transform 0.15s ease,
+        background-color 0.15s ease;
+}
+
+.folder-card:hover {
+    transform: translateY(-2px);
+    background-color: #e8f0fe;
+}
+
+.folder-card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.folder-card-icon {
+    font-size: 32px;
+}
+
+.folder-card-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.folder-card-name {
+    font-weight: 600;
+    font-size: 15px;
+}
+
+.folder-card-meta {
+    font-size: 13px;
+    color: #5f6368;
+}
+
+body.dark .folder-card {
+    background-color: #2a2a2a;
+    color: #e8eaed;
+}
+
+body.dark .folder-card:hover {
+    background-color: #263850;
+}
+
+body.dark .folder-card-meta {
+    color: #9aa0a6;
+}

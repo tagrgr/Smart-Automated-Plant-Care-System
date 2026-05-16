@@ -173,7 +173,30 @@
         </div>
 
         <section class="file-list-section">
-            <h2>Files</h2>
+            <section class="folder-section">
+                <h2>folders</h2>
+
+                <div class="folder-card-grid">
+                    {% for file in files %}
+                        {% if file.is_folder %}
+                            <a href="/folder/{{ file.full_path }}" class="folder-card">
+                                <div class="folder-card-top">
+                                    <span class="folder-card-icon">📁</span>
+                                </div>
+                                <div class="folder-card-info">
+                                    <span class="folder-card-name">{{ file.name }}</span>
+
+                                    <span class="folder-card-meta">
+                                        Folder
+                                    </span>
+                                </div>
+                            </a>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </section>
+
+            <h2>files</h2>
 
             <form class="selection-toolbar" id="selectionToolbar" method="post">
                 <span id="selectedCount">0 selected</span>
@@ -218,142 +241,144 @@
 
             <div class="file-list">
                 {% for file in files %}
-                    <div 
-                        class="file-row" 
-                        data-filename="{{ file.name | lower }}"
-                        data-name="{{ file.name.lower() }}"
-                        data-type="{% if file.is_folder %}folder{% else %}file{% endif %}"
-                        data-owner="{{ file.owner.lower() }}"
-                        data-location="{{ file.location.lower() }}"
-                        data-modified="{{ file.modified_time }}"
-                    >
-
-                        <input
-                            type="checkbox"
-                            class="file-checkbox"
-                            name="selected_files"
-                            value="{{ file.full_path if file.full_path else file.name }}"
-                            form="selectionToolbar"
+                    {% if not file.is_folder %}
+                        <div 
+                            class="file-row" 
+                            data-filename="{{ file.name | lower }}"
+                            data-name="{{ file.name.lower() }}"
+                            data-type="{% if file.is_folder %}folder{% else %}file{% endif %}"
+                            data-owner="{{ file.owner.lower() }}"
+                            data-location="{{ file.location.lower() }}"
+                            data-modified="{{ file.modified_time }}"
                         >
 
-                        <div class="file-name-cell">
-                            {% if file.is_folder %}
-                                <span class="file-icon">📁</span>
-                                <a href="/folder/{{ file.full_path }}">
-                                    {{ file.name }}
-                                </a>
-                            
-                                {% elif file.is_image %}
-                                <img
-                                    src="/download/{{ file.full_path }}"
-                                    class="image-thumbnail"
-                                >
-                                <a href="/preview/{{ file.full_path }}">
-                                    {{ file.name }}
-                                </a>
+                            <input
+                                type="checkbox"
+                                class="file-checkbox"
+                                name="selected_files"
+                                value="{{ file.full_path if file.full_path else file.name }}"
+                                form="selectionToolbar"
+                            >
 
-                            {% elif file.is_video %}
-
-                                <div class="video-thumbnail-wrapper">
-                                    <video
+                            <div class="file-name-cell">
+                                {% if file.is_folder %}
+                                    <span class="file-icon">📁</span>
+                                    <a href="/folder/{{ file.full_path }}">
+                                        {{ file.name }}
+                                    </a>
+                                
+                                    {% elif file.is_image %}
+                                    <img
                                         src="/download/{{ file.full_path }}"
-                                        class="video-thumbnail"
-                                        muted
-                                        preload="metadata"
-                                    ></video>
-                                    <span class="play-badge">▶</span>
-                                </div>
+                                        class="image-thumbnail"
+                                    >
+                                    <a href="/preview/{{ file.full_path }}">
+                                        {{ file.name }}
+                                    </a>
 
-                                <a href="/video-preview/{{ file.full_path }}">
-                                    {{ file.name }}
-                                </a>
+                                {% elif file.is_video %}
 
-                            {% else %}
-                                <span class="file-icon">{{ file.file_icon }}</span>
+                                    <div class="video-thumbnail-wrapper">
+                                        <video
+                                            src="/download/{{ file.full_path }}"
+                                            class="video-thumbnail"
+                                            muted
+                                            preload="metadata"
+                                        ></video>
+                                        <span class="play-badge">▶</span>
+                                    </div>
 
-                                {% if file.name.lower().endswith('.pdf') %}
-
-                                    <a href="/download/{{ file.full_path }}" target="_blank">
+                                    <a href="/video-preview/{{ file.full_path }}">
                                         {{ file.name }}
                                     </a>
 
                                 {% else %}
+                                    <span class="file-icon">{{ file.file_icon }}</span>
 
-                                    <a href="/download/{{ file.full_path }}">
-                                        {{ file.name }}
-                                    </a>
+                                    {% if file.name.lower().endswith('.pdf') %}
 
+                                        <a href="/download/{{ file.full_path }}" target="_blank">
+                                            {{ file.name }}
+                                        </a>
+
+                                    {% else %}
+
+                                        <a href="/download/{{ file.full_path }}">
+                                            {{ file.name }}
+                                        </a>
+
+                                    {% endif %}
                                 {% endif %}
-                            {% endif %}
-                        </div>
+                            </div>
 
-                        <div class="access-cell">
+                            <div class="access-cell">
 
-                            {% if file.visibility == "bin" %}
-                                <span class="access-badge bin">🗑 Bin</span>
-                            {% else %}
-                                <form action="/toggle-visibility/{{ file.full_path if file.full_path else file.name }}" method="post">
-                                    {% if file.visibility == "shared" %}
-                                        <button type="submit" class="access-badge shared">
-                                            🌐 Shared
-                                        </button>
-                                    {% else %}
-                                        <button type="submit" class="access-badge private">
-                                            🔒 Private
-                                        </button>
-                                    {% endif %}
-                                </form>
-                            {% endif %}
-
-                        </div>
-
-                        <div class="owner-cell">
-                            <span class="profile-dot">👤</span>
-                            <span>{{ file.owner }}</span>
-                        </div>
-
-                        <div class="location-cell">
-                            {{ file.location }}
-                        </div>
-
-                        <div class="actions-cell">
-                            <div class="file-actions-menu">
-                                <button class="dots-btn">⋮</button>
-
-                                <div class="dropdown-menu">
-
-                                    {% if current_page == "bin" %}
-
-                                        <form action="/restore/{{ file.name }}" method="post">
-                                            <button type="submit" class="menu-button">♻ Restore</button>
-                                        </form>
-
-                                        <form action="/delete-permanently/{{ file.name }}" method="post">
-                                            <button type="submit" class="menu-button delete-link">
-                                                🗑 Delete permanently
+                                {% if file.visibility == "bin" %}
+                                    <span class="access-badge bin">🗑 Bin</span>
+                                {% else %}
+                                    <form action="/toggle-visibility/{{ file.full_path if file.full_path else file.name }}" method="post">
+                                        {% if file.visibility == "shared" %}
+                                            <button type="submit" class="access-badge shared">
+                                                🌐 Shared
                                             </button>
-                                        </form>
+                                        {% else %}
+                                            <button type="submit" class="access-badge private">
+                                                🔒 Private
+                                            </button>
+                                        {% endif %}
+                                    </form>
+                                {% endif %}
 
-                                    {% else %}
+                            </div>
 
-                                        <a href="/download/{{ file.full_path if file.full_path else file.name }}">⬇ Download</a>
-                                        <a href="#">✏ Rename</a>
+                            <div class="owner-cell">
+                                <span class="profile-dot">👤</span>
+                                <span>{{ file.owner }}</span>
+                            </div>
 
-                                        <form action="/copy/{{ file.full_path if file.full_path else file.name }}" method="post">
-                                            <button type="submit" class="menu-button">📄 Make a copy</button>
-                                        </form>
+                            <div class="location-cell">
+                                {{ file.location }}
+                            </div>
 
-                                        <a href="#">🔗 Share</a>
-                                        <a href="/move-page/{{ file.full_path if file.full_path else file.name }}">📁 Move to directory</a>
-                                        <a href="/info/{{ file.full_path if file.full_path else file.name }}">ℹ File info</a>
-                                        <a href="/confirm-delete/{{ file.full_path if file.full_path else file.name }}" class="delete-link">🗑 Delete</a>
+                            <div class="actions-cell">
+                                <div class="file-actions-menu">
+                                    <button class="dots-btn">⋮</button>
 
-                                    {% endif %}
+                                    <div class="dropdown-menu">
 
+                                        {% if current_page == "bin" %}
+
+                                            <form action="/restore/{{ file.name }}" method="post">
+                                                <button type="submit" class="menu-button">♻ Restore</button>
+                                            </form>
+
+                                            <form action="/delete-permanently/{{ file.name }}" method="post">
+                                                <button type="submit" class="menu-button delete-link">
+                                                    🗑 Delete permanently
+                                                </button>
+                                            </form>
+
+                                        {% else %}
+
+                                            <a href="/download/{{ file.full_path if file.full_path else file.name }}">⬇ Download</a>
+                                            <a href="#">✏ Rename</a>
+
+                                            <form action="/copy/{{ file.full_path if file.full_path else file.name }}" method="post">
+                                                <button type="submit" class="menu-button">📄 Make a copy</button>
+                                            </form>
+
+                                            <a href="#">🔗 Share</a>
+                                            <a href="/move-page/{{ file.full_path if file.full_path else file.name }}">📁 Move to directory</a>
+                                            <a href="/info/{{ file.full_path if file.full_path else file.name }}">ℹ File info</a>
+                                            <a href="/confirm-delete/{{ file.full_path if file.full_path else file.name }}" class="delete-link">🗑 Delete</a>
+
+                                        {% endif %}
+
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    {% endif %}
                 {% endfor %}
             </div>
         </section>
