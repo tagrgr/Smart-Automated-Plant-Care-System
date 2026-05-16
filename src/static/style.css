@@ -1221,3 +1221,36 @@ body.dark .side-file-details {
 body.dark .rename-modal-content {
     background-color: #1f1f1f;
 }
+
+.delete-modal {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0,0,0,0.45);
+
+    display: none;
+    align-items: center;
+    justify-content: center;
+
+    z-index: 2600;
+}
+
+.delete-modal.active {
+    display: flex;
+}
+
+.delete-modal-content {
+    width: 380px;
+    max-width: 90%;
+
+    background-color: white;
+    border-radius: 16px;
+    padding: 24px;
+}
+
+.delete-confirm-button {
+    background-color: #c5221f;
+}
+
+body.dark .delete-modal-content {
+    background-color: #1f1f1f;
+}

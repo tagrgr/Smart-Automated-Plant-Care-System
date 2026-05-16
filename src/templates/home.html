@@ -192,7 +192,10 @@
                                         <a href="#" class="open-rename-modal" data-file="{{ file.full_path }}" data-name="{{ file.name }}">✏ Rename</a>
                                         <a href="/move-page/{{ file.full_path }}">📁 Move to directory</a>
                                         <a href="/info/{{ file.full_path }}">ℹ File info</a>
-                                        <a href="/confirm-delete/{{ file.full_path }}" class="delete-link">
+                                        <a  href="#"
+                                            class="delete-link open-delete-modal"
+                                            data-file="{{ file.full_path }}"
+                                            data-name="{{ file.name }}">
                                             🗑 Delete
                                         </a>
                                     </div>
@@ -384,7 +387,11 @@
                                             <a href="#">🔗 Share</a>
                                             <a href="/move-page/{{ file.full_path if file.full_path else file.name }}">📁 Move to directory</a>
                                             <a href="#" class="open-side-info">ℹ File info</a>
-                                            <a href="/confirm-delete/{{ file.full_path if file.full_path else file.name }}" class="delete-link">🗑 Delete</a>
+                                            <a  href="#"
+                                                class="delete-link open-delete-modal"
+                                                data-file="{{ file.full_path if file.full_path else file.name }}"
+                                                data-name="{{ file.name }}">🗑 Delete
+                                            </a>
 
                                         {% endif %}
 
@@ -514,6 +521,30 @@
                 <button type="submit">Rename</button>
             </div>
         </form>
+    </div>
+</div>
+
+<div class="delete-modal" id="deleteModal">
+    <div class="delete-modal-content">
+
+        <h2>Move to Bin?</h2>
+
+        <p id="deleteModalText"></p>
+
+        <form id="deleteForm" method="post">
+
+            <div class="modal-actions">
+                <button type="button" id="cancelDeleteButton">
+                    Cancel
+                </button>
+
+                <button type="submit" class="delete-confirm-button">
+                    Move to Bin
+                </button>
+            </div>
+
+        </form>
+
     </div>
 </div>
 

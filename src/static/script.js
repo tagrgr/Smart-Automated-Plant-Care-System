@@ -483,3 +483,43 @@ window.addEventListener("click", function (event) {
         renameModal.classList.remove("active");
     }
 });
+
+const deleteModal = document.getElementById("deleteModal");
+const deleteForm = document.getElementById("deleteForm");
+const deleteModalText = document.getElementById("deleteModalText");
+const cancelDeleteButton = document.getElementById("cancelDeleteButton");
+
+document.querySelectorAll(".open-delete-modal").forEach(function (link) {
+
+    link.addEventListener("click", function (event) {
+
+        event.preventDefault();
+
+        const filePath = link.dataset.file;
+        const fileName = link.dataset.name;
+
+        deleteForm.action = "/delete/" + filePath;
+
+        deleteModalText.textContent =
+            `Are you sure you want to move "${fileName}" to the Bin?`;
+
+        deleteModal.classList.add("active");
+    });
+
+});
+
+if (cancelDeleteButton) {
+
+    cancelDeleteButton.addEventListener("click", function () {
+        deleteModal.classList.remove("active");
+    });
+
+}
+
+window.addEventListener("click", function (event) {
+
+    if (event.target === deleteModal) {
+        deleteModal.classList.remove("active");
+    }
+
+});
