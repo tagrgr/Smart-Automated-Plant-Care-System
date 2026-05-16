@@ -289,3 +289,17 @@ if (uploadDropZone && hiddenUploadInput) {
     });
 
 }
+
+if (hiddenUploadInput) {
+    hiddenUploadInput.addEventListener("change", function () {
+        if (hiddenUploadInput.files.length > 30) {
+            alert("You can upload a maximum of 30 files at a time.");
+            return;
+        }
+
+        if (hiddenUploadInput.files.length > 0) {
+            const uploadForm = hiddenUploadInput.closest("form");
+            uploadForm.submit();
+        }
+    });
+}
