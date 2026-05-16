@@ -59,9 +59,18 @@ renameButton.addEventListener("click", function () {
         return;
     }
 
-    const filename = selected.value;
+    const row = selected.closest(".file-row");
 
-    window.location.href = "/rename-page/" + filename;
+    if (row) {
+        const filePath = selected.value;
+        const fileName = row.dataset.displayname;
+
+        renameForm.action = "/rename/" + filePath;
+        renameInput.value = fileName;
+
+        renameModal.classList.add("active");
+        renameInput.focus();
+    }
 });
 
 downloadButton.addEventListener("click", function () {
@@ -523,3 +532,29 @@ window.addEventListener("click", function (event) {
     }
 
 });
+
+const bulkDeleteButton = document.getElementById("bulkDeleteButton");
+
+if (bulkDeleteButton) {
+    bulkDeleteButton.addEventListener("click", function () {
+        const selected = document.querySelectorAll(".file-checkbox:checked");
+
+        if (selected.length === 0) {
+            return;
+        }
+
+        deleteForm.action = "/bulk-bin";
+        deleteModalText.textContent =
+            `Are you sure you want to move ${selected.length} item(s) to the Bin?`;
+
+        selected.forEach(function (checkbox) {
+            const input = document.createElement("input");
+            input.type = "hidden";
+            input.name = "selected_files";
+            input.value = checkbox.value;
+            deleteForm.appendChild(input);
+        });
+
+        deleteModal.classList.add("active");
+    });
+}

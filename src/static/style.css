@@ -1254,3 +1254,10 @@ body.dark .rename-modal-content {
 body.dark .delete-modal-content {
     background-color: #1f1f1f;
 }
+
+.selection-toolbar.active {
+    display: flex;
+    position: sticky;
+    top: 0;
+    z-index: 800;
+}
