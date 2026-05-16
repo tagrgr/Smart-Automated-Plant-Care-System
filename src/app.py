@@ -383,22 +383,22 @@ def download_file(filename):
     )
 
 
-@app.route("/info/<path:filename>")
-def file_info(filename):
-    if not has_access():
-        return redirect("/login")
+# @app.route("/info/<path:filename>")
+# def file_info(filename):
+#     if not has_access():
+#         return redirect("/login")
 
-    # Prevent access to protected or hidden files
-    if is_protected_file(filename):
-        return "Action not allowed"
+#     # Prevent access to protected or hidden files
+#     if is_protected_file(filename):
+#         return "Action not allowed"
 
-    info = get_file_info(filename)
+#     info = get_file_info(filename)
 
-    # Check if file exists before showing information
-    if info is None:
-        return "File not found"
+#     # Check if file exists before showing information
+#     if info is None:
+#         return "File not found"
 
-    return render_template("file_info.html", info=info)
+#     return render_template("file_info.html", info=info)
 
 
 # @app.route("/confirm-delete/<path:filename>")
@@ -1106,17 +1106,17 @@ def preview_image(filename):
     )
 
 
-@app.route("/settings")
-def settings_page():
-    if not has_access():
-        return redirect("/login")
+# @app.route("/settings")
+# def settings_page():
+#     if not has_access():
+#         return redirect("/login")
 
-    current_theme = session.get("theme", "light")
+#     current_theme = session.get("theme", "light")
 
-    return render_template(
-        "settings.html",
-        current_theme=current_theme
-    )
+#     return render_template(
+#         "settings.html",
+#         current_theme=current_theme
+#     )
 
 
 @app.route("/set-theme", methods=["POST"])

@@ -435,17 +435,17 @@ button {
     object-fit: contain;
 }
 
-.settings-page {
+/* .settings-page {
     padding: 40px;
-}
+} */
 
-.settings-card {
+/* .settings-card {
     max-width: 500px;
     background-color: white;
     padding: 24px;
     border-radius: 16px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-}
+} */
 
 body.dark {
     background-color: #121212;
@@ -495,12 +495,12 @@ body.dark .menu-button {
     color: #e8eaed;
 }
 
-.settings-back-button {
+/* .settings-back-button {
     display: inline-block;
     margin-bottom: 20px;
     color: #1f6feb;
     text-decoration: none;
-}
+} */
 
 .dashboard-cards {
     display: grid;
