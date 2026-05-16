@@ -619,3 +619,37 @@ document.querySelectorAll(".open-move-modal").forEach(function (link) {
     });
 
 });
+
+document.querySelectorAll(".open-folder-info").forEach(function (link) {
+    link.addEventListener("click", function (event) {
+        event.preventDefault();
+
+        rightSidebar.classList.remove("preview-mode");
+        appLayout.classList.remove("sidebar-preview-open");
+        rightSidebar.classList.add("info-mode");
+        appLayout.classList.add("sidebar-info-open");
+
+        sidePanelContent.innerHTML = `
+            <div class="side-panel-header">
+                <strong>${link.dataset.name}</strong>
+                <button type="button" id="closeSidePanel">✕</button>
+            </div>
+
+            <div class="side-preview-file-icon">📁</div>
+
+            <div class="side-file-details">
+                <h3>Folder details</h3>
+                <p><strong>Name:</strong> ${link.dataset.name}</p>
+                <p><strong>Owner:</strong> ${link.dataset.owner}</p>
+                <p><strong>Location:</strong> ${link.dataset.location}</p>
+                <p><strong>Items:</strong> ${link.dataset.count}</p>
+            </div>
+        `;
+
+        document.getElementById("closeSidePanel").addEventListener("click", function () {
+            rightSidebar.classList.remove("info-mode", "preview-mode");
+            appLayout.classList.remove("sidebar-info-open", "sidebar-preview-open");
+            sidePanelContent.innerHTML = `<p>Select a file to preview details here.</p>`;
+        });
+    });
+});

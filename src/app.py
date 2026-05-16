@@ -401,16 +401,16 @@ def file_info(filename):
     return render_template("file_info.html", info=info)
 
 
-@app.route("/confirm-delete/<path:filename>")
-def confirm_delete(filename):
-    if not has_access():
-        return redirect("/login")
+# @app.route("/confirm-delete/<path:filename>")
+# def confirm_delete(filename):
+#     if not has_access():
+#         return redirect("/login")
 
-    # Prevent system/hidden files
-    if is_protected_file(filename):
-        return "Action not allowed"
+#     # Prevent system/hidden files
+#     if is_protected_file(filename):
+#         return "Action not allowed"
 
-    return render_template("confirm_delete.html", filename=filename)
+#     return render_template("confirm_delete.html", filename=filename)
 
 
 # delete route
@@ -957,12 +957,12 @@ def bulk_toggle_visibility():
     return redirect_back()
 
 
-@app.route("/rename-page/<path:filename>")
-def rename_page(filename):
-    if not has_access():
-        return redirect("/login")
+# @app.route("/rename-page/<path:filename>")
+# def rename_page(filename):
+#     if not has_access():
+#         return redirect("/login")
 
-    return render_template("rename_file.html", filename=filename)
+#     return render_template("rename_file.html", filename=filename)
 
 
 @app.route("/rename/<path:filename>", methods=["POST"])

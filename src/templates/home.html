@@ -195,7 +195,14 @@
                                             data-file="{{ file.full_path }}">
                                             📁 Move to directory
                                         </a>
-                                        <a href="/info/{{ file.full_path }}">ℹ File info</a>
+                                        <a href="#"
+                                            class="open-folder-info"
+                                            data-name="{{ file.name }}"
+                                            data-owner="{{ file.owner }}"
+                                            data-location="{{ file.location }}"
+                                            data-count="{{ file.item_count }}">
+                                            ℹ File info
+                                        </a>
                                         <a  href="#"
                                             class="delete-link open-delete-modal"
                                             data-file="{{ file.full_path }}"
@@ -388,7 +395,6 @@
                                                 <button type="submit" class="menu-button">📄 Make a copy</button>
                                             </form>
 
-                                            <a href="#">🔗 Share</a>
                                             <a  href="#"
                                                 class="open-move-modal"
                                                 data-file="{{ file.full_path if file.full_path else file.name }}">
