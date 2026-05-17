@@ -1,54 +1,34 @@
+.download-overlay,
 .upload-overlay {
-    position: fixed;
-    inset: 0;
-    background-color: rgba(0,0,0,0.5);
-
-    display: none;
     align-items: center;
+    background-color: rgba(0,0,0,0.5);
+    display: none;
+    inset: 0;
     justify-content: center;
-
+    position: fixed;
     z-index: 2000;
 }
 
+.download-overlay.active,
 .upload-overlay.active {
     display: flex;
 }
 
 .upload-overlay-content {
     background-color: white;
-    padding: 28px;
     border-radius: 16px;
+    padding: 28px;
     text-align: center;
 }
 
 .upload-spinner {
-    width: 42px;
-    height: 42px;
-
-    border: 4px solid #ddd;
-    border-top: 4px solid #1f6feb;
-
-    border-radius: 50%;
-
-    margin: 0 auto 14px;
-
     animation: spin 1s linear infinite;
-}
-
-.download-overlay {
-    position: fixed;
-    inset: 0;
-    background-color: rgba(0,0,0,0.5);
-
-    display: none;
-    align-items: center;
-    justify-content: center;
-
-    z-index: 2000;
-}
-
-.download-overlay.active {
-    display: flex;
+    border: 4px solid #ddd;
+    border-radius: 50%;
+    border-top: 4px solid #1f6feb;
+    height: 42px;
+    margin: 0 auto 14px;
+    width: 42px;
 }
 
 @keyframes spin {

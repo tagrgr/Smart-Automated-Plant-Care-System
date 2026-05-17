@@ -367,11 +367,11 @@ function openSidePanel(row, mode) {
     if (mode === "preview") {
         if (isImage) {
             previewHtml = `
-                <img src="/download/${fullPath}" class="side-preview-image">
+                <img src="/view/${fullPath}" class="side-preview-image">
             `;
         } else if (isVideo) {
             previewHtml = `
-                <video src="/download/${fullPath}" class="side-preview-video" controls></video>
+                <video src="/view/${fullPath}" class="side-preview-video" controls></video>
             `;
         } else {
             previewHtml = `

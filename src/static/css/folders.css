@@ -1,50 +1,30 @@
-.folder-section {
-    background-color: white;
-    border-radius: 16px;
-    padding: 20px;
-    margin-bottom: 25px;
-}
-
-.folder-card-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 14px;
-}
-
 .folder-card {
+    align-items: center;
+    background-color: #f1f3f4;
+    border-radius: 14px;
+    color: #202124;
     display: flex;
     flex-direction: column;
-    align-items: center;
     gap: 18px;
     justify-content: space-between;
-    background-color: #f1f3f4;
-    padding: 14px 16px;
-    border-radius: 14px;
     min-height: 130px;
-    color: #202124;
+    padding: 14px 16px;
     text-decoration: none;
     transition:
         transform 0.15s ease,
         background-color 0.15s ease;
 }
 
-.folder-card-wrapper:hover .folder-card {
-    transform: translateY(-2px);
-    background-color: #e8f0fe;
+.folder-card-count,
+.folder-card-owner {
+    color: #5f6368;
+    font-size: 12px;
 }
 
-.folder-card-wrapper:hover .folder-card-menu {
-    transform: translateY(-2px);
-}
-
-.folder-card-menu {
-    transition: transform 0.15s ease;
-}
-
-.folder-card-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.folder-card-grid {
+    display: grid;
+    gap: 14px;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
 }
 
 .folder-card-icon {
@@ -57,34 +37,12 @@
     gap: 4px;
 }
 
-.folder-card-name {
-    font-weight: 600;
-    font-size: 15px;
-}
-
-.folder-card-meta {
-    font-size: 13px;
-    color: #5f6368;
-}
-
-.folder-card-wrapper {
-    position: relative;
-}
-
 .folder-card-menu {
     position: absolute;
-    top: 10px;
     right: 10px;
+    top: 10px;
+    transition: transform 0.15s ease;
     z-index: 20;
-}
-
-.folder-card-menu .dropdown-menu {
-    right: 0;
-    left: auto;
-}
-
-.folder-card-menu:hover .dropdown-menu {
-    display: block;
 }
 
 .folder-card-menu .dots-btn {
@@ -92,20 +50,59 @@
     color: #202124;
 }
 
-.folder-share-form {
-    display: inline;
+.folder-card-menu .dropdown-menu {
+    left: auto;
+    right: 0;
+}
+
+.folder-card-menu:hover .dropdown-menu {
+    display: block;
+}
+
+.folder-card-meta {
+    color: #5f6368;
+    font-size: 13px;
+}
+
+.folder-card-name {
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.folder-card-top {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+}
+
+.folder-card-wrapper {
+    position: relative;
+}
+
+.folder-card-wrapper:hover .folder-card {
+    background-color: #e8f0fe;
+    transform: translateY(-2px);
+}
+
+.folder-card-wrapper:hover .folder-card-menu {
+    transform: translateY(-2px);
+}
+
+.folder-section {
+    background-color: white;
+    border-radius: 16px;
+    margin-bottom: 25px;
+    padding: 20px;
 }
 
 .folder-share-btn {
     background-color: white;
-    color: #202124;
-    padding: 6px 10px;
     border-radius: 8px;
+    color: #202124;
     font-size: 12px;
+    padding: 6px 10px;
 }
 
-.folder-card-count,
-.folder-card-owner {
-    font-size: 12px;
-    color: #5f6368;
+.folder-share-form {
+    display: inline;
 }
