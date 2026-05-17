@@ -103,6 +103,12 @@
     background-color: #f8fafd;
 }
 
+.file-name-cell {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
 .file-name-cell a {
     color: #202124;
     text-decoration: none;
@@ -151,7 +157,8 @@
     background-color: #d2e3fc;
 }
 
-.image-thumbnail {
+.image-thumbnail,
+.video-thumbnail {
     width: 42px;
     height: 42px;
     object-fit: cover;
@@ -163,14 +170,6 @@
     position: relative;
     width: 42px;
     height: 42px;
-}
-
-.video-thumbnail {
-    width: 42px;
-    height: 42px;
-    object-fit: cover;
-    border-radius: 8px;
-    border: 1px solid #ddd;
 }
 
 .play-badge {
