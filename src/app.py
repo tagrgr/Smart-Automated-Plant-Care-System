@@ -382,6 +382,28 @@ def download_file(filename):
         as_attachment=True
     )
 
+@app.route("/view/<path:filename>")
+def view_file(filename):
+    if not has_access():
+        return redirect("/login")
+
+    if is_protected_file(filename):
+        return "Action not allowed"
+
+    file_path = get_file_path(filename)
+
+    if not os.path.exists(file_path):
+        return "File not found"
+
+    folder = os.path.dirname(file_path)
+    base_name = os.path.basename(file_path)
+
+    return send_from_directory(
+        folder,
+        base_name,
+        as_attachment=False
+    )
+
 
 # @app.route("/info/<path:filename>")
 # def file_info(filename):
