@@ -138,10 +138,6 @@
     border-radius: 12px;
 }
 
-.selection-toolbar.active {
-    display: flex;
-}
-
 .selection-toolbar button {
     background-color: transparent;
     color: #202124;
@@ -193,4 +189,39 @@
 .sort-bar select {
     padding: 8px 12px;
     border-radius: 8px;
+}
+
+.file-name-cell img,
+.file-name-cell video {
+    flex-shrink: 0;
+}
+
+.image-thumbnail,
+.video-thumbnail,
+.video-thumbnail-wrapper {
+    width: 42px;
+    min-width: 42px;
+    max-width: 42px;
+    height: 42px;
+    min-height: 42px;
+    max-height: 42px;
+}
+
+.image-thumbnail {
+    display: block;
+}
+
+.video-thumbnail {
+    display: block;
+}
+
+.file-name-cell a {
+    word-break: break-word;
+}
+
+.selection-toolbar.active {
+    display: flex;
+    position: sticky;
+    top: 0;
+    z-index: 800;
 }
