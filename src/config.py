@@ -3,7 +3,7 @@
 from datetime import timedelta
 
 # External HDD storage location
-UPLOAD_FOLDER = "/mnt/hdd"
+UPLOAD_FOLDER = "storage"
 
 # Admin devices with static IP addresses, mapping devices Ip's to friendly nicknames 
 ADMIN_DEVICES = {
@@ -22,10 +22,14 @@ SECRET_KEY = "12345"
 SESSION_LIFETIME = timedelta(minutes=30)
 
 # Files/folders that should not appear or be modified
-PROTECTED_ITEMS = ["System Volume Information"]
+PROTECTED_ITEMS = [
+    "System Volume Information",
+    "metadata.json",
+    ".bin_metadata.json"
+]
 
-METADATA_FILE = "/mnt/hdd/metadata.json"
+METADATA_FILE = "storage/metadata.json"
 
-BIN_FOLDER = "/mnt/hdd/.bin"
+BIN_FOLDER = "storage/.bin"
 
-BIN_METADATA_FILE = "/mnt/hdd/.bin_metadata.json"
+BIN_METADATA_FILE = "storage/.bin_metadata.json"
