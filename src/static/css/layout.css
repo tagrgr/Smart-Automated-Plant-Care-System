@@ -1,0 +1,89 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f5f7fb;
+    color: #202124;
+}
+
+.app-layout {
+    display: grid;
+    grid-template-columns: 230px 1fr 170px;
+    min-height: 100vh;
+    transition: grid-template-columns 0.2s ease;
+}
+
+.app-layout.sidebar-preview-open {
+    grid-template-columns: 230px 1fr 33vw;
+}
+
+.app-layout.sidebar-info-open {
+    grid-template-columns: 230px 1fr 20vw;
+}
+
+.main-content {
+    padding: 35px;
+}
+
+.main-content h1 {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.search-bar {
+    display: block;
+    width: 60%;
+    margin: 0 auto 25px;
+    padding: 15px 20px;
+    border: none;
+    border-radius: 25px;
+    background-color: #e9eef6;
+    font-size: 16px;
+}
+
+button {
+    padding: 9px 14px;
+    border: none;
+    border-radius: 8px;
+    background-color: #1f6feb;
+    color: white;
+    cursor: pointer;
+}
+
+.message-box {
+    margin: 20px 0;
+    padding: 12px 18px;
+    border-radius: 8px;
+}
+
+.message-box p {
+    margin: 0;
+}
+
+.message-box.success {
+    background-color: #e8f5e9;
+    color: #1b5e20;
+    border: 1px solid #c8e6c9;
+}
+
+.message-box.error {
+    background-color: #fdecea;
+    color: #b71c1c;
+    border: 1px solid #f5c6cb;
+}
+
+.breadcrumbs {
+    margin: 0 auto 20px;
+    width: 60%;
+    font-size: 14px;
+    color: #5f6368;
+}
+
+.breadcrumbs a {
+    color: #1f6feb;
+    text-decoration: none;
+}
+
+.breadcrumbs span {
+    margin: 0 8px;
+    color: #777;
+}

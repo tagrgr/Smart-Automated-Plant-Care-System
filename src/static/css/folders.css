@@ -1,0 +1,111 @@
+.folder-section {
+    background-color: white;
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 25px;
+}
+
+.folder-card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 14px;
+}
+
+.folder-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+    justify-content: space-between;
+    background-color: #f1f3f4;
+    padding: 14px 16px;
+    border-radius: 14px;
+    min-height: 130px;
+    color: #202124;
+    text-decoration: none;
+    transition:
+        transform 0.15s ease,
+        background-color 0.15s ease;
+}
+
+.folder-card-wrapper:hover .folder-card {
+    transform: translateY(-2px);
+    background-color: #e8f0fe;
+}
+
+.folder-card-wrapper:hover .folder-card-menu {
+    transform: translateY(-2px);
+}
+
+.folder-card-menu {
+    transition: transform 0.15s ease;
+}
+
+.folder-card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.folder-card-icon {
+    font-size: 32px;
+}
+
+.folder-card-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.folder-card-name {
+    font-weight: 600;
+    font-size: 15px;
+}
+
+.folder-card-meta {
+    font-size: 13px;
+    color: #5f6368;
+}
+
+.folder-card-wrapper {
+    position: relative;
+}
+
+.folder-card-menu {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 20;
+}
+
+.folder-card-menu .dropdown-menu {
+    right: 0;
+    left: auto;
+}
+
+.folder-card-menu:hover .dropdown-menu {
+    display: block;
+}
+
+.folder-card-menu .dots-btn {
+    background-color: transparent;
+    color: #202124;
+}
+
+.folder-share-form {
+    display: inline;
+}
+
+.folder-share-btn {
+    background-color: white;
+    color: #202124;
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-size: 12px;
+}
+
+.folder-card-count,
+.folder-card-owner {
+    font-size: 12px;
+    color: #5f6368;
+}

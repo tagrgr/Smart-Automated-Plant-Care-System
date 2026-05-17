@@ -1,0 +1,189 @@
+.profile-modal {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0,0,0,0.5);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+}
+
+.profile-modal.active {
+    display: flex;
+}
+
+.profile-modal-content {
+    width: 420px;
+    max-width: 90%;
+    background-color: white;
+    border-radius: 18px;
+    padding: 28px;
+    position: relative;
+}
+
+.close-modal-btn {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    background: transparent;
+    font-size: 20px;
+}
+
+.avatar-form {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+    gap: 14px;
+    margin-top: 12px;
+}
+
+.avatar-choice {
+    background: transparent;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    transition: transform 0.15s ease;
+}
+
+.avatar-choice:hover {
+    transform: scale(1.08);
+}
+
+.avatar-choice img {
+    width: 70px;
+    height: 70px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid transparent;
+}
+
+.avatar-choice img:hover {
+    border-color: #1f6feb;
+}
+
+.profile-modal-content {
+    width: 460px;
+    max-width: 92%;
+    max-height: 85vh;
+    overflow-y: auto;
+}
+
+.avatar-choice.selected-avatar img {
+    border-color: #1f6feb;
+}
+
+.avatar-choice.selected-avatar {
+    transform: scale(1.05);
+}
+
+.profile-modal {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0,0,0,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+}
+
+.profile-modal.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.profile-modal-content {
+    width: 460px;
+    max-width: 92%;
+    max-height: 85vh;
+    overflow-y: auto;
+    background-color: white;
+    border-radius: 18px;
+    padding: 28px;
+    position: relative;
+    transform: scale(0.95);
+    transition: transform 0.2s ease;
+}
+
+.profile-modal.active .profile-modal-content {
+    transform: scale(1);
+}
+
+.rename-modal,
+.delete-modal,
+.move-modal {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0,0,0,0.45);
+    display: none;
+    align-items: center;
+    justify-content: center;
+}
+
+.rename-modal {
+    z-index: 2500;
+}
+
+.delete-modal {
+    z-index: 2600;
+}
+
+.move-modal {
+    z-index: 2700;
+}
+
+.rename-modal.active,
+.delete-modal.active,
+.move-modal.active {
+    display: flex;
+}
+
+.rename-modal-content,
+.delete-modal-content,
+.move-modal-content {
+    max-width: 90%;
+    background-color: white;
+    border-radius: 16px;
+    padding: 24px;
+}
+
+.rename-modal-content {
+    width: 360px;
+}
+
+.delete-modal-content {
+    width: 380px;
+}
+
+.move-modal-content {
+    width: 420px;
+}
+
+.rename-modal-content input,
+.move-modal-content select {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px;
+    border-radius: 8px;
+    margin: 16px 0 20px;
+}
+
+.rename-modal-content input {
+    border: 1px solid #ddd;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.modal-actions button:first-child {
+    background-color: transparent;
+    color: #1f6feb;
+}
+
+.delete-confirm-button {
+    background-color: #c5221f;
+}
