@@ -1,9 +1,29 @@
-<body>
-<link rel="stylesheet" href="../static/style.css">
-<h1>Smart Home Cloud Pi Login</h1>
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Login</title>
 
-<form method="post">
-    <input type="password" name="password" placeholder="Enter password">
-    <button type="submit">Login</button>
-</form>
-</body>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/layout.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/sidebar.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/file-list.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/folders.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/modals.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/overlays.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/dark-theme.css') }}">
+
+    </head>
+
+    <body>
+
+        <h1>Smart Home Cloud Pi Login</h1>
+
+        <form method="post">
+            <input type="password" name="password" placeholder="Enter password">
+            <button type="submit">Login</button>
+        </form>
+    </body>
+    
+</html>

@@ -1106,19 +1106,6 @@ def preview_image(filename):
     )
 
 
-# @app.route("/settings")
-# def settings_page():
-#     if not has_access():
-#         return redirect("/login")
-
-#     current_theme = session.get("theme", "light")
-
-#     return render_template(
-#         "settings.html",
-#         current_theme=current_theme
-#     )
-
-
 @app.route("/set-theme", methods=["POST"])
 def set_theme():
     if not has_access():
