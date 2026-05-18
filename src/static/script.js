@@ -347,8 +347,8 @@ function openSidePanel(row, mode) {
     const fullPath = row.dataset.fullpath;
     const owner = row.dataset.owner;
     const location = row.dataset.location;
-    const isImage = row.dataset.isimage === "True";
-    const isVideo = row.dataset.isvideo === "True";
+    const isImage = row.dataset.isimage.toLowerCase() === "true";
+    const isVideo = row.dataset.isvideo.toLowerCase() === "true";
     const icon = row.dataset.icon || "📄";
 
     rightSidebar.classList.remove("info-mode", "preview-mode");
@@ -367,11 +367,11 @@ function openSidePanel(row, mode) {
     if (mode === "preview") {
         if (isImage) {
             previewHtml = `
-                <img src="/view/${fullPath}" class="side-preview-image">
+                <img src="/view/${encodeURIComponent(fullPath)}" class="side-preview-image">
             `;
         } else if (isVideo) {
             previewHtml = `
-                <video src="/view/${fullPath}" class="side-preview-video" controls></video>
+                <video src="/view/${encodeURIComponent(fullPath)}" class="side-preview-video" controls></video>
             `;
         } else {
             previewHtml = `
