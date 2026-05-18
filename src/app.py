@@ -185,6 +185,11 @@ def login():
     return render_template("login.html")
 
 
+@app.route("/test")
+def test():
+    return "TEST WORKING"
+
+
 # Define route for homepage
 @app.route("/")
 def home():
