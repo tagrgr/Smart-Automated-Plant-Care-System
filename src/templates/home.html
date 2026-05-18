@@ -307,7 +307,7 @@
                                 
                                     {% elif file.is_image %}
                                     <img
-                                        src="/view/{{ file.full_path }}"
+                                        src="{{ url_for('view_file', filename=file.full_path) }}"
                                         class="image-thumbnail"
                                     >
                                     <a href="#" class="open-side-preview">
@@ -318,7 +318,7 @@
 
                                     <div class="video-thumbnail-wrapper">
                                         <video
-                                            src="/view/{{ file.full_path }}"
+                                            src="{{ url_for('view_file', filename=file.full_path) }}"
                                             class="video-thumbnail"
                                             muted
                                             preload="metadata"
