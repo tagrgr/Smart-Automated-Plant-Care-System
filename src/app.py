@@ -51,6 +51,15 @@ app = Flask(__name__)
 def test():
     return "TEST ROUTE WORKING"
 
+@app.route("/public-test/<path:filename>")
+def public_test(filename):
+    file_path = get_file_path(filename)
+
+    folder = os.path.dirname(file_path)
+    base_name = os.path.basename(file_path)
+
+    return send_from_directory(folder, base_name)
+
 
 # Configure Flask session security and timeout
 app.secret_key = SECRET_KEY
