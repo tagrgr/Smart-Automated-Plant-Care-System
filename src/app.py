@@ -149,7 +149,7 @@ def is_video_file(filename):
 
 def serve_file(filename, download=False):
     if not has_access():
-        return redirect("/login")
+        return "Unauthorized", 401
 
     if is_protected_file(filename):
         return "Action not allowed"
