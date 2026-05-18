@@ -5,7 +5,7 @@ import os
 import json
 import shutil
 
-from flask import Flask, render_template, request, send_from_directory, redirect, url_for, session, flash
+from flask import Flask, render_template, request, send_from_directory, redirect, session, flash
 
 from datetime import datetime, timedelta
 
@@ -31,14 +31,12 @@ from file_manager import (
     get_visible_files,
     is_protected_file,
     get_file_path,
-    get_file_info,
     add_file_metadata,
     get_file_metadata,
     load_metadata,
     save_metadata,
     get_bin_files,
     create_missing_metadata,
-    create_folder,
     is_folder,
     get_folders,
     get_folder_item_count
@@ -97,13 +95,8 @@ def redirect_back(default="/"):
 
 def is_image_file(filename):
     image_extensions = [
-        ".png",
-        ".jpg",
-        ".jpeg",
-        ".gif",
-        ".webp"
+        ".png", ".jpg", ".jpeg", ".gif", ".webp"
     ]
-
     extension = os.path.splitext(filename)[1].lower()
 
     return extension in image_extensions
@@ -114,42 +107,30 @@ def get_file_icon(filename):
 
     icons = {
         ".pdf": "📕",
-        ".zip": "🗜",
-        ".rar": "🗜",
-        ".7z": "🗜",
 
-        ".mp4": "🎥",
-        ".mov": "🎥",
-        ".avi": "🎥",
+        ".zip": "🗜", ".rar": "🗜", ".7z": "🗜",
 
-        ".mp3": "🎵",
-        ".wav": "🎵",
+        ".mp4": "🎥", ".mov": "🎥", ".avi": "🎥",
 
-        ".xlsx": "📊",
-        ".xls": "📊",
-        ".csv": "📊",
+        ".mp3": "🎵", ".wav": "🎵",
+
+        ".xlsx": "📊", ".xls": "📊", ".csv": "📊",
 
         ".txt": "📝",
 
-        ".py": "💻",
-        ".js": "💻",
-        ".html": "💻",
-        ".css": "💻",
-        ".json": "💻",
+        ".py": "💻", ".js": "💻", ".html": "💻", ".css": "💻", ".json": "💻",
 
-        ".docx": "📘",
-        ".doc": "📘"
+        ".docx": "📘", ".doc": "📘"
     }
 
     return icons.get(extension, "📄")
 
 
 def get_storage_info():
-    total, used, free = shutil.disk_usage(UPLOAD_FOLDER)
+    total, used, _ = shutil.disk_usage(UPLOAD_FOLDER)
 
     total_gb = round(total / (1024 ** 3), 2)
     used_gb = round(used / (1024 ** 3), 2)
-
     percent_used = round((used / total) * 100)
 
     return {
@@ -161,10 +142,31 @@ def get_storage_info():
 
 def is_video_file(filename):
     video_extensions = [".mp4", ".mov", ".avi", ".webm"]
-
     extension = os.path.splitext(filename)[1].lower()
-
+    
     return extension in video_extensions
+
+
+def serve_file(filename, download=False):
+    if not has_access():
+        return redirect("/login")
+
+    if is_protected_file(filename):
+        return "Action not allowed"
+
+    file_path = get_file_path(filename)
+
+    if not os.path.exists(file_path):
+        return "File not found"
+
+    folder = os.path.dirname(file_path)
+    base_name = os.path.basename(file_path)
+
+    return send_from_directory(
+        folder,
+        base_name,
+        as_attachment=download
+    )
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -194,7 +196,6 @@ def home():
 
     # Get list of files from storage and hide System Volume Information directory  and hidden system files as they're useless for our project
     files = []
-
     for filename in get_visible_files():
         metadata = get_file_metadata(filename)
 
@@ -235,7 +236,6 @@ def my_drive():
         return redirect("/login")
 
     current_user = get_current_user()
-
     files = []
 
     for filename in get_visible_files():
@@ -280,7 +280,6 @@ def shared_files():
         return redirect("/login")
 
     current_user = get_current_user()
-
     files = []
 
     for filename in get_visible_files():
@@ -326,7 +325,6 @@ def upload_file():
 
     uploaded_files = request.files.getlist("files")
     visibility = request.form.get("visibility", "private")
-
     current_folder = request.form.get("current_folder", "")
 
     # Check if the request contains a file
@@ -345,94 +343,25 @@ def upload_file():
         if file.filename == "":
             continue
 
-        # Create the full save path inside the storage folder
         relative_path = os.path.join(current_folder, file.filename) if current_folder else file.filename
-
         save_path = get_file_path(relative_path)
+        os.makedirs(os.path.dirname(save_path), exist_ok=True)
         file.save(save_path)
-
         add_file_metadata(relative_path, get_current_user(), visibility)
-
         uploaded_count += 1
 
     flash(f"{uploaded_count} file(s) uploaded as {visibility}", "success")
     return redirect_back()
 
 
-# download route
 @app.route("/download/<path:filename>")
 def download_file(filename):
-    if not has_access():
-        return redirect("/login")
+    return serve_file(filename, download=True)
 
-    if is_protected_file(filename):
-        return "Action not allowed"
-
-    file_path = get_file_path(filename)
-
-    if not os.path.exists(file_path):
-        return "File not found"
-
-    folder = os.path.dirname(file_path)
-    base_name = os.path.basename(file_path)
-
-    return send_from_directory(
-        folder,
-        base_name,
-        as_attachment=True
-    )
 
 @app.route("/view/<path:filename>")
 def view_file(filename):
-    if not has_access():
-        return redirect("/login")
-
-    if is_protected_file(filename):
-        return "Action not allowed"
-
-    file_path = get_file_path(filename)
-
-    if not os.path.exists(file_path):
-        return "File not found"
-
-    folder = os.path.dirname(file_path)
-    base_name = os.path.basename(file_path)
-
-    return send_from_directory(
-        folder,
-        base_name,
-        as_attachment=False
-    )
-
-
-# @app.route("/info/<path:filename>")
-# def file_info(filename):
-#     if not has_access():
-#         return redirect("/login")
-
-#     # Prevent access to protected or hidden files
-#     if is_protected_file(filename):
-#         return "Action not allowed"
-
-#     info = get_file_info(filename)
-
-#     # Check if file exists before showing information
-#     if info is None:
-#         return "File not found"
-
-#     return render_template("file_info.html", info=info)
-
-
-# @app.route("/confirm-delete/<path:filename>")
-# def confirm_delete(filename):
-#     if not has_access():
-#         return redirect("/login")
-
-#     # Prevent system/hidden files
-#     if is_protected_file(filename):
-#         return "Action not allowed"
-
-#     return render_template("confirm_delete.html", filename=filename)
+    return serve_file(filename)
 
 
 # delete route
@@ -452,7 +381,6 @@ def delete_file(filename):
         base_name = os.path.basename(filename)
 
         bin_path = os.path.join(BIN_FOLDER, base_name)
-
         counter = 1
         name, extension = os.path.splitext(base_name)
 
@@ -464,7 +392,6 @@ def delete_file(filename):
         shutil.move(file_path, bin_path)
 
         bin_filename = os.path.basename(bin_path)
-
         bin_metadata = load_bin_metadata()
         bin_metadata[bin_filename] = {
             "deleted_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -477,7 +404,7 @@ def delete_file(filename):
             metadata.pop(filename)
             save_metadata(metadata)
 
-        flash(f"File '{base_name}' moved to Bin", "success")
+        flash(f"'{base_name}' moved to Bin", "success")
     else:
         flash("File not found", "error")
 
@@ -503,7 +430,6 @@ def copy_file(filename):
     base_name = os.path.basename(filename)
 
     name, extension = os.path.splitext(base_name)
-
     copied_filename = f"{name}_copy{extension}"
 
     copied_relative_path = (
@@ -523,10 +449,12 @@ def copy_file(filename):
         )
 
         copied_path = get_file_path(copied_relative_path)
-
         counter += 1
 
-    shutil.copy2(original_path, copied_path)
+    if os.path.isdir(original_path):
+        shutil.copytree(original_path, copied_path)
+    else:
+        shutil.copy2(original_path, copied_path)
 
     # Copy metadata too
     metadata = get_file_metadata(filename)
@@ -577,9 +505,7 @@ def bin_page():
         return redirect("/login")
 
     current_user = get_current_user()
-
     files = []
-
     bin_metadata = load_bin_metadata()
 
     for filename in get_bin_files():
@@ -608,7 +534,8 @@ def bin_page():
             "is_video": is_video_file(filename),
             "file_icon": get_file_icon(filename),
             "modified_time": os.path.getmtime(os.path.join(BIN_FOLDER, filename)),
-            "item_count": get_folder_item_count(filename) if is_folder(filename) else 0,
+            # "item_count": get_folder_item_count(filename) if is_folder(filename) else 0,
+            "item_count": 0,
         })
 
     return render_template(
@@ -696,7 +623,7 @@ def create_new_folder():
     if not has_access():
         return redirect("/login")
 
-    folder_name = request.form.get("folder_name")
+    folder_name = request.form.get("folder_name", "").strip()
     current_folder = request.form.get("current_folder", "")
 
     if not folder_name:
@@ -704,7 +631,6 @@ def create_new_folder():
         return redirect_back()
 
     relative_path = os.path.join(current_folder, folder_name) if current_folder else folder_name
-
     folder_path = get_file_path(relative_path)
 
     if os.path.exists(folder_path):
@@ -712,10 +638,10 @@ def create_new_folder():
         return redirect_back()
 
     os.makedirs(folder_path)
-
     add_file_metadata(relative_path, get_current_user(), "private")
 
     flash(f"Folder '{folder_name}' created successfully", "success")
+
     return redirect_back()
 
 
@@ -725,10 +651,8 @@ def open_folder(folder_name):
         return redirect("/login")
 
     current_user = get_current_user()
-
     breadcrumbs = []
     parts = folder_name.split("/")
-
     current_path = ""
 
     for part in parts:
@@ -748,7 +672,6 @@ def open_folder(folder_name):
 
     for filename in get_visible_files(folder_path):
         full_relative_path = os.path.join(folder_name, filename)
-
         metadata = get_file_metadata(full_relative_path)
 
         files.append({
@@ -781,73 +704,6 @@ def open_folder(folder_name):
     )
 
 
-# @app.route("/move-page/<path:filename>")
-# def move_page(filename):
-#     if not has_access():
-#         return redirect("/login")
-
-#     folders = get_folders()
-
-#     return render_template(
-#         "move_file.html",
-#         filename=filename,
-#         folders=folders
-#     )
-
-
-@app.route("/move/<path:filename>", methods=["POST"])
-def move_file(filename):
-    if not has_access():
-        return redirect("/login")
-
-    destination = request.form.get("destination")
-
-    source_path = get_file_path(filename)
-
-    if destination == "":
-        new_relative_path = os.path.basename(filename)
-        destination_path = get_file_path(new_relative_path)
-        new_location = "/"
-    else:
-        new_relative_path = os.path.join(destination, os.path.basename(filename))
-        destination_path = get_file_path(new_relative_path)
-        new_location = destination
-
-    if not os.path.exists(source_path):
-        flash("File not found", "error")
-        return redirect_back()
-
-    counter = 1
-    base_name = os.path.basename(filename)
-    name, extension = os.path.splitext(base_name)
-
-    while os.path.exists(destination_path):
-        moved_filename = f"{name}_moved_{counter}{extension}"
-
-        new_relative_path = (
-            os.path.join(destination, moved_filename)
-            if destination else moved_filename
-        )
-
-        destination_path = get_file_path(new_relative_path)
-
-        counter += 1
-
-    shutil.move(source_path, destination_path)
-
-    metadata = load_metadata()
-
-    if filename in metadata:
-        metadata[new_relative_path] = metadata.pop(filename)
-        metadata[new_relative_path]["location"] = new_location
-
-    save_metadata(metadata)
-
-    flash(f"Moved '{os.path.basename(new_relative_path)}' successfully", "success")
-
-    return redirect_back()
-
-
 @app.route("/bulk-bin", methods=["POST"])
 def bulk_move_to_bin():
     if not has_access():
@@ -872,7 +728,6 @@ def bulk_move_to_bin():
         if os.path.exists(file_path):
             base_name = os.path.basename(filename)
             bin_path = os.path.join(BIN_FOLDER, base_name)
-
             counter = 1
             name, extension = os.path.splitext(base_name)
 
@@ -917,7 +772,7 @@ def bulk_copy_files():
     for filename in selected_files:
         original_path = get_file_path(filename)
 
-        if not os.path.exists(original_path) or os.path.isdir(original_path):
+        if not os.path.exists(original_path):
             continue
 
         folder = os.path.dirname(filename)
@@ -935,7 +790,10 @@ def bulk_copy_files():
             copied_path = get_file_path(copied_relative_path)
             counter += 1
 
-        shutil.copy2(original_path, copied_path)
+        if os.path.isdir(original_path):
+            shutil.copytree(original_path, copied_path)
+        else:
+            shutil.copy2(original_path, copied_path)
 
         metadata = get_file_metadata(filename)
         add_file_metadata(
@@ -979,27 +837,18 @@ def bulk_toggle_visibility():
     return redirect_back()
 
 
-# @app.route("/rename-page/<path:filename>")
-# def rename_page(filename):
-#     if not has_access():
-#         return redirect("/login")
-
-#     return render_template("rename_file.html", filename=filename)
-
-
 @app.route("/rename/<path:filename>", methods=["POST"])
 def rename_file(filename):
     if not has_access():
         return redirect("/login")
 
-    new_name = request.form.get("new_name")
+    new_name = request.form.get("new_name", "").strip()
 
     if not new_name:
         flash("New name is required", "error")
         return redirect_back()
 
     old_path = get_file_path(filename)
-
     folder = os.path.dirname(filename)
     new_relative_path = os.path.join(folder, new_name) if folder else new_name
     new_path = get_file_path(new_relative_path)
@@ -1013,7 +862,6 @@ def rename_file(filename):
         return redirect_back()
 
     os.rename(old_path, new_path)
-
     metadata = load_metadata()
 
     if filename in metadata:
@@ -1021,36 +869,12 @@ def rename_file(filename):
         metadata[new_relative_path]["location"] = folder if folder else "/"
 
     save_metadata(metadata)
-
     flash(f"Renamed to '{new_name}'", "success")
 
     if folder:
         return redirect(f"/folder/{folder}")
 
     return redirect("/")
-
-
-# @app.route("/bulk-move-page", methods=["POST"])
-# def bulk_move_page():
-#     if not has_access():
-#         return redirect("/login")
-
-#     selected_files = request.form.getlist("selected_files")
-
-#     if not selected_files:
-#         flash("No files selected", "error")
-#         return redirect_back()
-
-#     return_to = request.form.get("return_to", "/")
-
-#     folders = get_folders()
-
-#     return render_template(
-#         "bulk_move.html",
-#         selected_files=selected_files,
-#         folders=folders,
-#         return_to=return_to
-#     )
 
 
 @app.route("/bulk-move", methods=["POST"])
@@ -1061,6 +885,10 @@ def bulk_move():
     selected_files = request.form.getlist("selected_files")
     destination = request.form.get("destination")
     return_to = request.form.get("return_to", "/")
+
+    if not selected_files:
+        flash("No files selected", "error")
+        return redirect(return_to)
 
     moved_count = 0
     metadata = load_metadata()
@@ -1081,7 +909,6 @@ def bulk_move():
             new_location = destination
 
         destination_path = get_file_path(new_relative_path)
-
         counter = 1
         name, extension = os.path.splitext(base_name)
 
@@ -1105,40 +932,15 @@ def bulk_move():
     return redirect(return_to)
 
 
-@app.route("/preview/<path:filename>")
-def preview_image(filename):
-    if not has_access():
-        return redirect("/login")
-
-    if not is_image_file(filename):
-        flash("Preview only available for images", "error")
-        return redirect_back()
-
-    file_path = get_file_path(filename)
-
-    if not os.path.exists(file_path):
-        flash("File not found", "error")
-        return redirect_back()
-
-    return render_template(
-        "image_preview.html",
-        filename=os.path.basename(filename),
-        file_path=filename,
-        back_url=request.referrer or "/"
-    )
-
-
 @app.route("/set-theme", methods=["POST"])
 def set_theme():
     if not has_access():
         return redirect("/login")
 
     selected_theme = request.form.get("theme", "light")
-
     session["theme"] = selected_theme
 
     flash(f"{selected_theme.capitalize()} mode enabled", "success")
-
     return redirect((request.referrer or "/") + "?profile=open")
 
 
@@ -1148,14 +950,13 @@ def set_avatar():
         return redirect("/login")
 
     selected_avatar = request.form.get("avatar")
-
     allowed_avatars = get_available_avatars()
 
     if selected_avatar in allowed_avatars:
         session["avatar"] = selected_avatar
         flash("Avatar updated successfully", "success")
 
-    return redirect(request.referrer + "?profile=open")
+    return redirect((request.referrer or "/") + "?profile=open")
 
 
 @app.route("/set-nickname", methods=["POST"])
@@ -1174,35 +975,10 @@ def set_nickname():
         return redirect_back()
 
     user_ip = request.remote_addr
-
     ADMIN_DEVICES[user_ip] = new_nickname
 
     flash("Nickname updated successfully", "success")
-
     return redirect((request.referrer or "/") + "?profile=open")
-
-
-@app.route("/video-preview/<path:filename>")
-def preview_video(filename):
-    if not has_access():
-        return redirect("/login")
-
-    if not is_video_file(filename):
-        flash("Preview only available for videos", "error")
-        return redirect_back()
-
-    file_path = get_file_path(filename)
-
-    if not os.path.exists(file_path):
-        flash("File not found", "error")
-        return redirect_back()
-
-    return render_template(
-        "video_preview.html",
-        filename=os.path.basename(filename),
-        file_path=filename,
-        back_url=request.referrer or "/"
-    )
 
 
 @app.route("/logout")

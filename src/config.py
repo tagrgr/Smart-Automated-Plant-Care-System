@@ -25,6 +25,7 @@ SESSION_LIFETIME = timedelta(minutes=30)
 PROTECTED_ITEMS = [
     "System Volume Information",
     "metadata.json",
+    "metadata_copy.json",
     ".bin_metadata.json"
 ]
 
