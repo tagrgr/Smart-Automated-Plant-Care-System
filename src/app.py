@@ -369,6 +369,21 @@ def view_file(filename):
     return serve_file(filename)
 
 
+# test
+@app.route("/public-test/<path:filename>")
+def public_test(filename):
+    file_path = get_file_path(filename)
+
+    print("PUBLIC TEST:", filename)
+    print("PATH:", file_path)
+    print("EXISTS:", os.path.exists(file_path))
+
+    folder = os.path.dirname(file_path)
+    base_name = os.path.basename(file_path)
+
+    return send_from_directory(folder, base_name)
+
+
 # delete route
 @app.route("/delete/<path:filename>", methods=["POST"])
 def delete_file(filename):
