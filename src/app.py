@@ -47,10 +47,6 @@ app = Flask(__name__)
 
 
 # test
-@app.route("/test")
-def test():
-    return "TEST ROUTE WORKING"
-
 @app.route("/public-test/<path:filename>")
 def public_test(filename):
     file_path = get_file_path(filename)
