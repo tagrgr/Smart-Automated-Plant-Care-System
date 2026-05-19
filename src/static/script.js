@@ -186,60 +186,123 @@ document.addEventListener("keydown", function (event) {
     }
 });
 
+// const sortSelect = document.getElementById("sortSelect");
+
+// if (sortSelect) {
+
+//     sortSelect.addEventListener("change", function () {
+
+//         localStorage.setItem("selectedSort", sortSelect.value);
+
+//         const fileList = document.querySelector(".file-list");
+//         const rows = Array.from(document.querySelectorAll(".file-row"));
+
+//         const selectedSort = sortSelect.value;
+
+//         rows.sort(function (a, b) {
+//             if (selectedSort === "newest") {
+//                 return Number(b.dataset.modified) - Number(a.dataset.modified);
+//             }
+
+//             if (selectedSort === "oldest") {
+//                 return Number(a.dataset.modified) - Number(b.dataset.modified);
+//             }
+
+//             if (selectedSort === "name-asc") {
+//                 return a.dataset.name.localeCompare(b.dataset.name);
+//             }
+
+//             if (selectedSort === "name-desc") {
+//                 return b.dataset.name.localeCompare(a.dataset.name);
+//             }
+
+//             if (selectedSort === "owner") {
+//                 return a.dataset.owner.localeCompare(b.dataset.owner);
+//             }
+
+//             if (selectedSort === "location") {
+//                 return a.dataset.location.localeCompare(b.dataset.location);
+//             }
+
+//             return 0;
+//         });
+
+//         rows.forEach(function (row) {
+//             fileList.appendChild(row);
+//         });
+
+//     });
+
+//     const savedSort = localStorage.getItem("selectedSort");
+
+//     if (savedSort && sortSelect) {
+//         sortSelect.value = savedSort;
+//         sortSelect.dispatchEvent(new Event("change"));
+//     }
+
+// }
 const sortSelect = document.getElementById("sortSelect");
 
+function sortItems(items, selectedSort) {
+    items.sort(function (a, b) {
+        if (selectedSort === "newest") {
+            return Number(b.dataset.modified) - Number(a.dataset.modified);
+        }
+
+        if (selectedSort === "oldest") {
+            return Number(a.dataset.modified) - Number(b.dataset.modified);
+        }
+
+        if (selectedSort === "name-asc") {
+            return a.dataset.name.localeCompare(b.dataset.name);
+        }
+
+        if (selectedSort === "name-desc") {
+            return b.dataset.name.localeCompare(a.dataset.name);
+        }
+
+        if (selectedSort === "owner") {
+            return a.dataset.owner.localeCompare(b.dataset.owner);
+        }
+
+        if (selectedSort === "location") {
+            return a.dataset.location.localeCompare(b.dataset.location);
+        }
+
+        return 0;
+    });
+}
+
 if (sortSelect) {
-
     sortSelect.addEventListener("change", function () {
-
         localStorage.setItem("selectedSort", sortSelect.value);
-
-        const fileList = document.querySelector(".file-list");
-        const rows = Array.from(document.querySelectorAll(".file-row"));
 
         const selectedSort = sortSelect.value;
 
-        rows.sort(function (a, b) {
-            if (selectedSort === "newest") {
-                return Number(b.dataset.modified) - Number(a.dataset.modified);
-            }
+        const fileList = document.querySelector(".file-list");
+        const folderGrid = document.querySelector(".folder-card-grid");
 
-            if (selectedSort === "oldest") {
-                return Number(a.dataset.modified) - Number(b.dataset.modified);
-            }
+        const fileRows = Array.from(document.querySelectorAll(".file-row"));
+        const folderCards = Array.from(document.querySelectorAll(".folder-card-wrapper"));
 
-            if (selectedSort === "name-asc") {
-                return a.dataset.name.localeCompare(b.dataset.name);
-            }
+        sortItems(fileRows, selectedSort);
+        sortItems(folderCards, selectedSort);
 
-            if (selectedSort === "name-desc") {
-                return b.dataset.name.localeCompare(a.dataset.name);
-            }
-
-            if (selectedSort === "owner") {
-                return a.dataset.owner.localeCompare(b.dataset.owner);
-            }
-
-            if (selectedSort === "location") {
-                return a.dataset.location.localeCompare(b.dataset.location);
-            }
-
-            return 0;
-        });
-
-        rows.forEach(function (row) {
+        fileRows.forEach(function (row) {
             fileList.appendChild(row);
         });
 
+        folderCards.forEach(function (folder) {
+            folderGrid.appendChild(folder);
+        });
     });
 
     const savedSort = localStorage.getItem("selectedSort");
 
-    if (savedSort && sortSelect) {
+    if (savedSort) {
         sortSelect.value = savedSort;
         sortSelect.dispatchEvent(new Event("change"));
     }
-
 }
 
 const uploadDropZone = document.getElementById("uploadDropZone");

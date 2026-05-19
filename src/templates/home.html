@@ -161,7 +161,14 @@
                     {% for file in files %}
                         {% if file.is_folder %}
 
-                            <div class="folder-card-wrapper" data-foldername="{{ file.name.lower() }}">
+                            <div
+                                class="folder-card-wrapper"
+                                data-foldername="{{ file.name.lower() }}"
+                                data-name="{{ file.name.lower() }}"
+                                data-owner="{{ file.owner.lower() }}"
+                                data-location="{{ file.location.lower() }}"
+                                data-modified="{{ file.modified_time }}"
+                            >
 
                                 <a href="/folder/{{ file.full_path }}" class="folder-card">
 
