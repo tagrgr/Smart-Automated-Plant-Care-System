@@ -3,7 +3,7 @@
 from datetime import timedelta
 
 # External HDD storage location
-UPLOAD_FOLDER = "storage"
+UPLOAD_FOLDER = "/home/tagrgr/Smart-Home-Cloud-Pi/storage"
 
 # Admin devices with static IP addresses, mapping devices Ip's to friendly nicknames 
 ADMIN_DEVICES = {
