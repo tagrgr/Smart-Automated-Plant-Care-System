@@ -71,3 +71,11 @@ body.dark .search-bar {
 body.dark .side-file-details {
     border-color: #333;
 }
+
+.folder-icon {
+    color: #1f3b6d;
+}
+
+body.dark .folder-icon {
+    color: #f5f5f5;
+}

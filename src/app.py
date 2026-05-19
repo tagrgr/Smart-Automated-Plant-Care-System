@@ -44,17 +44,15 @@ from file_manager import (
 
 # Create flask application instance
 app = Flask(__name__)
-
-
 # test
-@app.route("/public-test/<path:filename>")
-def public_test(filename):
-    file_path = get_file_path(filename)
+# @app.route("/public-test/<path:filename>")
+# def public_test(filename):
+#     file_path = get_file_path(filename)
 
-    folder = os.path.dirname(file_path)
-    base_name = os.path.basename(file_path)
+#     folder = os.path.dirname(file_path)
+#     base_name = os.path.basename(file_path)
 
-    return send_from_directory(folder, base_name)
+#     return send_from_directory(folder, base_name)
 
 
 # Configure Flask session security and timeout
@@ -379,7 +377,6 @@ def download_file(filename):
 @app.route("/view/<path:filename>")
 def view_file(filename):
     return serve_file(filename)
-
 
 
 # delete route

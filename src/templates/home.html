@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>Smart Home Cloud Pi</title>
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/layout.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/sidebar.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
@@ -11,9 +11,9 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/modals.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/overlays.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/dark-theme.css') }}">
-    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='css/preview.css') }}"> -->
 
 </head>
+
 <body class="{{ session.get('theme', 'light') }}">
 
 <div class="app-layout">
@@ -31,7 +31,7 @@
             <a href="/my-drive" class="{% if current_page == 'my-drive' %}active{% endif %}">
                 My Drive
             </a>
-
+ 
             <a href="/shared" class="{% if current_page == 'shared' %}active{% endif %}">
                 Shared with me
             </a>
@@ -43,7 +43,7 @@
         </nav>
 
         <div class="storage-box">
-            <p><strong>Storage</strong></p>
+            <h3>Storage</h3>
             <p>{{ storage.percent_used }}% full</p>
 
             <div class="storage-bar">
@@ -58,16 +58,16 @@
     <!-- MAIN CONTENT -->
     <main class="main-content">
 
-        <h1>Welcome to RPi's Home Server</h1>
+        {% if breadcrumbs %}
+            <div class="breadcrumbs">
+                <a href="/">Home</a>
 
-        <div class="breadcrumbs">
-            <a href="/">Home</a>
-
-            {% for crumb in breadcrumbs %}
-                <span>›</span>
-                <a href="/folder/{{ crumb.path }}">{{ crumb.name }}</a>
-            {% endfor %}
-        </div>
+                {% for crumb in breadcrumbs %}
+                    <span>›</span>
+                    <a href="/folder/{{ crumb.path }}">{{ crumb.name }}</a>
+                {% endfor %}
+            </div>
+        {% endif %}
 
         <input
             class="search-bar"
@@ -89,7 +89,7 @@
         <section class="dashboard-cards">
 
             <div class="dashboard-card upload-dashboard-card" id="uploadDropZone">
-                <h2>⬆ Upload Files</h2>
+                <h2>+ New</h2>
                 <p>Upload up to 30 files into the current folder.</p>
                 <p class="drag-drop-text">
                     Drag and drop files here
@@ -116,8 +116,10 @@
                 </form>
             </div>
             <div class="dashboard-card folder-dashboard-card">
-                <h2>📁 New Folder</h2>
-                <p>Create a folder here.</p>
+                <h2>
+                    <i class="fa-regular fa-folder folder-icon"></i>
+                    New Folder
+                </h2>
 
                 <form action="/create-folder" method="post">
                     <input type="hidden" name="current_folder" value="{{ current_folder }}">
