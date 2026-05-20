@@ -792,7 +792,19 @@ document.querySelectorAll(".folder-card-wrapper").forEach(function (folder) {
             method: "POST",
             body: formData
         }).then(function () {
+
+            document.querySelectorAll(".file-checkbox").forEach(function (box) {
+                box.checked = false;
+            });
+
+            draggedFilePaths = [];
+
+            lastSelectedIndex = null;
+
+            updateSelectionToolbar();
+
             window.location.reload();
+
         });
     });
 
@@ -828,6 +840,22 @@ document.querySelectorAll(".folder-card-wrapper").forEach(function (folder) {
                 window.location.reload();
             }
         });
+    });
+
+});
+
+document.querySelectorAll(".folder-card-wrapper").forEach(function (folder) {
+
+    folder.addEventListener("dblclick", function () {
+
+        const folderPath = folder.dataset.folderpath;
+
+        if (!folderPath) {
+            return;
+        }
+
+        window.location.href = "/folder/" + encodeURIComponent(folderPath);
+
     });
 
 });
