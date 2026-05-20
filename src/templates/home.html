@@ -270,11 +270,7 @@
                                 form="selectionToolbar"
                             >
                             <div class="file-name-cell">
-                                <!-- {% if file.is_folder %}
-                                    <span class="file-icon">📁</span>
-                                    <a href="/folder/{{ file.full_path }}">
-                                        {{ file.name }}
-                                    </a> -->
+                                
                                 {% if file.is_image %}
                                     <img
                                         src="{{ url_for('view_file', filename=file.full_path) }}"
