@@ -443,22 +443,24 @@ document.querySelectorAll(".file-row").forEach(function (row) {
             return;
         }
 
-        // CTRL + click = multi select
-        if (event.ctrlKey || event.metaKey) {
-
-            checkbox.checked = !checkbox.checked;
-
-            updateSelectionToolbar();
-
-            return;
-        }
-
-        // Clicking directly on checkbox
         if (event.target.tagName === "INPUT") {
+            updateSelectionToolbar();
             return;
         }
 
-        // Normal click = preview
+        if (event.ctrlKey || event.metaKey) {
+            checkbox.checked = !checkbox.checked;
+            updateSelectionToolbar();
+            return;
+        }
+
+        document.querySelectorAll(".file-checkbox").forEach(function (box) {
+            box.checked = false;
+        });
+
+        checkbox.checked = true;
+        updateSelectionToolbar();
+
         openSidePanel(row, "preview");
 
     });
