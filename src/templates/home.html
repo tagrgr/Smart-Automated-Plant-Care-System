@@ -275,7 +275,7 @@
                                     <a href="/folder/{{ file.full_path }}">
                                         {{ file.name }}
                                     </a> -->
-                                {% elif file.is_image %}
+                                {% if file.is_image %}
                                     <img
                                         src="{{ url_for('view_file', filename=file.full_path) }}"
                                         class="image-thumbnail"
@@ -336,7 +336,7 @@
                             <div class="location-cell">
                                 {{ file.location }}
                             </div>
-                            
+
                             <div class="actions-cell">
                                 <div class="file-actions-menu">
                                     <button class="dots-btn">⋮</button>
