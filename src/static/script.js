@@ -446,10 +446,13 @@ function openSidePanel(row, mode) {
     });
 }
 
-document.querySelectorAll(".file-row").forEach(function (row) {
+let lastSelectedIndex = null;
+const fileRowList = Array.from(
+    document.querySelectorAll(".file-row")
+);
 
+fileRowList.forEach(function (row, index) {
     row.addEventListener("click", function (event) {
-
         const checkbox = row.querySelector(".file-checkbox");
 
         if (
@@ -461,12 +464,27 @@ document.querySelectorAll(".file-row").forEach(function (row) {
         }
 
         if (event.target.tagName === "INPUT") {
+            lastSelectedIndex = index;
+            updateSelectionToolbar();
+            return;
+        }
+
+        if (event.shiftKey && lastSelectedIndex !== null) {
+            const start = Math.min(lastSelectedIndex, index);
+            const end = Math.max(lastSelectedIndex, index);
+
+            fileRowList.forEach(function (item, itemIndex) {
+                const itemCheckbox = item.querySelector(".file-checkbox");
+                itemCheckbox.checked = itemIndex >= start && itemIndex <= end;
+            });
+
             updateSelectionToolbar();
             return;
         }
 
         if (event.ctrlKey || event.metaKey) {
             checkbox.checked = !checkbox.checked;
+            lastSelectedIndex = index;
             updateSelectionToolbar();
             return;
         }
@@ -476,12 +494,11 @@ document.querySelectorAll(".file-row").forEach(function (row) {
         });
 
         checkbox.checked = true;
+        lastSelectedIndex = index;
         updateSelectionToolbar();
 
         openSidePanel(row, "preview");
-
     });
-
 });
 
 document.addEventListener("click", function (event) {
