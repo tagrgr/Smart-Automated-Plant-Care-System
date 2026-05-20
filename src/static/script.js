@@ -876,3 +876,123 @@ document.querySelectorAll(".folder-card-wrapper").forEach(function (folder) {
     });
 
 });
+
+document.addEventListener("contextmenu", function (event) {
+    event.preventDefault();
+});
+
+const contextMenu = document.getElementById("contextMenu");
+const contextPreview = document.getElementById("contextPreview");
+const contextDownload = document.getElementById("contextDownload");
+const contextRename = document.getElementById("contextRename");
+const contextDelete = document.getElementById("contextDelete");
+
+let contextTargetRow = null;
+
+document.querySelectorAll(".file-row").forEach(function (row) {
+    row.addEventListener("contextmenu", function (event) {
+        event.preventDefault();
+
+        contextTargetRow = row;
+
+        contextMenu.style.left = event.clientX + "px";
+        contextMenu.style.top = event.clientY + "px";
+        contextMenu.style.display = "block";
+    });
+});
+
+document.addEventListener("click", function () {
+    contextMenu.style.display = "none";
+});
+
+contextPreview.addEventListener("click", function () {
+    if (contextTargetRow) {
+        openSidePanel(contextTargetRow, "preview");
+    }
+});
+
+contextDownload.addEventListener("click", function () {
+    if (contextTargetRow) {
+        window.location.href = "/download/" + contextTargetRow.dataset.fullpath;
+    }
+});
+
+contextRename.addEventListener("click", function () {
+    if (contextTargetRow) {
+        const filePath = contextTargetRow.dataset.fullpath;
+        const fileName = contextTargetRow.dataset.displayname;
+
+        renameForm.action = "/rename/" + filePath;
+        renameInput.value = fileName;
+
+        renameModal.classList.add("active");
+        renameInput.focus();
+    }
+});
+
+contextDelete.addEventListener("click", function () {
+    if (contextTargetRow) {
+        const filePath = contextTargetRow.dataset.fullpath;
+        const fileName = contextTargetRow.dataset.displayname;
+
+        deleteForm.action = "/delete/" + filePath;
+        deleteModalText.textContent =
+            `Are you sure you want to move "${fileName}" to the Bin?`;
+
+        deleteModal.classList.add("active");
+    }
+});
+
+contextPreview.addEventListener("click", function () {
+
+    if (contextTargetRow) {
+        openSidePanel(contextTargetRow, "preview");
+    }
+
+});
+
+contextDownload.addEventListener("click", function () {
+
+    if (contextTargetRow) {
+        window.location.href =
+            "/download/" + contextTargetRow.dataset.fullpath;
+    }
+
+});
+
+contextRename.addEventListener("click", function () {
+
+    if (contextTargetRow) {
+
+        const filePath = contextTargetRow.dataset.fullpath;
+        const fileName = contextTargetRow.dataset.displayname;
+
+        renameForm.action = "/rename/" + filePath;
+
+        renameInput.value = fileName;
+
+        renameModal.classList.add("active");
+
+        renameInput.focus();
+
+    }
+
+});
+
+contextDelete.addEventListener("click", function () {
+
+    if (contextTargetRow) {
+
+        const filePath = contextTargetRow.dataset.fullpath;
+        const fileName = contextTargetRow.dataset.displayname;
+
+        deleteForm.action = "/delete/" + filePath;
+
+        deleteModalText.textContent =
+            `Are you sure you want to move "${fileName}" to the Bin?`;
+
+        deleteModal.classList.add("active");
+
+    }
+
+});
