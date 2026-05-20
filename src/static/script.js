@@ -769,41 +769,6 @@ document.querySelectorAll(".folder-card-wrapper").forEach(function (folder) {
     });
 });
 
-// document.querySelectorAll(".folder-card-wrapper").forEach(function (folder) {
-
-//     folder.addEventListener("dragover", function (event) {
-//         event.preventDefault();
-//     });
-
-//     folder.addEventListener("drop", function (event) {
-//         event.preventDefault();
-
-//         const destination = folder.dataset.folderpath;
-
-//         if (!draggedFilePath || !destination) {
-//             return;
-//         }
-
-//         const formData = new FormData();
-
-//         formData.append("filename", draggedFilePath);
-//         formData.append("destination", destination);
-
-//         fetch("/drag-move", {
-//             method: "POST",
-//             body: formData
-//         })
-//         .then(response => response.json())
-//         .then(data => {
-//             if (data.success) {
-//                 window.location.reload();
-//             }
-//         });
-//     });
-
-// });
-
-
 // CONTEXT MENU
 document.addEventListener("contextmenu", function (event) {
     event.preventDefault();
@@ -848,7 +813,7 @@ contextRename.addEventListener("click", function () {
     nameElement.contentEditable = true;
     nameElement.classList.add("editing");
     nameElement.focus();
-    
+
     document.execCommand("selectAll", false, null);
 
     function finishRename() {
@@ -901,57 +866,3 @@ contextDelete.addEventListener("click", function () {
         deleteModal.classList.add("active");
     }
 });
-
-// contextPreview.addEventListener("click", function () {
-
-//     if (contextTargetRow) {
-//         openSidePanel(contextTargetRow, "preview");
-//     }
-
-// });
-
-// contextDownload.addEventListener("click", function () {
-
-//     if (contextTargetRow) {
-//         window.location.href =
-//             "/download/" + contextTargetRow.dataset.fullpath;
-//     }
-
-// });
-
-// contextRename.addEventListener("click", function () {
-
-//     if (contextTargetRow) {
-
-//         const filePath = contextTargetRow.dataset.fullpath;
-//         const fileName = contextTargetRow.dataset.displayname;
-
-//         renameForm.action = "/rename/" + filePath;
-
-//         renameInput.value = fileName;
-
-//         renameModal.classList.add("active");
-
-//         renameInput.focus();
-
-//     }
-
-// });
-
-// contextDelete.addEventListener("click", function () {
-
-//     if (contextTargetRow) {
-
-//         const filePath = contextTargetRow.dataset.fullpath;
-//         const fileName = contextTargetRow.dataset.displayname;
-
-//         deleteForm.action = "/delete/" + filePath;
-
-//         deleteModalText.textContent =
-//             `Are you sure you want to move "${fileName}" to the Bin?`;
-
-//         deleteModal.classList.add("active");
-
-//     }
-
-// });
