@@ -409,13 +409,30 @@ function openSidePanel(row, mode) {
         ${previewHtml}
 
         <div class="side-file-details">
-            <h3>File details</h3>
-            <p><strong>Name:</strong> ${fileName}</p>
-            <p><strong>Owner:</strong> ${owner}</p>
-            <p><strong>Type:</strong> ${extension}</p>
-            <p><strong>Size:</strong> ${sizeMb} MB</p>
-            <p><strong>Modified:</strong> ${modifiedDate}</p>
-            <p><strong>Location:</strong> ${location}</p>
+            <div class="detail-row">
+                <span class="detail-label">Name</span>
+                <span class="detail-value">${fileName}</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Owner</span>
+                <span class="detail-value">${owner}</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Type</span>
+                <span class="detail-value">${extension}</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Size</span>
+                <span class="detail-value">${sizeMb} MB</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Modified</span>
+                <span class="detail-value">${modifiedDate}</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Location</span>
+                <span class="detail-value">${location}</span>
+            </div>
         </div>
     `;
 

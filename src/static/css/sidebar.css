@@ -158,3 +158,27 @@
     word-break: break-word;
 }
 
+.side-file-details {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.detail-row {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.detail-label {
+    color: #5f6368;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.detail-value {
+    color: #202124;
+    font-size: 14px;
+    word-break: break-word;
+}
