@@ -23,23 +23,18 @@
         <a href="/" class="logo">RPi Cloud</a>
 
         <nav class="side-nav">
-
             <a href="/" class="{% if current_page == 'home' %}active{% endif %}">
                 Home
             </a>
-
             <a href="/my-drive" class="{% if current_page == 'my-drive' %}active{% endif %}">
                 My Drive
             </a>
- 
             <a href="/shared" class="{% if current_page == 'shared' %}active{% endif %}">
                 Shared with me
             </a>
-
             <a href="/bin" class="{% if current_page == 'bin' %}active{% endif %}">
                 Bin
             </a>
-
         </nav>
 
         <div class="storage-box">
@@ -87,13 +82,11 @@
         {% endwith %}
 
         <section class="dashboard-cards">
-
             <div class="dashboard-card upload-dashboard-card" id="uploadDropZone">
+                
                 <h2>+ New</h2>
                 <p>Upload up to 30 files into the current folder.</p>
-                <p class="drag-drop-text">
-                    Drag and drop files here
-                </p>
+                <p class="drag-drop-text">Drag and drop files here</p>
 
                 <form action="/upload" method="post" enctype="multipart/form-data" id="uploadForm">
                     <input type="hidden" name="current_folder" value="{{ current_folder }}">
@@ -115,19 +108,19 @@
                     <button type="button" id="chooseFilesButton">Choose files</button>
                 </form>
             </div>
+
             <div class="dashboard-card folder-dashboard-card">
                 <h2>
                     <i class="fa-regular fa-folder folder-icon"></i>
                     New Folder
                 </h2>
-
                 <form action="/create-folder" method="post">
                     <input type="hidden" name="current_folder" value="{{ current_folder }}">
-
                     <input type="text" name="folder_name" placeholder="Folder name">
                     <button type="submit">Create</button>
                 </form>
             </div>
+
             <div class="dashboard-card user-dashboard-card profile-card-link" id="openProfileModal">
                 <div class="profile-picture">
                     <img src="{{ url_for('static', filename='avatars/' + current_avatar) }}">
@@ -135,11 +128,9 @@
                 <h2>{{ current_user }}</h2>
                 <p>Current device profile</p>
             </div>
-
         </section>
 
         <div class="sort-bar">
-
             <label for="sortSelect">Sort by:</label>
 
             <select id="sortSelect">
@@ -152,17 +143,14 @@
                 <option value="type">Type</option>
                 <option value="size">Size</option>
             </select>
-
         </div>
 
         <section class="file-list-section">
             <section class="folder-section">
                 <h2>folders</h2>
-
                 <div class="folder-card-grid">
                     {% for file in files %}
                         {% if file.is_folder %}
-
                             <div
                                 class="folder-card-wrapper"
                                 data-foldername="{{ file.name.lower() }}"
@@ -172,7 +160,6 @@
                                 data-modified="{{ file.modified_time }}"
                                 data-folderpath="{{ file.full_path }}"
                             >
-
                                 <a href="/folder/{{ file.full_path }}" class="folder-card">
 
                                     <div class="folder-card-top">
@@ -181,7 +168,6 @@
 
                                     <div class="folder-card-info">
                                         <span class="folder-card-name">{{ file.name }}</span>
-
                                         <span class="folder-card-meta">
                                             {% if file.visibility == "shared" %}
                                                 Shared
@@ -196,7 +182,6 @@
                                             Owned by {{ file.owner }}
                                         </span>
                                     </div>
-
                                 </a>
 
                                 <div class="folder-card-menu">
@@ -233,48 +218,23 @@
                                         </a>
                                     </div>
                                 </div>
-
                             </div>
-
                         {% endif %}
                     {% endfor %}
                 </div>
             </section>
 
             <h2>files</h2>
-
             <form class="selection-toolbar" id="selectionToolbar" method="post">
                 <span id="selectedCount">0 selected</span>
-
-                <button type="submit" formaction="/bulk-toggle-visibility">
-                    🔒/🌐 Change access
-                </button>
-
-                <button type="submit" formaction="/bulk-copy">
-                    📄 Make a copy
-                </button>
-
-                <button type="button" id="bulkDeleteButton">
-                    🗑 Move to Bin
-                </button>
-
-                <button type="button" id="downloadButton" disabled>
-                    ⬇ Download
-                </button>
-
-                <button type="button" id="moveButton" disabled>
-                    📁 Move
-                </button>
-
-                <button type="button" id="infoButton" disabled>
-                    ℹ File info
-                </button>
-
-                <button type="button" id="renameButton" disabled>
-                    ✏ Rename
-                </button>
+                <button type="submit" formaction="/bulk-toggle-visibility">🔒/🌐 Change access</button>
+                <button type="submit" formaction="/bulk-copy">📄 Make a copy</button>
+                <button type="button" id="bulkDeleteButton">🗑 Move to Bin</button>
+                <button type="button" id="downloadButton" disabled>⬇ Download</button>
+                <button type="button" id="moveButton" disabled>📁 Move</button>
+                <button type="button" id="infoButton" disabled>ℹ File info</button>
+                <button type="button" id="renameButton" disabled>✏ Rename</button>
             </form>
-
             <div class="file-list-header">
                 <br>
                 <span>Name</span>
@@ -283,7 +243,6 @@
                 <span>Location</span>
                 <span>Actions</span>
             </div>
-
             <div class="file-list">
                 {% for file in files %}
                     {% if not file.is_folder %}
@@ -303,33 +262,28 @@
                             data-extension="{{ file.extension }}"
                             draggable="true"
                         >
-
                             <input
                                 type="checkbox"
                                 class="file-checkbox"
                                 name="selected_files"
-                                value="{{ file.full_path if file.full_path else file.name }}"
+                                value="{{ file.full_path }}"
                                 form="selectionToolbar"
                             >
-
                             <div class="file-name-cell">
-                                {% if file.is_folder %}
+                                <!-- {% if file.is_folder %}
                                     <span class="file-icon">📁</span>
                                     <a href="/folder/{{ file.full_path }}">
                                         {{ file.name }}
-                                    </a>
-                                
-                                    {% elif file.is_image %}
+                                    </a> -->
+                                {% elif file.is_image %}
                                     <img
                                         src="{{ url_for('view_file', filename=file.full_path) }}"
                                         class="image-thumbnail"
                                     >
-                                    <a href="#" class="open-side-preview">
+                                    <span href="#" class="file-name-text open-side-preview">
                                         {{ file.name }}
-                                    </a>
-
+                                    </span>
                                 {% elif file.is_video %}
-
                                     <div class="video-thumbnail-wrapper">
                                         <video
                                             src="{{ url_for('view_file', filename=file.full_path) }}"
@@ -339,36 +293,28 @@
                                         ></video>
                                         <span class="play-badge">▶</span>
                                     </div>
-
                                     <span class="file-name-text open-side-preview">
                                         {{ file.name }}
                                     </span>
-
                                 {% else %}
                                     <span class="file-icon">{{ file.file_icon }}</span>
-
                                     {% if file.name.lower().endswith('.pdf') %}
-
-                                        <a href="/download/{{ file.full_path }}" target="_blank">
+                                        <a class="file-name-text" href="/download/{{ file.full_path }}" target="_blank">
                                             {{ file.name }}
                                         </a>
-
                                     {% else %}
-
-                                        <a href="/download/{{ file.full_path }}">
+                                        <a class="file-name-text" href="/download/{{ file.full_path }}">
                                             {{ file.name }}
                                         </a>
-
                                     {% endif %}
                                 {% endif %}
                             </div>
 
                             <div class="access-cell">
-
                                 {% if file.visibility == "bin" %}
                                     <span class="access-badge bin">🗑 Bin</span>
                                 {% else %}
-                                    <form action="/toggle-visibility/{{ file.full_path if file.full_path else file.name }}" method="post">
+                                    <form action="/toggle-visibility/{{ file.full_path }}" method="post">
                                         {% if file.visibility == "shared" %}
                                             <button type="submit" class="access-badge shared">
                                                 🌐 Shared
@@ -380,7 +326,6 @@
                                         {% endif %}
                                     </form>
                                 {% endif %}
-
                             </div>
 
                             <div class="owner-cell">
@@ -391,48 +336,38 @@
                             <div class="location-cell">
                                 {{ file.location }}
                             </div>
-
+                            
                             <div class="actions-cell">
                                 <div class="file-actions-menu">
                                     <button class="dots-btn">⋮</button>
-
                                     <div class="dropdown-menu">
-
                                         {% if current_page == "bin" %}
-
                                             <form action="/restore/{{ file.name }}" method="post">
                                                 <button type="submit" class="menu-button">♻ Restore</button>
                                             </form>
-
                                             <form action="/delete-permanently/{{ file.name }}" method="post">
                                                 <button type="submit" class="menu-button delete-link">
                                                     🗑 Delete permanently
                                                 </button>
                                             </form>
-
                                         {% else %}
-
-                                            <a href="/download/{{ file.full_path if file.full_path else file.name }}">⬇ Download</a>
-                                            <a href="#" class="open-rename-modal" data-file="{{ file.full_path if file.full_path else file.name }}" data-name="{{ file.name }}">✏ Rename</a>
-
-                                            <form action="/copy/{{ file.full_path if file.full_path else file.name }}" method="post">
+                                            <a href="/download/{{ file.full_path }}">⬇ Download</a>
+                                            <a href="#" class="open-rename-modal" data-file="{{ file.full_path }}" data-name="{{ file.name }}">✏ Rename</a>
+                                            <form action="/copy/{{ file.full_path }}" method="post">
                                                 <button type="submit" class="menu-button">📄 Make a copy</button>
                                             </form>
-
                                             <a  href="#"
                                                 class="open-move-modal"
-                                                data-file="{{ file.full_path if file.full_path else file.name }}">
+                                                data-file="{{ file.full_path }}">
                                                 📁 Move to directory
                                             </a>
                                             <a href="#" class="open-side-info">ℹ File info</a>
                                             <a  href="#"
                                                 class="delete-link open-delete-modal"
-                                                data-file="{{ file.full_path if file.full_path else file.name }}"
+                                                data-file="{{ file.full_path }}"
                                                 data-name="{{ file.name }}">🗑 Delete
                                             </a>
-
                                         {% endif %}
-
                                     </div>
                                 </div>
                             </div>
@@ -441,35 +376,26 @@
                 {% endfor %}
             </div>
         </section>
-
     </main>
 
     <!-- RIGHT SIDEBAR -->
     <aside class="right-sidebar" id="rightSidebar">
-
         <div class="hive-box">
             <div class="hive-icon">🛶</div>
             <p>The Ship</p>
             <small>The Crane</small>
         </div>
-
         <div class="side-panel-content" id="sidePanelContent">
             <p>Select a file to preview details here.</p>
         </div>
-
-    </aside>
-    
+    </aside>  
 </div>
 
 <div class="profile-modal" id="profileModal">
-
     <input type="hidden" id="openProfileAfterReload" value="{{ open_profile_modal }}">
-
     <div class="profile-modal-content">
-
         <button class="close-modal-btn" id="closeProfileModal">✕</button>
-
-        {% with messages = get_flashed_messages(with_categories=true) %}
+        <!-- {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
                 {% for category, message in messages %}
                     <div class="message-box {{ category }}">
@@ -477,27 +403,22 @@
                     </div>
                 {% endfor %}
             {% endif %}
-        {% endwith %}
-
+        {% endwith %} -->
         <div class="profile-picture">
             <img src="{{ url_for('static', filename='avatars/' + current_avatar) }}">
         </div>
-
         <h2>{{ current_user }}</h2>
+            {% if is_admin %}
+                <h3>Change Nickname</h3>
 
-        {% if is_admin %}
-            <h3>Change Nickname</h3>
-
-            <form action="/set-nickname" method="post">
-                <input type="text" name="nickname" value="{{ current_user }}" required>
-                <button type="submit">Save Nickname</button>
-            </form>
-        {% else %}
-            <p>Guest nicknames are automatic and cannot be changed.</p>
-        {% endif %}
-
+                <form action="/set-nickname" method="post">
+                    <input type="text" name="nickname" value="{{ current_user }}" required>
+                    <button type="submit">Save Nickname</button>
+                </form>
+            {% else %}
+                <p>Guest nicknames are automatic and cannot be changed.</p>
+            {% endif %}
         <h3>Choose Avatar</h3>
-
         <form action="/set-avatar" method="post" class="avatar-form">
             {% for avatar in avatars %}
                 <button 
@@ -510,11 +431,8 @@
                 </button>
             {% endfor %}
         </form>
-
         <hr>
-
-        <h3>Appearance</h3>
-
+        <h3>Theme</h3>
         <form action="/set-theme" method="post" class="theme-form">
             <label>
                 <input
@@ -525,7 +443,6 @@
                 >
                 Light mode
             </label>
-
             <label>
                 <input
                     type="radio"
@@ -535,25 +452,18 @@
                 >
                 Dark mode
             </label>
-
             <button type="submit">Save Theme</button>
         </form>
-
         <br>
-
         <a href="/logout" class="delete-link">Logout</a>
-
     </div>
-
 </div>
 
 <div class="rename-modal" id="renameModal">
     <div class="rename-modal-content">
         <h2>Rename</h2>
-
         <form id="renameForm" method="post">
             <input type="text" name="new_name" id="renameInput" required>
-
             <div class="modal-actions">
                 <button type="button" id="cancelRenameButton">Cancel</button>
                 <button type="submit">Rename</button>
@@ -564,54 +474,38 @@
 
 <div class="delete-modal" id="deleteModal">
     <div class="delete-modal-content">
-
         <h2>Move to Bin?</h2>
-
         <p id="deleteModalText"></p>
-
         <form id="deleteForm" method="post">
-
             <div class="modal-actions">
                 <button type="button" id="cancelDeleteButton">
                     Cancel
                 </button>
-
                 <button type="submit" class="delete-confirm-button">
                     Move to Bin
                 </button>
             </div>
-
         </form>
-
     </div>
 </div>
 
 <div class="move-modal" id="moveModal">
     <div class="move-modal-content">
-
-        <h2>Move item(s)</h2>
-
+       <h2>Move item(s)</h2>
         <form id="moveForm" action="/bulk-move" method="post">
-
             <input type="hidden" name="return_to" value="{{ request.path }}">
-
             <label>Select destination folder:</label>
-
             <select name="destination">
                 <option value="">Home / Root</option>
-
                 {% for folder in folders %}
                     <option value="{{ folder }}">{{ folder }}</option>
                 {% endfor %}
             </select>
-
             <div class="modal-actions">
                 <button type="button" id="cancelMoveButton">Cancel</button>
                 <button type="submit">Move</button>
             </div>
-
         </form>
-
     </div>
 </div>
 
@@ -630,12 +524,10 @@
 </div>
 
 <div id="contextMenu" class="context-menu">
-
     <button id="contextPreview">Preview</button>
     <button id="contextDownload">Download</button>
     <button id="contextRename">Rename</button>
     <button id="contextDelete">Move to Bin</button>
-
 </div>
 
 <script src="{{ url_for('static', filename='script.js') }}"></script>

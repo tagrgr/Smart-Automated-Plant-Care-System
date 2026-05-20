@@ -764,19 +764,6 @@ def open_folder(folder_name):
         full_relative_path = os.path.join(folder_name, filename)
         metadata = get_file_metadata(full_relative_path)
 
-        # files.append({
-        #     "name": filename,
-        #     "full_path": full_relative_path,
-        #     "owner": metadata["owner"],
-        #     "visibility": metadata["visibility"],
-        #     "location": folder_name,
-        #     "is_folder": is_folder(full_relative_path),
-        #     "is_image": is_image_file(filename),
-        #     "is_video": is_video_file(filename),
-        #     "file_icon": get_file_icon(filename),
-        #     "modified_time": os.path.getmtime(get_file_path(full_relative_path)),
-        #     "item_count": get_folder_item_count(full_relative_path) if is_folder(full_relative_path) else 0,
-        # })
         files.append(
             build_file_item(
                 filename,
@@ -990,7 +977,6 @@ def move_storage_item(filename, destination):
         new_location = destination
 
     destination_path = get_file_path(new_relative_path)
-
     counter = 1
     name, extension = os.path.splitext(base_name)
 
@@ -1049,59 +1035,6 @@ def drag_move():
     success = move_storage_item(filename, destination)
 
     return {"success": success}
-# @app.route("/bulk-move", methods=["POST"])
-# def bulk_move():
-#     if not has_access():
-#         return redirect("/login")
-
-#     selected_files = request.form.getlist("selected_files")
-#     destination = request.form.get("destination")
-#     return_to = request.form.get("return_to", "/")
-
-#     if not selected_files:
-#         flash("No files selected", "error")
-#         return redirect(return_to)
-
-#     moved_count = 0
-#     metadata = load_metadata()
-
-#     for filename in selected_files:
-#         source_path = get_file_path(filename)
-
-#         if not os.path.exists(source_path):
-#             continue
-
-#         base_name = os.path.basename(filename)
-
-#         if destination == "":
-#             new_relative_path = base_name
-#             new_location = "/"
-#         else:
-#             new_relative_path = os.path.join(destination, base_name)
-#             new_location = destination
-
-#         destination_path = get_file_path(new_relative_path)
-#         counter = 1
-#         name, extension = os.path.splitext(base_name)
-
-#         while os.path.exists(destination_path):
-#             new_name = f"{name}_moved_{counter}{extension}"
-#             new_relative_path = os.path.join(destination, new_name) if destination else new_name
-#             destination_path = get_file_path(new_relative_path)
-#             counter += 1
-
-#         shutil.move(source_path, destination_path)
-
-#         if filename in metadata:
-#             metadata[new_relative_path] = metadata.pop(filename)
-#             metadata[new_relative_path]["location"] = new_location
-
-#         moved_count += 1
-
-#     save_metadata(metadata)
-
-#     flash(f"{moved_count} item(s) moved successfully", "success")
-#     return redirect(return_to)
 
 
 @app.route("/set-theme", methods=["POST"])
