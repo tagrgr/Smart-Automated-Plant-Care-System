@@ -441,7 +441,7 @@ def upload_file():
         add_file_metadata(relative_path, get_current_user(), visibility)
         uploaded_count += 1
 
-    flash(f"{uploaded_count} file(s) uploaded as {visibility}", "success")
+    # flash(f"{uploaded_count} file(s) uploaded as {visibility}", "success")
     return redirect_back()
 
 
@@ -495,7 +495,7 @@ def delete_file(filename):
             metadata.pop(filename)
             save_metadata(metadata)
 
-        flash(f"'{base_name}' moved to Bin", "success")
+        flash(f"'{base_name}' deleted", "success")
     else:
         flash("File not found", "error")
 
@@ -556,7 +556,7 @@ def copy_file(filename):
         metadata["visibility"]
     )
 
-    flash(f"File copied as '{copied_filename}'", "success")
+    # flash(f"File copied as '{copied_filename}'", "success")
 
     return redirect_back()
 
@@ -580,10 +580,10 @@ def toggle_visibility(filename):
 
     if current_visibility == "private":
         metadata[filename]["visibility"] = "shared"
-        flash(f"'{os.path.basename(filename)}' is now shared", "success")
+        # flash(f"'{os.path.basename(filename)}' is now shared", "success")
     else:
         metadata[filename]["visibility"] = "private"
-        flash(f"'{os.path.basename(filename)}' is now private", "success")
+        # flash(f"'{os.path.basename(filename)}' is now private", "success")
 
     save_metadata(metadata)
 
@@ -675,7 +675,7 @@ def restore_file(filename):
     restored_filename = os.path.basename(restore_path)
     add_file_metadata(restored_filename, get_current_user(), "private")
 
-    flash(f"File '{restored_filename}' restored successfully", "success")
+    # flash(f"File '{restored_filename}' restored successfully", "success")
     return redirect("/bin")
 
 
@@ -703,7 +703,7 @@ def delete_permanently(filename):
         bin_metadata.pop(filename)
         save_bin_metadata(bin_metadata)
 
-    flash(f"'{os.path.basename(filename)}' permanently deleted", "success")
+    # flash(f"'{os.path.basename(filename)}' permanently deleted", "success")
 
     return redirect("/bin")
 
@@ -730,7 +730,7 @@ def create_new_folder():
     os.makedirs(folder_path)
     add_file_metadata(relative_path, get_current_user(), "private")
 
-    flash(f"Folder '{folder_name}' created successfully", "success")
+    # flash(f"Folder '{folder_name}' created successfully", "success")
 
     return redirect_back()
 
@@ -762,7 +762,7 @@ def open_folder(folder_name):
 
     for filename in get_visible_files(folder_path):
         full_relative_path = os.path.join(folder_name, filename)
-        metadata = get_file_metadata(full_relative_path)
+        # metadata = get_file_metadata(full_relative_path)
 
         files.append(
             build_file_item(
@@ -836,7 +836,7 @@ def bulk_move_to_bin():
     save_metadata(metadata)
     save_bin_metadata(bin_metadata)
 
-    flash(f"{moved_count} item(s) moved to Bin", "success")
+    flash(f"{moved_count} item(s) deleted")
     return redirect_back()
 
 
@@ -888,7 +888,7 @@ def bulk_copy_files():
 
         copied_count += 1
 
-    flash(f"{copied_count} file(s) copied successfully", "success")
+    # flash(f"{copied_count} file(s) copied successfully", "success")
     return redirect_back()
 
 
@@ -917,7 +917,7 @@ def bulk_toggle_visibility():
 
     save_metadata(metadata)
 
-    flash(f"Visibility changed for {changed_count} item(s)", "success")
+    # flash(f"Visibility changed for {changed_count} item(s)", "success")
     return redirect_back()
 
 
@@ -953,7 +953,7 @@ def rename_file(filename):
         metadata[new_relative_path]["location"] = folder if folder else "/"
 
     save_metadata(metadata)
-    flash(f"Renamed to '{new_name}'", "success")
+    # flash(f"Renamed to '{new_name}'", "success")
 
     if folder:
         return redirect(f"/folder/{folder}")
@@ -1017,7 +1017,7 @@ def bulk_move():
         if move_storage_item(filename, destination):
             moved_count += 1
 
-    flash(f"{moved_count} item(s) moved successfully", "success")
+    # flash(f"{moved_count} item(s) moved successfully", "success")
     return redirect(return_to)
 
 
@@ -1059,7 +1059,7 @@ def set_avatar():
 
     if selected_avatar in allowed_avatars:
         session["avatar"] = selected_avatar
-        flash("Avatar updated successfully", "success")
+        # flash("Avatar updated successfully", "success")
 
     return redirect((request.referrer or "/") + "?profile=open")
 
@@ -1082,7 +1082,7 @@ def set_nickname():
     user_ip = request.remote_addr
     ADMIN_DEVICES[user_ip] = new_nickname
 
-    flash("Nickname updated successfully", "success")
+    # flash("Nickname updated successfully", "success")
     return redirect((request.referrer or "/") + "?profile=open")
 
 
@@ -1092,9 +1092,9 @@ def logout():
     return redirect("/login")
 
 
-@app.route("/my-ip")
-def my_ip():
-    return f"Your IP is: {request.remote_addr}"
+# @app.route("/my-ip")
+# def my_ip():
+#     return f"Your IP is: {request.remote_addr}"
 
 
 cleanup_old_bin_files()

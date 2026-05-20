@@ -1,13 +1,71 @@
+// DOM ELEMENTS
 const checkboxes = document.querySelectorAll(".file-checkbox");
-
 const toolbar = document.getElementById("selectionToolbar");
 const selectedCount = document.getElementById("selectedCount");
-
 const downloadButton = document.getElementById("downloadButton");
 const moveButton = document.getElementById("moveButton");
 const infoButton = document.getElementById("infoButton");
 const renameButton = document.getElementById("renameButton");
 
+const searchInput = document.getElementById("searchInput");
+const fileRows = document.querySelectorAll(".file-row");
+const folderCards = document.querySelectorAll(".folder-card-wrapper");
+
+const storageUsed = document.querySelector(".storage-used");
+
+const profileModal = document.getElementById("profileModal");
+const openProfileModal = document.getElementById("openProfileModal");
+const closeProfileModal = document.getElementById("closeProfileModal");
+
+const openProfileAfterReload = document.getElementById("openProfileAfterReload");
+
+const sortSelect = document.getElementById("sortSelect");
+
+const uploadDropZone = document.getElementById("uploadDropZone");
+const uploadInput = document.querySelector('input[type="file"]');
+
+const hiddenUploadInput = document.getElementById("hiddenUploadInput");
+
+const chooseFilesButton = document.getElementById("chooseFilesButton");
+
+const uploadOverlay = document.getElementById("uploadOverlay");
+
+const downloadOverlay = document.getElementById("downloadOverlay");
+
+const rightSidebar = document.getElementById("rightSidebar");
+const sidePanelContent = document.getElementById("sidePanelContent");
+const appLayout = document.querySelector(".app-layout");
+
+const renameModal = document.getElementById("renameModal");
+const renameForm = document.getElementById("renameForm");
+const renameInput = document.getElementById("renameInput");
+const cancelRenameButton = document.getElementById("cancelRenameButton");
+
+const deleteModal = document.getElementById("deleteModal");
+const deleteForm = document.getElementById("deleteForm");
+const deleteModalText = document.getElementById("deleteModalText");
+const cancelDeleteButton = document.getElementById("cancelDeleteButton");
+const bulkDeleteButton = document.getElementById("bulkDeleteButton");
+
+const moveModal = document.getElementById("moveModal");
+const moveForm = document.getElementById("moveForm");
+const cancelMoveButton = document.getElementById("cancelMoveButton");
+
+const contextMenu = document.getElementById("contextMenu");
+const contextPreview = document.getElementById("contextPreview");
+const contextDownload = document.getElementById("contextDownload");
+const contextRename = document.getElementById("contextRename");
+const contextDelete = document.getElementById("contextDelete");
+
+// GLOBAL STATE
+let lastSelectedIndex = null;
+const fileRowList = Array.from(
+    document.querySelectorAll(".file-row")
+);
+let draggedFilePaths = [];
+let contextTargetRow = null;
+
+// GENERAL HELPERS
 function updateSelectionToolbar() {
     const selected = document.querySelectorAll(".file-checkbox:checked");
     const count = selected.length;
@@ -16,16 +74,13 @@ function updateSelectionToolbar() {
 
     if (count > 0) {
         toolbar.classList.add("active");
-
         downloadButton.disabled = false;
         moveButton.disabled = false;
     } else {
         toolbar.classList.remove("active");
-
         downloadButton.disabled = true;
         moveButton.disabled = true;
     }
-
     if (count === 1) {
         infoButton.disabled = false;
         renameButton.disabled = false;
@@ -35,306 +90,35 @@ function updateSelectionToolbar() {
     }
 }
 
-checkboxes.forEach(function(checkbox) {
-    checkbox.addEventListener("change", updateSelectionToolbar);
-});
-
-infoButton.addEventListener("click", function () {
-
-    const selected = document.querySelector(".file-checkbox:checked");
-
-    if (!selected) {
-        return;
-    }
-
-    const row = selected.closest(".file-row");
-
-    if (row) {
-        openSidePanel(row, "info");
-    }
-});
-
-renameButton.addEventListener("click", function () {
-    const selected = document.querySelector(".file-checkbox:checked");
-
-    if (!selected) {
-        return;
-    }
-
-    const row = selected.closest(".file-row");
-
-    if (row) {
-        const filePath = selected.value;
-        const fileName = row.dataset.displayname;
-
-        renameForm.action = "/rename/" + filePath;
-        renameInput.value = fileName;
-
-        renameModal.classList.add("active");
-        renameInput.focus();
-    }
-});
-
-downloadButton.addEventListener("click", function () {
-
-    showDownloadOverlay();
-
-    const selected = document.querySelectorAll(".file-checkbox:checked");
-
-    if (selected.length > 30) {
-        alert("You can download a maximum of 30 files at a time.");
-        return;
-    }
-
-    selected.forEach(function (checkbox) {
-        const filename = checkbox.value;
-
-        const downloadLink = document.createElement("a");
-        downloadLink.href = "/download/" + filename;
-        downloadLink.download = "";
-
-        document.body.appendChild(downloadLink);
-
-        downloadLink.click();
-
-        document.body.removeChild(downloadLink);
-    });
-
-    setTimeout(function () {
-        downloadOverlay.classList.remove("active");
-    }, 1200);
-
-});
-
-moveButton.addEventListener("click", function () {
-
-    const selected = document.querySelectorAll(".file-checkbox:checked");
-
-    if (selected.length === 0) {
-        return;
-    }
-
-    moveModal.classList.add("active");
-
-});
-
-const searchInput = document.getElementById("searchInput");
-const fileRows = document.querySelectorAll(".file-row");
-const folderCards = document.querySelectorAll(".folder-card-wrapper");
-
-if (searchInput) {
-    searchInput.addEventListener("input", function () {
-        const searchText = searchInput.value.toLowerCase();
-
-        fileRows.forEach(function (row) {
-            const filename = row.dataset.name;
-
-            row.style.display = filename.includes(searchText) ? "grid" : "none";
-        });
-
-        folderCards.forEach(function (card) {
-            const foldername = card.dataset.foldername;
-
-            card.style.display = foldername.includes(searchText) ? "block" : "none";
-        });
-    });
-}
-
-const storageUsed = document.querySelector(".storage-used");
-
-if (storageUsed) {
-    storageUsed.style.width = storageUsed.dataset.storage + "%";
-}
-
-const profileModal = document.getElementById("profileModal");
-const openProfileModal = document.getElementById("openProfileModal");
-const closeProfileModal = document.getElementById("closeProfileModal");
-
-if (openProfileModal && profileModal) {
-
-    openProfileModal.addEventListener("click", function () {
-        profileModal.classList.add("active");
-    });
-
-}
-
-if (closeProfileModal && profileModal) {
-
-    closeProfileModal.addEventListener("click", function () {
-        profileModal.classList.remove("active");
-    });
-
-}
-
-window.addEventListener("click", function (event) {
-
-    if (event.target === profileModal) {
-        profileModal.classList.remove("active");
-    }
-
-});
-
-const openProfileAfterReload = document.getElementById("openProfileAfterReload");
-
-if (openProfileAfterReload && openProfileAfterReload.value === "True") {
-    profileModal.classList.add("active");
-}
-
-document.addEventListener("keydown", function (event) {
-    if (event.key === "Escape" && profileModal) {
-        profileModal.classList.remove("active");
-    }
-});
-
-const sortSelect = document.getElementById("sortSelect");
-
 function sortItems(items, selectedSort) {
     items.sort(function (a, b) {
         if (selectedSort === "newest") {
             return Number(b.dataset.modified) - Number(a.dataset.modified);
         }
-
         if (selectedSort === "oldest") {
             return Number(a.dataset.modified) - Number(b.dataset.modified);
         }
-
         if (selectedSort === "name-asc") {
             return a.dataset.name.localeCompare(b.dataset.name);
         }
-
         if (selectedSort === "name-desc") {
             return b.dataset.name.localeCompare(a.dataset.name);
         }
-
         if (selectedSort === "owner") {
             return a.dataset.owner.localeCompare(b.dataset.owner);
         }
-
         if (selectedSort === "modified") {
             return Number(b.dataset.modified) - Number(a.dataset.modified);
         }
-
         if (selectedSort === "type") {
             return a.dataset.extension.localeCompare(b.dataset.extension);
         }
-
         if (selectedSort === "size") {
             return Number(b.dataset.size) - Number(a.dataset.size);
         }
-
         return 0;
     });
 }
-
-if (sortSelect) {
-    sortSelect.addEventListener("change", function () {
-        localStorage.setItem("selectedSort", sortSelect.value);
-
-        const selectedSort = sortSelect.value;
-
-        const fileList = document.querySelector(".file-list");
-        const folderGrid = document.querySelector(".folder-card-grid");
-
-        const fileRows = Array.from(document.querySelectorAll(".file-row"));
-        const folderCards = Array.from(document.querySelectorAll(".folder-card-wrapper"));
-
-        sortItems(fileRows, selectedSort);
-        sortItems(folderCards, selectedSort);
-
-        fileRows.forEach(function (row) {
-            fileList.appendChild(row);
-        });
-
-        folderCards.forEach(function (folder) {
-            folderGrid.appendChild(folder);
-        });
-    });
-
-    const savedSort = localStorage.getItem("selectedSort");
-
-    if (savedSort) {
-        sortSelect.value = savedSort;
-        sortSelect.dispatchEvent(new Event("change"));
-    }
-}
-
-const uploadDropZone = document.getElementById("uploadDropZone");
-const uploadInput = document.querySelector('input[type="file"]');
-
-if (uploadDropZone && uploadInput) {
-
-    uploadDropZone.addEventListener("dragover", function (event) {
-        event.preventDefault();
-        uploadDropZone.classList.add("dragover");
-    });
-
-    uploadDropZone.addEventListener("dragleave", function () {
-        uploadDropZone.classList.remove("dragover");
-    });
-
-    uploadDropZone.addEventListener("drop", function (event) {
-        event.preventDefault();
-
-        uploadDropZone.classList.remove("dragover");
-
-        const droppedFiles = event.dataTransfer.files;
-
-        if (droppedFiles.length > 30) {
-            alert("You can upload a maximum of 30 files at a time.");
-            return;
-        }
-
-        uploadInput.files = droppedFiles;
-
-        const uploadForm = uploadInput.closest("form");
-        showUploadOverlay();
-        uploadForm.submit();
-    });
-
-}
-
-const hiddenUploadInput = document.getElementById("hiddenUploadInput");
-
-if (uploadDropZone && hiddenUploadInput) {
-
-    uploadDropZone.addEventListener("click", function (event) {
-
-        if (
-            event.target.tagName !== "BUTTON" &&
-            event.target.tagName !== "INPUT" &&
-            event.target.tagName !== "LABEL"
-        ) {
-            hiddenUploadInput.click();
-        }
-
-    });
-
-}
-
-if (hiddenUploadInput) {
-    hiddenUploadInput.addEventListener("change", function () {
-        if (hiddenUploadInput.files.length > 30) {
-            alert("You can upload a maximum of 30 files at a time.");
-            return;
-        }
-
-        if (hiddenUploadInput.files.length > 0) {
-            const uploadForm = hiddenUploadInput.closest("form");
-            showUploadOverlay();
-            uploadForm.submit();
-        }
-    });
-}
-
-const chooseFilesButton = document.getElementById("chooseFilesButton");
-
-if (chooseFilesButton && hiddenUploadInput) {
-    chooseFilesButton.addEventListener("click", function () {
-        hiddenUploadInput.click();
-    });
-}
-
-const uploadOverlay = document.getElementById("uploadOverlay");
 
 function showUploadOverlay() {
     if (uploadOverlay) {
@@ -342,17 +126,11 @@ function showUploadOverlay() {
     }
 }
 
-const downloadOverlay = document.getElementById("downloadOverlay");
-
 function showDownloadOverlay() {
     if (downloadOverlay) {
         downloadOverlay.classList.add("active");
     }
 }
-
-const rightSidebar = document.getElementById("rightSidebar");
-const sidePanelContent = document.getElementById("sidePanelContent");
-const appLayout = document.querySelector(".app-layout");
 
 function openSidePanel(row, mode) {
     if (!rightSidebar || !sidePanelContent) {
@@ -446,11 +224,223 @@ function openSidePanel(row, mode) {
     });
 }
 
-let lastSelectedIndex = null;
-const fileRowList = Array.from(
-    document.querySelectorAll(".file-row")
-);
+// SELECTION TOOLBAR
+checkboxes.forEach(function(checkbox) {
+    checkbox.addEventListener("change", updateSelectionToolbar);
+});
 
+infoButton.addEventListener("click", function () {
+    const selected = document.querySelector(".file-checkbox:checked");
+
+    if (!selected) {
+        return;
+    }
+
+    const row = selected.closest(".file-row");
+
+    if (row) {
+        openSidePanel(row, "info");
+    }
+});
+
+renameButton.addEventListener("click", function () {
+    const selected = document.querySelector(".file-checkbox:checked");
+
+    if (!selected) {
+        return;
+    }
+
+    const row = selected.closest(".file-row");
+
+    if (row) {
+        const filePath = selected.value;
+        const fileName = row.dataset.displayname;
+        renameForm.action = "/rename/" + filePath;
+        renameInput.value = fileName;
+        renameModal.classList.add("active");
+        renameInput.focus();
+    }
+});
+
+downloadButton.addEventListener("click", function () {
+    showDownloadOverlay();
+
+    const selected = document.querySelectorAll(".file-checkbox:checked");
+
+    if (selected.length > 30) {
+        alert("You can download a maximum of 30 files at a time.");
+        return;
+    }
+
+    selected.forEach(function (checkbox) {
+        const filename = checkbox.value;
+        const downloadLink = document.createElement("a");
+        downloadLink.href = "/download/" + filename;
+        downloadLink.download = "";
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
+    });
+
+    setTimeout(function () {
+        downloadOverlay.classList.remove("active");
+    }, 1200);
+});
+
+moveButton.addEventListener("click", function () {
+
+    const selected = document.querySelectorAll(".file-checkbox:checked");
+
+    if (selected.length === 0) {
+        return;
+    }
+    moveModal.classList.add("active");
+});
+
+// SEARCH
+if (searchInput) {
+    searchInput.addEventListener("input", function () {
+        const searchText = searchInput.value.toLowerCase();
+
+        fileRows.forEach(function (row) {
+            const filename = row.dataset.name;
+            row.style.display = filename.includes(searchText) ? "grid" : "none";
+        });
+
+        folderCards.forEach(function (card) {
+            const foldername = card.dataset.foldername;
+            card.style.display = foldername.includes(searchText) ? "block" : "none";
+        });
+    });
+}
+
+// STORAGE BAR
+if (storageUsed) {
+    storageUsed.style.width = storageUsed.dataset.storage + "%";
+}
+
+// SORTING
+if (sortSelect) {
+    sortSelect.addEventListener("change", function () {
+        localStorage.setItem("selectedSort", sortSelect.value);
+
+        const selectedSort = sortSelect.value;
+        const fileList = document.querySelector(".file-list");
+        const folderGrid = document.querySelector(".folder-card-grid");
+        const fileRows = Array.from(document.querySelectorAll(".file-row"));
+        const folderCards = Array.from(document.querySelectorAll(".folder-card-wrapper"));
+
+        sortItems(fileRows, selectedSort);
+        sortItems(folderCards, selectedSort);
+
+        fileRows.forEach(function (row) {
+            fileList.appendChild(row);
+        });
+
+        folderCards.forEach(function (folder) {
+            folderGrid.appendChild(folder);
+        });
+    });
+
+    const savedSort = localStorage.getItem("selectedSort");
+
+    if (savedSort) {
+        sortSelect.value = savedSort;
+        sortSelect.dispatchEvent(new Event("change"));
+    }
+}
+
+// UPLOAD
+if (uploadDropZone && uploadInput) {
+    uploadDropZone.addEventListener("dragover", function (event) {
+        event.preventDefault();
+        uploadDropZone.classList.add("dragover");
+    });
+
+    uploadDropZone.addEventListener("dragleave", function () {
+        uploadDropZone.classList.remove("dragover");
+    });
+
+    uploadDropZone.addEventListener("drop", function (event) {
+        event.preventDefault();
+        uploadDropZone.classList.remove("dragover");
+
+        const droppedFiles = event.dataTransfer.files;
+
+        if (droppedFiles.length > 30) {
+            alert("You can upload a maximum of 30 files at a time.");
+            return;
+        }
+
+        uploadInput.files = droppedFiles;
+        const uploadForm = uploadInput.closest("form");
+        showUploadOverlay();
+        uploadForm.submit();
+    });
+} 
+
+if (uploadDropZone && hiddenUploadInput) {
+    uploadDropZone.addEventListener("click", function (event) {
+        if (
+            event.target.tagName !== "BUTTON" &&
+            event.target.tagName !== "INPUT" &&
+            event.target.tagName !== "LABEL"
+        ) {
+            hiddenUploadInput.click();
+        }
+    });
+} 
+
+if (hiddenUploadInput) {
+    hiddenUploadInput.addEventListener("change", function () {
+        if (hiddenUploadInput.files.length > 30) {
+            alert("You can upload a maximum of 30 files at a time.");
+            return;
+        }
+        if (hiddenUploadInput.files.length > 0) {
+            const uploadForm = hiddenUploadInput.closest("form");
+            showUploadOverlay();
+            uploadForm.submit();
+        }
+    });
+}
+
+if (chooseFilesButton && hiddenUploadInput) {
+    chooseFilesButton.addEventListener("click", function () {
+        hiddenUploadInput.click();
+    });
+}
+
+// PROFILE MODAL
+if (openProfileModal && profileModal) {
+    openProfileModal.addEventListener("click", function () {
+        profileModal.classList.add("active");
+    });
+}
+
+if (closeProfileModal && profileModal) {
+    closeProfileModal.addEventListener("click", function () {
+        profileModal.classList.remove("active");
+    });
+}
+
+window.addEventListener("click", function (event) {
+    if (event.target === profileModal) {
+        profileModal.classList.remove("active");
+    }
+});
+
+if (openProfileAfterReload && openProfileAfterReload.value === "True") {
+    profileModal.classList.add("active");
+}
+
+document.addEventListener("keydown", function (event) {
+    if (event.key === "Escape" && profileModal) {
+        profileModal.classList.remove("active");
+    }
+});
+
+// FILE SELECTION
 fileRowList.forEach(function (row, index) {
     row.addEventListener("click", function (event) {
         const checkbox = row.querySelector(".file-checkbox");
@@ -462,13 +452,11 @@ fileRowList.forEach(function (row, index) {
         ) {
             return;
         }
-
         if (event.target.tagName === "INPUT") {
             lastSelectedIndex = index;
             updateSelectionToolbar();
             return;
         }
-
         if (event.shiftKey && lastSelectedIndex !== null) {
             const start = Math.min(lastSelectedIndex, index);
             const end = Math.max(lastSelectedIndex, index);
@@ -477,18 +465,15 @@ fileRowList.forEach(function (row, index) {
                 const itemCheckbox = item.querySelector(".file-checkbox");
                 itemCheckbox.checked = itemIndex >= start && itemIndex <= end;
             });
-
             updateSelectionToolbar();
             return;
         }
-
         if (event.ctrlKey || event.metaKey) {
             checkbox.checked = !checkbox.checked;
             lastSelectedIndex = index;
             updateSelectionToolbar();
             return;
         }
-
         document.querySelectorAll(".file-checkbox").forEach(function (box) {
             box.checked = false;
         });
@@ -496,7 +481,6 @@ fileRowList.forEach(function (row, index) {
         checkbox.checked = true;
         lastSelectedIndex = index;
         updateSelectionToolbar();
-
         openSidePanel(row, "preview");
     });
 });
@@ -510,14 +494,13 @@ document.addEventListener("click", function (event) {
     ) {
         return;
     }
-
     document.querySelectorAll(".file-checkbox").forEach(function (box) {
         box.checked = false;
     });
-
     updateSelectionToolbar();
 });
 
+// SIDE PANEL ACTIONS
 document.querySelectorAll(".open-side-preview").forEach(function (link) {
     link.addEventListener("click", function (event) {
         event.preventDefault();
@@ -542,11 +525,7 @@ document.querySelectorAll(".open-side-info").forEach(function (link) {
     });
 });
 
-const renameModal = document.getElementById("renameModal");
-const renameForm = document.getElementById("renameForm");
-const renameInput = document.getElementById("renameInput");
-const cancelRenameButton = document.getElementById("cancelRenameButton");
-
+// RENAME MODAL
 document.querySelectorAll(".open-rename-modal").forEach(function (link) {
     link.addEventListener("click", function (event) {
         event.preventDefault();
@@ -556,7 +535,6 @@ document.querySelectorAll(".open-rename-modal").forEach(function (link) {
 
         renameForm.action = "/rename/" + filePath;
         renameInput.value = fileName;
-
         renameModal.classList.add("active");
         renameInput.focus();
     });
@@ -574,51 +552,35 @@ window.addEventListener("click", function (event) {
     }
 });
 
-const deleteModal = document.getElementById("deleteModal");
-const deleteForm = document.getElementById("deleteForm");
-const deleteModalText = document.getElementById("deleteModalText");
-const cancelDeleteButton = document.getElementById("cancelDeleteButton");
-
+// DELETE MODAL
 document.querySelectorAll(".open-delete-modal").forEach(function (link) {
-
     link.addEventListener("click", function (event) {
-
         event.preventDefault();
 
         const filePath = link.dataset.file;
         const fileName = link.dataset.name;
 
         deleteForm.action = "/delete/" + filePath;
-
         deleteModalText.textContent =
             `Are you sure you want to move "${fileName}" to the Bin?`;
-
         deleteModal.classList.add("active");
     });
-
 });
 
 if (cancelDeleteButton) {
-
     cancelDeleteButton.addEventListener("click", function () {
         deleteModal.classList.remove("active");
     });
-
 }
 
 window.addEventListener("click", function (event) {
-
     if (event.target === deleteModal) {
         deleteModal.classList.remove("active");
     }
-
 });
-
-const bulkDeleteButton = document.getElementById("bulkDeleteButton");
 
 if (bulkDeleteButton) {
     bulkDeleteButton.addEventListener("click", function () {
-
         deleteForm.querySelectorAll('input[name="selected_files"]').forEach(function (input) {
             input.remove();
         });
@@ -628,11 +590,9 @@ if (bulkDeleteButton) {
         if (selected.length === 0) {
             return;
         }
-
         deleteForm.action = "/bulk-bin";
         deleteModalText.textContent =
             `Are you sure you want to move ${selected.length} item(s) to the Bin?`;
-
         selected.forEach(function (checkbox) {
             const input = document.createElement("input");
             input.type = "hidden";
@@ -640,17 +600,12 @@ if (bulkDeleteButton) {
             input.value = checkbox.value;
             deleteForm.appendChild(input);
         });
-
         deleteModal.classList.add("active");
     });
 }
 
-const moveModal = document.getElementById("moveModal");
-const moveForm = document.getElementById("moveForm");
-const cancelMoveButton = document.getElementById("cancelMoveButton");
-
+// MOVE MODAL
 moveButton.addEventListener("click", function () {
-
     moveForm.querySelectorAll('input[name="selected_files"]').forEach(function (input) {
         input.remove();
     });
@@ -662,41 +617,29 @@ moveButton.addEventListener("click", function () {
     }
 
     selected.forEach(function (checkbox) {
-
         const input = document.createElement("input");
-
         input.type = "hidden";
         input.name = "selected_files";
         input.value = checkbox.value;
-
         moveForm.appendChild(input);
-
     });
-
     moveModal.classList.add("active");
-
 });
 
 if (cancelMoveButton) {
-
     cancelMoveButton.addEventListener("click", function () {
         moveModal.classList.remove("active");
     });
-
 }
 
 window.addEventListener("click", function (event) {
-
     if (event.target === moveModal) {
         moveModal.classList.remove("active");
     }
-
 });
 
 document.querySelectorAll(".open-move-modal").forEach(function (link) {
-
     link.addEventListener("click", function (event) {
-
         event.preventDefault();
 
         moveForm.querySelectorAll('input[name="selected_files"]').forEach(function (input) {
@@ -708,15 +651,12 @@ document.querySelectorAll(".open-move-modal").forEach(function (link) {
         input.type = "hidden";
         input.name = "selected_files";
         input.value = link.dataset.file;
-
         moveForm.appendChild(input);
-
         moveModal.classList.add("active");
-
     });
-
 });
 
+// FOLDER ACTIONS
 document.querySelectorAll(".open-folder-info").forEach(function (link) {
     link.addEventListener("click", function (event) {
         event.preventDefault();
@@ -742,7 +682,6 @@ document.querySelectorAll(".open-folder-info").forEach(function (link) {
                 <p><strong>Items:</strong> ${link.dataset.count}</p>
             </div>
         `;
-
         document.getElementById("closeSidePanel").addEventListener("click", function () {
             rightSidebar.classList.remove("info-mode", "preview-mode");
             appLayout.classList.remove("sidebar-info-open", "sidebar-preview-open");
@@ -751,10 +690,21 @@ document.querySelectorAll(".open-folder-info").forEach(function (link) {
     });
 });
 
-let draggedFilePaths = [];
+document.querySelectorAll(".folder-card-wrapper").forEach(function (folder) {
+    folder.addEventListener("dblclick", function () {
 
+        const folderPath = folder.dataset.folderpath;
+
+        if (!folderPath) {
+            return;
+        }
+
+        window.location.href = "/folder/" + encodeURIComponent(folderPath);
+    });
+});
+
+// DRAG AND DROP
 document.querySelectorAll(".file-row").forEach(function (row) {
-
     row.addEventListener("dragstart", function () {
         const rowCheckbox = row.querySelector(".file-checkbox");
 
@@ -768,11 +718,9 @@ document.querySelectorAll(".file-row").forEach(function (row) {
             draggedFilePaths = [row.dataset.fullpath];
         }
     });
-
 });
 
 document.querySelectorAll(".folder-card-wrapper").forEach(function (folder) {
-
     folder.addEventListener("dragenter", function () {
         folder.classList.add("drag-over");
     });
@@ -787,7 +735,6 @@ document.querySelectorAll(".folder-card-wrapper").forEach(function (folder) {
 
     folder.addEventListener("drop", function (event) {
         event.preventDefault();
-
         folder.classList.remove("drag-over");
 
         const destination = folder.dataset.folderpath;
@@ -815,16 +762,11 @@ document.querySelectorAll(".folder-card-wrapper").forEach(function (folder) {
             });
 
             draggedFilePaths = [];
-
             lastSelectedIndex = null;
-
             updateSelectionToolbar();
-
             window.location.reload();
-
         });
     });
-
 });
 
 // document.querySelectorAll(".folder-card-wrapper").forEach(function (folder) {
@@ -861,40 +803,16 @@ document.querySelectorAll(".folder-card-wrapper").forEach(function (folder) {
 
 // });
 
-document.querySelectorAll(".folder-card-wrapper").forEach(function (folder) {
 
-    folder.addEventListener("dblclick", function () {
-
-        const folderPath = folder.dataset.folderpath;
-
-        if (!folderPath) {
-            return;
-        }
-
-        window.location.href = "/folder/" + encodeURIComponent(folderPath);
-
-    });
-
-});
-
+// CONTEXT MENU
 document.addEventListener("contextmenu", function (event) {
     event.preventDefault();
 });
 
-const contextMenu = document.getElementById("contextMenu");
-const contextPreview = document.getElementById("contextPreview");
-const contextDownload = document.getElementById("contextDownload");
-const contextRename = document.getElementById("contextRename");
-const contextDelete = document.getElementById("contextDelete");
-
-let contextTargetRow = null;
-
 document.querySelectorAll(".file-row").forEach(function (row) {
     row.addEventListener("contextmenu", function (event) {
         event.preventDefault();
-
         contextTargetRow = row;
-
         contextMenu.style.left = event.clientX + "px";
         contextMenu.style.top = event.clientY + "px";
         contextMenu.style.display = "block";
@@ -918,30 +836,23 @@ contextDownload.addEventListener("click", function () {
 });
 
 contextRename.addEventListener("click", function () {
-
     if (!contextTargetRow) {
         return;
     }
 
     const filePath = contextTargetRow.dataset.fullpath;
-
     const nameElement =
         contextTargetRow.querySelector(".file-name-text");
-
     const originalName = nameElement.textContent.trim();
 
     nameElement.contentEditable = true;
-
     nameElement.classList.add("editing");
-
     nameElement.focus();
-
+    
     document.execCommand("selectAll", false, null);
 
     function finishRename() {
-
         nameElement.contentEditable = false;
-
         nameElement.classList.remove("editing");
 
         const newName = nameElement.textContent.trim();
@@ -964,7 +875,6 @@ contextRename.addEventListener("click", function () {
         }).then(function () {
             window.location.reload();
         });
-
     }
 
     nameElement.addEventListener("keydown", function (event) {
@@ -973,13 +883,11 @@ contextRename.addEventListener("click", function () {
             event.preventDefault();
             finishRename();
         }
-
     }, { once: true });
 
     nameElement.addEventListener("blur", finishRename, {
         once: true
     });
-
 });
 
 contextDelete.addEventListener("click", function () {
@@ -989,8 +897,7 @@ contextDelete.addEventListener("click", function () {
 
         deleteForm.action = "/delete/" + filePath;
         deleteModalText.textContent =
-            `Are you sure you want to move "${fileName}" to the Bin?`;
-
+            `Are you sure you want to delete "${fileName}"?`;
         deleteModal.classList.add("active");
     }
 });
