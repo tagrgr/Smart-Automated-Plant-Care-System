@@ -117,19 +117,12 @@ def get_file_icon(filename):
 
     icons = {
         ".pdf": "📕",
-
         ".zip": "🗜", ".rar": "🗜", ".7z": "🗜",
-
         ".mp4": "🎥", ".mov": "🎥", ".avi": "🎥",
-
         ".mp3": "🎵", ".wav": "🎵",
-
         ".xlsx": "📊", ".xls": "📊", ".csv": "📊",
-
         ".txt": "📝",
-
         ".py": "💻", ".js": "💻", ".html": "💻", ".css": "💻", ".json": "💻",
-
         ".docx": "📘", ".doc": "📘"
     }
 
@@ -179,6 +172,28 @@ def serve_file(filename, download=False):
     )
 
 
+def build_file_item(filename, full_path=None, location=None):
+    full_path = full_path or filename
+
+    metadata = get_file_metadata(full_path)
+
+    folder_status = is_folder(full_path)
+
+    return {
+        "name": filename,
+        "full_path": full_path,
+        "owner": metadata["owner"],
+        "visibility": metadata["visibility"],
+        "location": location if location is not None else metadata["location"],
+        "is_folder": folder_status,
+        "is_image": is_image_file(filename),
+        "is_video": is_video_file(filename),
+        "file_icon": get_file_icon(filename),
+        "modified_time": os.path.getmtime(get_file_path(full_path)),
+        "item_count": get_folder_item_count(full_path) if folder_status else 0,
+    }
+
+
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
@@ -195,9 +210,9 @@ def login():
     return render_template("login.html")
 
 
-@app.route("/test")
-def test():
-    return "TEST WORKING"
+# @app.route("/test")
+# def test():
+#     return "TEST WORKING"
 
 
 # Define route for homepage
@@ -214,19 +229,20 @@ def home():
     for filename in get_visible_files():
         metadata = get_file_metadata(filename)
 
-        files.append({
-            "name": filename,
-            "full_path": filename,
-            "owner": metadata["owner"],
-            "visibility": metadata["visibility"],
-            "location": metadata["location"],
-            "is_folder": is_folder(filename),
-            "is_image": is_image_file(filename),
-            "is_video": is_video_file(filename),
-            "file_icon": get_file_icon(filename),
-            "modified_time": os.path.getmtime(get_file_path(filename)),
-            "item_count": get_folder_item_count(filename) if is_folder(filename) else 0,
-        })
+        # files.append({
+        #     "name": filename,
+        #     "full_path": filename,
+        #     "owner": metadata["owner"],
+        #     "visibility": metadata["visibility"],
+        #     "location": metadata["location"],
+        #     "is_folder": is_folder(filename),
+        #     "is_image": is_image_file(filename),
+        #     "is_video": is_video_file(filename),
+        #     "file_icon": get_file_icon(filename),
+        #     "modified_time": os.path.getmtime(get_file_path(filename)),
+        #     "item_count": get_folder_item_count(filename) if is_folder(filename) else 0,
+        # })
+        files.append(build_file_item(filename))
 
     return render_template(
         "home.html",
@@ -260,19 +276,20 @@ def my_drive():
             metadata["owner"] == current_user and
             metadata["visibility"] == "private"
         ):
-            files.append({
-                "name": filename,
-                "full_path": filename,
-                "owner": metadata["owner"],
-                "visibility": metadata["visibility"],
-                "location": metadata["location"],
-                "is_folder": is_folder(filename),
-                "is_image": is_image_file(filename),
-                "is_video": is_video_file(filename),
-                "file_icon": get_file_icon(filename),
-                "modified_time": os.path.getmtime(get_file_path(filename)),
-                "item_count": get_folder_item_count(filename) if is_folder(filename) else 0,
-            })
+            # files.append({
+            #     "name": filename,
+            #     "full_path": filename,
+            #     "owner": metadata["owner"],
+            #     "visibility": metadata["visibility"],
+            #     "location": metadata["location"],
+            #     "is_folder": is_folder(filename),
+            #     "is_image": is_image_file(filename),
+            #     "is_video": is_video_file(filename),
+            #     "file_icon": get_file_icon(filename),
+            #     "modified_time": os.path.getmtime(get_file_path(filename)),
+            #     "item_count": get_folder_item_count(filename) if is_folder(filename) else 0,
+            # })
+            files.append(build_file_item(filename))
 
     return render_template(
         "home.html",
@@ -304,19 +321,20 @@ def shared_files():
             metadata["visibility"] == "shared" and
             metadata["owner"] != current_user
         ):
-            files.append({
-                "name": filename,
-                "full_path": filename,
-                "owner": metadata["owner"],
-                "visibility": metadata["visibility"],
-                "location": metadata["location"],
-                "is_folder": is_folder(filename),
-                "is_image": is_image_file(filename),
-                "is_video": is_video_file(filename),
-                "file_icon": get_file_icon(filename),
-                "modified_time": os.path.getmtime(get_file_path(filename)),
-                "item_count": get_folder_item_count(filename) if is_folder(filename) else 0,
-            })
+            # files.append({
+            #     "name": filename,
+            #     "full_path": filename,
+            #     "owner": metadata["owner"],
+            #     "visibility": metadata["visibility"],
+            #     "location": metadata["location"],
+            #     "is_folder": is_folder(filename),
+            #     "is_image": is_image_file(filename),
+            #     "is_video": is_video_file(filename),
+            #     "file_icon": get_file_icon(filename),
+            #     "modified_time": os.path.getmtime(get_file_path(filename)),
+            #     "item_count": get_folder_item_count(filename) if is_folder(filename) else 0,
+            # })
+            files.append(build_file_item(filename))
 
     return render_template(
         "home.html",
@@ -549,7 +567,6 @@ def bin_page():
             "is_video": is_video_file(filename),
             "file_icon": get_file_icon(filename),
             "modified_time": os.path.getmtime(os.path.join(BIN_FOLDER, filename)),
-            # "item_count": get_folder_item_count(filename) if is_folder(filename) else 0,
             "item_count": 0,
         })
 
@@ -689,19 +706,26 @@ def open_folder(folder_name):
         full_relative_path = os.path.join(folder_name, filename)
         metadata = get_file_metadata(full_relative_path)
 
-        files.append({
-            "name": filename,
-            "full_path": full_relative_path,
-            "owner": metadata["owner"],
-            "visibility": metadata["visibility"],
-            "location": folder_name,
-            "is_folder": is_folder(full_relative_path),
-            "is_image": is_image_file(filename),
-            "is_video": is_video_file(filename),
-            "file_icon": get_file_icon(filename),
-            "modified_time": os.path.getmtime(get_file_path(full_relative_path)),
-            "item_count": get_folder_item_count(full_relative_path) if is_folder(full_relative_path) else 0,
-        })
+        # files.append({
+        #     "name": filename,
+        #     "full_path": full_relative_path,
+        #     "owner": metadata["owner"],
+        #     "visibility": metadata["visibility"],
+        #     "location": folder_name,
+        #     "is_folder": is_folder(full_relative_path),
+        #     "is_image": is_image_file(filename),
+        #     "is_video": is_video_file(filename),
+        #     "file_icon": get_file_icon(filename),
+        #     "modified_time": os.path.getmtime(get_file_path(full_relative_path)),
+        #     "item_count": get_folder_item_count(full_relative_path) if is_folder(full_relative_path) else 0,
+        # })
+        files.append(
+            build_file_item(
+                filename,
+                full_path=full_relative_path,
+                location=folder_name
+            )
+        )
 
     return render_template(
         "home.html",

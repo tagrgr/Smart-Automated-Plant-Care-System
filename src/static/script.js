@@ -186,61 +186,6 @@ document.addEventListener("keydown", function (event) {
     }
 });
 
-// const sortSelect = document.getElementById("sortSelect");
-
-// if (sortSelect) {
-
-//     sortSelect.addEventListener("change", function () {
-
-//         localStorage.setItem("selectedSort", sortSelect.value);
-
-//         const fileList = document.querySelector(".file-list");
-//         const rows = Array.from(document.querySelectorAll(".file-row"));
-
-//         const selectedSort = sortSelect.value;
-
-//         rows.sort(function (a, b) {
-//             if (selectedSort === "newest") {
-//                 return Number(b.dataset.modified) - Number(a.dataset.modified);
-//             }
-
-//             if (selectedSort === "oldest") {
-//                 return Number(a.dataset.modified) - Number(b.dataset.modified);
-//             }
-
-//             if (selectedSort === "name-asc") {
-//                 return a.dataset.name.localeCompare(b.dataset.name);
-//             }
-
-//             if (selectedSort === "name-desc") {
-//                 return b.dataset.name.localeCompare(a.dataset.name);
-//             }
-
-//             if (selectedSort === "owner") {
-//                 return a.dataset.owner.localeCompare(b.dataset.owner);
-//             }
-
-//             if (selectedSort === "location") {
-//                 return a.dataset.location.localeCompare(b.dataset.location);
-//             }
-
-//             return 0;
-//         });
-
-//         rows.forEach(function (row) {
-//             fileList.appendChild(row);
-//         });
-
-//     });
-
-//     const savedSort = localStorage.getItem("selectedSort");
-
-//     if (savedSort && sortSelect) {
-//         sortSelect.value = savedSort;
-//         sortSelect.dispatchEvent(new Event("change"));
-//     }
-
-// }
 const sortSelect = document.getElementById("sortSelect");
 
 function sortItems(items, selectedSort) {
