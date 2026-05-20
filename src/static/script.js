@@ -467,6 +467,23 @@ document.querySelectorAll(".file-row").forEach(function (row) {
 
 });
 
+document.addEventListener("click", function (event) {
+    if (
+        event.target.closest(".file-row") ||
+        event.target.closest(".selection-toolbar") ||
+        event.target.closest(".dropdown-menu") ||
+        event.target.closest(".right-sidebar")
+    ) {
+        return;
+    }
+
+    document.querySelectorAll(".file-checkbox").forEach(function (box) {
+        box.checked = false;
+    });
+
+    updateSelectionToolbar();
+});
+
 document.querySelectorAll(".open-side-preview").forEach(function (link) {
     link.addEventListener("click", function (event) {
         event.preventDefault();
@@ -700,12 +717,66 @@ document.querySelectorAll(".open-folder-info").forEach(function (link) {
     });
 });
 
-let draggedFilePath = null;
+let draggedFilePaths = [];
 
 document.querySelectorAll(".file-row").forEach(function (row) {
 
     row.addEventListener("dragstart", function () {
-        draggedFilePath = row.dataset.fullpath;
+        const rowCheckbox = row.querySelector(".file-checkbox");
+
+        if (rowCheckbox.checked) {
+            draggedFilePaths = Array.from(
+                document.querySelectorAll(".file-checkbox:checked")
+            ).map(function (checkbox) {
+                return checkbox.value;
+            });
+        } else {
+            draggedFilePaths = [row.dataset.fullpath];
+        }
+    });
+
+});
+
+document.querySelectorAll(".folder-card-wrapper").forEach(function (folder) {
+
+    folder.addEventListener("dragenter", function () {
+        folder.classList.add("drag-over");
+    });
+
+    folder.addEventListener("dragleave", function () {
+        folder.classList.remove("drag-over");
+    });
+
+    folder.addEventListener("dragover", function (event) {
+        event.preventDefault();
+    });
+
+    folder.addEventListener("drop", function (event) {
+        event.preventDefault();
+
+        folder.classList.remove("drag-over");
+
+        const destination = folder.dataset.folderpath;
+
+        if (draggedFilePaths.length === 0 || !destination) {
+            return;
+        }
+
+        const formData = new FormData();
+
+        draggedFilePaths.forEach(function (filePath) {
+            formData.append("selected_files", filePath);
+        });
+
+        formData.append("destination", destination);
+        formData.append("return_to", window.location.pathname);
+
+        fetch("/bulk-move", {
+            method: "POST",
+            body: formData
+        }).then(function () {
+            window.location.reload();
+        });
     });
 
 });

@@ -106,3 +106,8 @@
 .folder-share-form {
     display: inline;
 }
+
+.folder-card-wrapper.drag-over .folder-card {
+    outline: 2px dashed #1f6feb;
+    background-color: #e8f0fe;
+}
