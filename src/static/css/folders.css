@@ -1,5 +1,5 @@
 .folder-card {
-    align-items: center;
+    align-items: flex-start;
     background-color: #f1f3f4;
     border-radius: 14px;
     color: #202124;

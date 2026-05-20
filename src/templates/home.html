@@ -147,7 +147,7 @@
 
         <section class="file-list-section">
             <section class="folder-section">
-                <h2>folders</h2>
+                <h2>containers</h2>
                 <div class="folder-card-grid">
                     {% for file in files %}
                         {% if file.is_folder %}
@@ -163,7 +163,7 @@
                                 <a href="/folder/{{ file.full_path }}" class="folder-card">
 
                                     <div class="folder-card-top">
-                                        <span class="folder-card-icon">📁</span>
+                                        <i class="fa-regular fa-folder folder-card-icon"></i>
                                     </div>
 
                                     <div class="folder-card-info">
@@ -189,7 +189,7 @@
                                         {% if file.visibility == "shared" %}
                                             <button type="submit" class="folder-share-btn">Shared</button>
                                         {% else %}
-                                            <button type="submit" class="folder-share-btn">Share?</button>
+                                            <button type="submit" class="folder-share-btn">Personal</button>
                                         {% endif %}
                                     </form>
 
