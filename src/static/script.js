@@ -127,7 +127,7 @@ if (searchInput) {
         const searchText = searchInput.value.toLowerCase();
 
         fileRows.forEach(function (row) {
-            const filename = row.dataset.filename;
+            const filename = row.dataset.name;
 
             row.style.display = filename.includes(searchText) ? "grid" : "none";
         });
@@ -210,8 +210,16 @@ function sortItems(items, selectedSort) {
             return a.dataset.owner.localeCompare(b.dataset.owner);
         }
 
-        if (selectedSort === "location") {
-            return a.dataset.location.localeCompare(b.dataset.location);
+        if (selectedSort === "modified") {
+            return Number(b.dataset.modified) - Number(a.dataset.modified);
+        }
+
+        if (selectedSort === "type") {
+            return a.dataset.extension.localeCompare(b.dataset.extension);
+        }
+
+        if (selectedSort === "size") {
+            return Number(b.dataset.size) - Number(a.dataset.size);
         }
 
         return 0;
@@ -355,6 +363,10 @@ function openSidePanel(row, mode) {
     const fullPath = row.dataset.fullpath;
     const owner = row.dataset.owner;
     const location = row.dataset.location;
+    const modifiedDate = row.dataset.modifieddate;
+    const size = Number(row.dataset.size);
+    const extension = row.dataset.extension || "folder";
+    const sizeMb = (size / (1024 * 1024)).toFixed(2);
     const isImage = row.dataset.isimage.toLowerCase() === "true";
     const isVideo = row.dataset.isvideo.toLowerCase() === "true";
     const icon = row.dataset.icon || "📄";
@@ -400,6 +412,9 @@ function openSidePanel(row, mode) {
             <h3>File details</h3>
             <p><strong>Name:</strong> ${fileName}</p>
             <p><strong>Owner:</strong> ${owner}</p>
+            <p><strong>Type:</strong> ${extension}</p>
+            <p><strong>Size:</strong> ${sizeMb} MB</p>
+            <p><strong>Modified:</strong> ${modifiedDate}</p>
             <p><strong>Location:</strong> ${location}</p>
         </div>
     `;
@@ -415,9 +430,12 @@ function openSidePanel(row, mode) {
 }
 
 document.querySelectorAll(".file-row").forEach(function (row) {
+
     row.addEventListener("click", function (event) {
+
+        const checkbox = row.querySelector(".file-checkbox");
+
         if (
-            event.target.tagName === "INPUT" ||
             event.target.tagName === "BUTTON" ||
             event.target.tagName === "A" ||
             event.target.closest(".dropdown-menu")
@@ -425,8 +443,26 @@ document.querySelectorAll(".file-row").forEach(function (row) {
             return;
         }
 
+        // CTRL + click = multi select
+        if (event.ctrlKey || event.metaKey) {
+
+            checkbox.checked = !checkbox.checked;
+
+            updateSelectionToolbar();
+
+            return;
+        }
+
+        // Clicking directly on checkbox
+        if (event.target.tagName === "INPUT") {
+            return;
+        }
+
+        // Normal click = preview
         openSidePanel(row, "preview");
+
     });
+
 });
 
 document.querySelectorAll(".open-side-preview").forEach(function (link) {
@@ -660,4 +696,48 @@ document.querySelectorAll(".open-folder-info").forEach(function (link) {
             sidePanelContent.innerHTML = `<p>Select a file to preview details here.</p>`;
         });
     });
+});
+
+let draggedFilePath = null;
+
+document.querySelectorAll(".file-row").forEach(function (row) {
+
+    row.addEventListener("dragstart", function () {
+        draggedFilePath = row.dataset.fullpath;
+    });
+
+});
+
+document.querySelectorAll(".folder-card-wrapper").forEach(function (folder) {
+
+    folder.addEventListener("dragover", function (event) {
+        event.preventDefault();
+    });
+
+    folder.addEventListener("drop", function (event) {
+        event.preventDefault();
+
+        const destination = folder.dataset.folderpath;
+
+        if (!draggedFilePath || !destination) {
+            return;
+        }
+
+        const formData = new FormData();
+
+        formData.append("filename", draggedFilePath);
+        formData.append("destination", destination);
+
+        fetch("/drag-move", {
+            method: "POST",
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                window.location.reload();
+            }
+        });
+    });
+
 });

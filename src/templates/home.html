@@ -148,7 +148,9 @@
                 <option value="name-asc">Name (A-Z)</option>
                 <option value="name-desc">Name (Z-A)</option>
                 <option value="owner">Owner</option>
-                <option value="location">Location</option>
+                <option value="modified">Modified</option>
+                <option value="type">Type</option>
+                <option value="size">Size</option>
             </select>
 
         </div>
@@ -168,6 +170,7 @@
                                 data-owner="{{ file.owner.lower() }}"
                                 data-location="{{ file.location.lower() }}"
                                 data-modified="{{ file.modified_time }}"
+                                data-folderpath="{{ file.full_path }}"
                             >
 
                                 <a href="/folder/{{ file.full_path }}" class="folder-card">
@@ -286,17 +289,19 @@
                     {% if not file.is_folder %}
                         <div 
                             class="file-row" 
-                            data-filename="{{ file.name | lower }}"
                             data-name="{{ file.name.lower() }}"
                             data-fullpath="{{ file.full_path }}"
                             data-displayname="{{ file.name }}"
                             data-isimage="{{ file.is_image }}"
                             data-isvideo="{{ file.is_video }}"
                             data-icon="{{ file.file_icon }}"
-                            data-type="{% if file.is_folder %}folder{% else %}file{% endif %}"
                             data-owner="{{ file.owner.lower() }}"
                             data-location="{{ file.location.lower() }}"
                             data-modified="{{ file.modified_time }}"
+                            data-modifieddate="{{ file.modified_date }}"
+                            data-size="{{ file.size }}"
+                            data-extension="{{ file.extension }}"
+                            draggable="true"
                         >
 
                             <input
