@@ -918,16 +918,68 @@ contextDownload.addEventListener("click", function () {
 });
 
 contextRename.addEventListener("click", function () {
-    if (contextTargetRow) {
-        const filePath = contextTargetRow.dataset.fullpath;
-        const fileName = contextTargetRow.dataset.displayname;
 
-        renameForm.action = "/rename/" + filePath;
-        renameInput.value = fileName;
-
-        renameModal.classList.add("active");
-        renameInput.focus();
+    if (!contextTargetRow) {
+        return;
     }
+
+    const filePath = contextTargetRow.dataset.fullpath;
+
+    const nameElement =
+        contextTargetRow.querySelector(".file-name-text");
+
+    const originalName = nameElement.textContent.trim();
+
+    nameElement.contentEditable = true;
+
+    nameElement.classList.add("editing");
+
+    nameElement.focus();
+
+    document.execCommand("selectAll", false, null);
+
+    function finishRename() {
+
+        nameElement.contentEditable = false;
+
+        nameElement.classList.remove("editing");
+
+        const newName = nameElement.textContent.trim();
+
+        if (
+            newName === "" ||
+            newName === originalName
+        ) {
+            nameElement.textContent = originalName;
+            return;
+        }
+
+        const formData = new FormData();
+
+        formData.append("new_name", newName);
+
+        fetch("/rename/" + filePath, {
+            method: "POST",
+            body: formData
+        }).then(function () {
+            window.location.reload();
+        });
+
+    }
+
+    nameElement.addEventListener("keydown", function (event) {
+
+        if (event.key === "Enter") {
+            event.preventDefault();
+            finishRename();
+        }
+
+    }, { once: true });
+
+    nameElement.addEventListener("blur", finishRename, {
+        once: true
+    });
+
 });
 
 contextDelete.addEventListener("click", function () {

@@ -79,3 +79,22 @@ body.dark .side-file-details {
 body.dark .folder-icon {
     color: #f5f5f5;
 }
+
+body.dark .context-menu {
+    background-color: #202124;
+    border-color: #3c4043;
+}
+
+body.dark .context-menu button {
+    background-color: #202124;
+    color: #f1f3f4;
+}
+
+body.dark .context-menu button:hover {
+    background-color: #303134;
+}
+
+body.dark .file-name-text.editing {
+    background-color: #202124;
+    color: #f1f3f4;
+}
