@@ -827,39 +827,39 @@ document.querySelectorAll(".folder-card-wrapper").forEach(function (folder) {
 
 });
 
-document.querySelectorAll(".folder-card-wrapper").forEach(function (folder) {
+// document.querySelectorAll(".folder-card-wrapper").forEach(function (folder) {
 
-    folder.addEventListener("dragover", function (event) {
-        event.preventDefault();
-    });
+//     folder.addEventListener("dragover", function (event) {
+//         event.preventDefault();
+//     });
 
-    folder.addEventListener("drop", function (event) {
-        event.preventDefault();
+//     folder.addEventListener("drop", function (event) {
+//         event.preventDefault();
 
-        const destination = folder.dataset.folderpath;
+//         const destination = folder.dataset.folderpath;
 
-        if (!draggedFilePath || !destination) {
-            return;
-        }
+//         if (!draggedFilePath || !destination) {
+//             return;
+//         }
 
-        const formData = new FormData();
+//         const formData = new FormData();
 
-        formData.append("filename", draggedFilePath);
-        formData.append("destination", destination);
+//         formData.append("filename", draggedFilePath);
+//         formData.append("destination", destination);
 
-        fetch("/drag-move", {
-            method: "POST",
-            body: formData
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                window.location.reload();
-            }
-        });
-    });
+//         fetch("/drag-move", {
+//             method: "POST",
+//             body: formData
+//         })
+//         .then(response => response.json())
+//         .then(data => {
+//             if (data.success) {
+//                 window.location.reload();
+//             }
+//         });
+//     });
 
-});
+// });
 
 document.querySelectorAll(".folder-card-wrapper").forEach(function (folder) {
 
@@ -995,56 +995,56 @@ contextDelete.addEventListener("click", function () {
     }
 });
 
-contextPreview.addEventListener("click", function () {
+// contextPreview.addEventListener("click", function () {
 
-    if (contextTargetRow) {
-        openSidePanel(contextTargetRow, "preview");
-    }
+//     if (contextTargetRow) {
+//         openSidePanel(contextTargetRow, "preview");
+//     }
 
-});
+// });
 
-contextDownload.addEventListener("click", function () {
+// contextDownload.addEventListener("click", function () {
 
-    if (contextTargetRow) {
-        window.location.href =
-            "/download/" + contextTargetRow.dataset.fullpath;
-    }
+//     if (contextTargetRow) {
+//         window.location.href =
+//             "/download/" + contextTargetRow.dataset.fullpath;
+//     }
 
-});
+// });
 
-contextRename.addEventListener("click", function () {
+// contextRename.addEventListener("click", function () {
 
-    if (contextTargetRow) {
+//     if (contextTargetRow) {
 
-        const filePath = contextTargetRow.dataset.fullpath;
-        const fileName = contextTargetRow.dataset.displayname;
+//         const filePath = contextTargetRow.dataset.fullpath;
+//         const fileName = contextTargetRow.dataset.displayname;
 
-        renameForm.action = "/rename/" + filePath;
+//         renameForm.action = "/rename/" + filePath;
 
-        renameInput.value = fileName;
+//         renameInput.value = fileName;
 
-        renameModal.classList.add("active");
+//         renameModal.classList.add("active");
 
-        renameInput.focus();
+//         renameInput.focus();
 
-    }
+//     }
 
-});
+// });
 
-contextDelete.addEventListener("click", function () {
+// contextDelete.addEventListener("click", function () {
 
-    if (contextTargetRow) {
+//     if (contextTargetRow) {
 
-        const filePath = contextTargetRow.dataset.fullpath;
-        const fileName = contextTargetRow.dataset.displayname;
+//         const filePath = contextTargetRow.dataset.fullpath;
+//         const fileName = contextTargetRow.dataset.displayname;
 
-        deleteForm.action = "/delete/" + filePath;
+//         deleteForm.action = "/delete/" + filePath;
 
-        deleteModalText.textContent =
-            `Are you sure you want to move "${fileName}" to the Bin?`;
+//         deleteModalText.textContent =
+//             `Are you sure you want to move "${fileName}" to the Bin?`;
 
-        deleteModal.classList.add("active");
+//         deleteModal.classList.add("active");
 
-    }
+//     }
 
-});
+// });
