@@ -49,7 +49,7 @@
 .dashboard-cards {
     align-items: start;
     display: grid;
-    gap: 50px;
+    gap: 25px;
     grid-template-columns: 2fr 1fr 1fr;
     margin-bottom: 25px;
 }
@@ -76,9 +76,9 @@
     text-decoration: none;
 }
 
-.profile-card-link:hover {
+/* .profile-card-link:hover {
     transform: translateY(-2px);
-}
+} */
 
 .profile-modal .profile-picture img,
 .user-dashboard-card .profile-picture img {
@@ -92,7 +92,7 @@
 
 .upload-dashboard-card {
     /* border-left: 5px solid #1f6feb; */
-    min-height: 120px;
+    min-height: 100px;
 }
 
 .upload-dashboard-card:hover {
