@@ -92,13 +92,13 @@
 
 .upload-dashboard-card {
     /* border-left: 5px solid #1f6feb; */
-    min-height: 160px;
+    min-height: 250px;
 }
 
 .upload-dashboard-card.dragover {
     background-color: #e8f0fe;
-    border: 2px dashed #1f6feb;
-    box-shadow: 0 8px 24px rgba(31, 111, 235, 0.18);
+    border: 4px dashed #1f6feb;
+    /* box-shadow: 0 8px 24px rgba(31, 111, 235, 0.18); */
     transform: scale(1.01);
 }
 
