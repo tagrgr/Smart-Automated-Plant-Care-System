@@ -15,8 +15,9 @@
 
 body {
     background-color: #f5f7fb;
-    color: #202124;
-    font-family: Arial, sans-serif;
+    color: #27282c;
+    font-family: "Space Grotesk", sans-serif;
+    font-weight: 300;
     margin: 0;
 }
 
