@@ -51,9 +51,8 @@
 .dashboard-cards {
     align-items: start;
     display: grid;
-    /* display: flex; */
-    gap: 25px;
-    grid-template-columns: 4fr 1fr 1fr;
+    gap: 24px;
+    grid-template-columns: 1fr 200px 200px;
     margin-bottom: 25px;
     padding: 0 20px;
 }
