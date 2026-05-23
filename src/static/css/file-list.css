@@ -97,7 +97,7 @@
     border-bottom: 1px solid #ddd;
     color: #5f6368;
     font-weight: bold;
-    padding: 12px;
+    padding: 20px;
 }
 
 .file-name-cell {
@@ -119,7 +119,7 @@
 
 .file-row {
     border-bottom: 1px solid #eee;
-    padding: 20px;
+    /* padding: 14px 12px; */
 }
 
 .file-row:hover {
