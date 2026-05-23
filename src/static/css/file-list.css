@@ -126,6 +126,10 @@
     background-color: #f8fafd;
 }
 
+.files-title-row {
+    padding-left: 20px;
+}
+
 .image-thumbnail,
 .video-thumbnail,
 .video-thumbnail-wrapper {
