@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Smart Home Cloud Pi</title>
+    <title>Blackbox</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/layout.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/sidebar.css') }}">
@@ -27,16 +27,20 @@
 
         <nav class="side-nav">
             <a href="/" class="{% if current_page == 'home' %}active{% endif %}">
+                <i class="fa-solid fa-house"></i>
                 Home
             </a>
             <a href="/my-drive" class="{% if current_page == 'my-drive' %}active{% endif %}">
+                <i class="fa-regular fa-folder-open"></i>
                 My Drive
             </a>
             <a href="/shared" class="{% if current_page == 'shared' %}active{% endif %}">
-                Shared with me
+                <i class="fa-solid fa-share-nodes"></i>
+                Shared
             </a>
             <a href="/bin" class="{% if current_page == 'bin' %}active{% endif %}">
-                Bin
+                <i class="fa-regular fa-trash-can"></i>
+                Deleted files
             </a>
         </nav>
 

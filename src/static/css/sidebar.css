@@ -32,12 +32,24 @@
     margin-bottom: 6px;
     border-radius: 20px;
     color: #202124;
+    letter-spacing: -0.3px;
     text-decoration: none;
 }
 
 .side-nav a.active,
 .side-nav a:hover {
     background-color: #d3e8ff;
+}
+
+.side-nav-link i {
+    width: 18px;
+    margin-right: 12px;
+    font-size: 14px;
+    color: #5f6368;
+}
+
+.side-nav-link.active i {
+    color: #202124;
 }
 
 .storage-box {
