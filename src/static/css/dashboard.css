@@ -26,11 +26,11 @@
     /* display: flex; */
     /* flex-direction: column; */
     /* justify-content: space-between; */
-    /* min-height: 160px; */
-    padding: 30px;
-    transition:
+    min-height: 200px;
+    padding: 20px;
+    /* transition:
         transform 0.15s ease,
-        box-shadow 0.15s ease;
+        box-shadow 0.15s ease; */
 }
 
 /* .dashboard-card h2 {
@@ -49,11 +49,11 @@
 } */
 
 .dashboard-cards {
-    align-items: flex-start;
-    /* display: grid; */
-    display: flex;
+    align-items: start;
+    display: grid;
+    /* display: flex; */
     gap: 25px;
-    /* grid-template-columns: 2fr 1fr 1fr; */
+    grid-template-columns: 3fr 1fr 1fr;
     margin-bottom: 25px;
 }
 
@@ -65,14 +65,18 @@
 
 .folder-dashboard-card,
 .user-dashboard-card {
-    flex: 1;
-    max-width: 320px;
+    border-radius: 16px;
+    /* flex: none; */
     height: 200px;
+    /* width: 200px; */
 }
 
 .upload-dashboard-card {
-    flex: 1.8;
-    max-width: 500px;
+    border-radius: 16px;
+    flex: none;
+    height: 200px;
+    width: 600px;
+    
 }
 
 .folder-dashboard-card form,
