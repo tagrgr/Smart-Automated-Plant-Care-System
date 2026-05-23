@@ -56,9 +56,10 @@
     margin-bottom: 25px;
 }
 
-.drag-drop-text {
+.drag-drop-text,
+.upload-main-text {
     color: #5f6368;
-    font-size: 13px;
+    font-size: 14px;
 }
 
 .folder-dashboard-card,
@@ -98,15 +99,12 @@
 }
 
 .upload-dashboard-card:hover {
-    /* border-left: 5px solid #1f6feb; */
     background-color: red;
 }
 
 .upload-dashboard-card.dragover {
     background-color: #e8f0fe;
     border: 4px dashed #1f6feb;
-    /* box-shadow: 0 8px 24px rgba(31, 111, 235, 0.18); */
-    /* transform: scale(1.01); */
 }
 
 .upload-dashboard-card input[type="file"] {
@@ -118,20 +116,10 @@
     min-height: 190px;
 }
 
-.upload-main-text {
-    font-weight: 600;
-}
-
-.drag-drop-text {
-    color: #5f6368;
-    font-size: 14px;
-}
-
 .upload-dashboard-card:hover {
     border-color: #1f6feb;
     background-color: #eef4ff;
 }
-
 
 .user-dashboard-card .profile-picture {
     font-size: 42px;
