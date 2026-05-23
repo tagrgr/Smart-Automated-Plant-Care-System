@@ -1,4 +1,4 @@
-.avatar-choice {
+/* .avatar-choice {
     background-color: #f1f3f4;
     color: #202124;
     font-size: 28px;
@@ -16,7 +16,7 @@
     display: flex;
     flex-wrap: wrap;
     gap: 12px;
-}
+} */
 
 
 
@@ -131,9 +131,25 @@
     gap: 5px;
     height: 200px;
     justify-content: center;
-    margin-bottom: 0 auto 10px;
+    /* margin-bottom: 0 auto 10px; */
     padding: 14px;
     text-align: center;
+}
+
+.user-dashboard-card .profile-picture {
+    height: 72px;
+    width: 72px;
+    margin: 0;
+    border-radius: 50%;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.user-dashboard-card .profile-picture img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    display: block;
 }
 
 .user-dashboard-card h2 {
