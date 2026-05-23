@@ -37,6 +37,8 @@
     margin-top: 0;
 }
 
+
+
 /* .dashboard-card p {
     color: #5f6368;
 } */
@@ -110,6 +112,26 @@
 .upload-dashboard-card input[type="file"] {
     display: none;
 }
+
+.upload-dashboard-card {
+    cursor: pointer;
+    min-height: 190px;
+}
+
+.upload-main-text {
+    font-weight: 600;
+}
+
+.drag-drop-text {
+    color: #5f6368;
+    font-size: 14px;
+}
+
+.upload-dashboard-card:hover {
+    border-color: #1f6feb;
+    background-color: #eef4ff;
+}
+
 
 .user-dashboard-card .profile-picture {
     font-size: 42px;
