@@ -204,8 +204,9 @@
 
 .sort-bar {
     align-items: center;
-    display: flex-end;
-    gap: 12px;
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
     margin-bottom: 10px;
     padding: 0 20px;
 }
