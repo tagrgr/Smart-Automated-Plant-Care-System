@@ -94,9 +94,9 @@
 }
 
 .file-list-header {
-    /* border-bottom: 1px solid #ddd; */
+    border-bottom: 1px solid #ddd;
     color: #5f6368;
-    font-weight: bold;
+    /* font-weight: bold; */
     /* padding: 20px; */
 }
 
@@ -118,7 +118,7 @@
 }
 
 .file-row {
-    border: 1px solid #7c7777;
+    border-bottom: 1px solid #ddd;
     padding: 5px 0;
 }
 
