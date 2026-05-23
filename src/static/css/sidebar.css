@@ -14,7 +14,7 @@
 .left-sidebar {
     background-color: #f1f3f4;
     padding: 20px;
-    border-right: 1.5px solid #ddd;
+    border-right: 2px solid #ddd;
 }
 
 .logo {
@@ -28,18 +28,18 @@
 
 .side-nav a {
     display: block;
-    padding: 12px 14px;
+    padding: 10px 18px;
     margin-bottom: 6px;
-    margin-left: 10px;
-    border-radius: 10px;
+    margin-left: 20px;
+    border-radius: 12px;
     color: #202124;
-    letter-spacing: -0.5px;
+    letter-spacing: -1px;
     text-decoration: none;
 }
 
 .side-nav a.active,
 .side-nav a:hover {
-    background-color: #d3e8ff;
+    background-color: #d6d7d8;
 }
 
 .side-nav-link i {
@@ -68,7 +68,7 @@
 .storage-used {
     width: 79%;
     height: 6px;
-    background-color: #1f6feb;
+    background-color: #71dd46;
     border-radius: 10px;
 }
 
