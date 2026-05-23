@@ -118,8 +118,8 @@
 }
 
 .file-row {
-    /* border-bottom: 1px solid #eee; */
-    padding: 5px;
+    border: 1px solid #7c7777;
+    padding: 5px 0;
 }
 
 .file-row:hover {
