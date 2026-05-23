@@ -94,10 +94,10 @@
 }
 
 .file-list-header {
-    border-bottom: 1px solid #ddd;
+    /* border-bottom: 1px solid #ddd; */
     color: #5f6368;
     font-weight: bold;
-    padding: 20px;
+    /* padding: 20px; */
 }
 
 .file-name-cell {
@@ -118,8 +118,8 @@
 }
 
 .file-row {
-    border-bottom: 1px solid #eee;
-    /* padding: 14px 12px; */
+    /* border-bottom: 1px solid #eee; */
+    padding: 5px;
 }
 
 .file-row:hover {
