@@ -13,8 +13,8 @@
 
 .left-sidebar {
     background-color: #f1f3f4;
-    padding: 20px;
-    border-right: 2px solid #ddd;
+    padding: 12px;
+    border-right: 1.6px solid #ddd;
 }
 
 .logo {
@@ -28,18 +28,18 @@
 
 .side-nav a {
     display: block;
-    padding: 10px 18px;
+    padding: 10px;
     margin-bottom: 6px;
-    margin-left: 20px;
+    /* margin-left: 20px; */
     border-radius: 12px;
-    color: #202124;
+    color: #333;
     letter-spacing: -1px;
     text-decoration: none;
 }
 
 .side-nav a.active,
 .side-nav a:hover {
-    background-color: #d6d7d8;
+    background-color: #e0e2e3;
 }
 
 .side-nav-link i {
@@ -68,7 +68,7 @@
 .storage-used {
     width: 79%;
     height: 6px;
-    background-color: #71dd46;
+    background-color: #73cf35;
     border-radius: 10px;
 }
 
@@ -78,9 +78,9 @@
     margin-bottom: 30px;
 }
 
-.profile-picture {
+/* .profile-picture {
     font-size: 36px;
-}
+} */
 
 .hive-icon {
     font-size: 34px;
