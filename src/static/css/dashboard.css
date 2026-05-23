@@ -118,9 +118,9 @@
     margin-bottom: 10px;
 }
 
-.profile-picture img {
+/* .profile-picture img {
     margin: 0 auto 10px;
-}
+} */
 
 .user-dashboard-card {
     align-items: center;
@@ -132,9 +132,20 @@
     height: 200px;
     justify-content: center;
     margin-bottom: 0 auto 10px;
-    padding: 10px 0;
+    padding: 14px;
+    text-align: center;
 }
 
+.user-dashboard-card h2 {
+    font-size: 20px;
+    line-height: 1.1;
+    margin: 6px 0 0;
+}
+
+.user-dashboard-card p {
+    font-size: 13px;
+    margin: 0;
+}
 
 
 
