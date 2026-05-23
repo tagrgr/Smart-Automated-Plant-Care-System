@@ -26,8 +26,6 @@ const uploadInput = document.querySelector('input[type="file"]');
 
 const hiddenUploadInput = document.getElementById("hiddenUploadInput");
 
-const chooseFilesButton = document.getElementById("chooseFilesButton");
-
 const uploadOverlay = document.getElementById("uploadOverlay");
 
 const downloadOverlay = document.getElementById("downloadOverlay");
@@ -402,12 +400,6 @@ if (hiddenUploadInput) {
             showUploadOverlay();
             uploadForm.submit();
         }
-    });
-}
-
-if (chooseFilesButton && hiddenUploadInput) {
-    chooseFilesButton.addEventListener("click", function () {
-        hiddenUploadInput.click();
     });
 }
 
