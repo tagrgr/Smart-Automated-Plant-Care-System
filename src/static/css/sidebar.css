@@ -13,8 +13,8 @@
 
 .left-sidebar {
     background-color: #f1f3f4;
-    padding: 12px;
-    border-right: 1.6px solid #ddd;
+    padding: 14px;
+    border-right: 1.8px solid #ddd;
 }
 
 .logo {
@@ -44,17 +44,18 @@
 
 .side-nav-link i {
     width: 18px;
-    margin-right: 22px;
+    /* margin-right: 22px; */
     font-size: 14px;
     color: #5f6368;
 }
 
 .side-nav-link.active i {
     color: #202124;
+    margin-right: 20px;
 }
 
 .storage-box {
-    margin-top: 40px;
+    margin-top: 30px;
     font-size: 14px;
 }
 
@@ -68,7 +69,7 @@
 .storage-used {
     width: 79%;
     height: 6px;
-    background-color: #73cf35;
+    background-color: #87cf35;
     border-radius: 10px;
 }
 
