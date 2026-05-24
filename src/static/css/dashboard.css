@@ -35,7 +35,7 @@
 .drag-drop-text {
     color: #5f6368;
     font-size: 14px;
-    /* margin: 0 20px 10px; */
+    margin: 0 20px;
 }
 
 .visibility-options {
@@ -45,9 +45,9 @@
     align-items: center;
 }
 
-.visibility-options input[type="radio"] {
+/* .visibility-options input[type="radio"] {
     accent-color: #a6cf35;
-}
+} */
 
 
 
