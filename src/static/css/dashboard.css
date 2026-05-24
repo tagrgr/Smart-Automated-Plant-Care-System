@@ -1,5 +1,6 @@
 .dashboard-card {
     background-color: #f7f2ea;
+    box-sizing: border-box;
 }
 
 .dashboard-cards {
@@ -11,6 +12,32 @@
     padding: 20px 150px;
 }
 
+.upload-dashboard-card {
+    border-radius: 16px;
+    box-sizing: border-box;
+    cursor: pointer;
+    height: 200px;
+    min-height: 190px;
+    padding: 16px;
+}
+
+.upload-dashboard-card h2 {
+    margin: 0 0 18px;
+}
+
+.drag-drop-text,
+.upload-main-text {
+    color: #5f6368;
+    font-size: 14px;
+    margin: 0;
+}
+
+
+
+
+
+
+
 
 
 
@@ -20,10 +47,10 @@
     height: 200px;
 }
 
-.upload-dashboard-card {
-    border-radius: 16px;
-    height: 200px;
-}
+
+
+
+
 
 
 
@@ -45,21 +72,14 @@
     display: none;
 }
 
-.upload-dashboard-card {
-    cursor: pointer;
-    min-height: 190px;
-}
+
 
 .upload-dashboard-card:hover {
     border-color: #1f6feb;
     background-color: #eef4ff;
 }
 
-.drag-drop-text,
-.upload-main-text {
-    color: #5f6368;
-    font-size: 14px;
-}
+
 
 
 
