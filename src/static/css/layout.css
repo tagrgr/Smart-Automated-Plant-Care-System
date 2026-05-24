@@ -86,7 +86,7 @@ body button {
     border-radius: 12px;
     height: 35px;
     padding: 0 16px;
-    width: 70%;
+    width: calc(100% - 300px);
     transition: border-color 0.2s ease;
 
 }
