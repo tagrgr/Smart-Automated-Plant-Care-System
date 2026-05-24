@@ -72,12 +72,16 @@
             </div>
         {% endif %}
 
-        <input
-            class="search-bar"
-            id="searchInput"
-            type="text"
-            placeholder="Search in Home Server"
-        >
+        <div class="search-bar-wrapper">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input
+                class="search-bar"
+                id="searchInput"
+                type="text"
+                placeholder="Search in Home Server"
+            >
+        </div>
+            
 
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
