@@ -1,18 +1,5 @@
-.right-sidebar {
-    position: sticky;
-    top: 0;
-    height: 100vh;
-    overflow-y: auto;
-    background-color: #ffffff;
-    padding: 20px;
-    border-right: none;
-    border-left: 1px solid #ddd;
-    transition: width 0.2s ease;
-    overflow-x: hidden;
-}
-
 .left-sidebar {
-    background-color: #f1f3f4;
+    background-color: #f8f7f4;
     padding: 14px;
     border-right: 1.8px solid #ddd;
 }
@@ -46,13 +33,19 @@
 
 .side-nav a.active,
 .side-nav a:hover {
-    background-color: #e0e2e3;
+    background-color: #ece8e1;
+    transition: background-color 0.15s ease;
+}
+
+.side-nav a.active,
+.side-nav a.active i {
     color: #202124;
 }
 
 .storage-box {
     margin-top: 30px;
     font-size: 14px;
+    padding: 30px;
 }
 
 .storage-bar {
@@ -65,8 +58,22 @@
 .storage-used {
     width: 79%;
     height: 6px;
-    background-color: #87cf35;
+    background-color: #a6cf35;
     border-radius: 10px;
+}
+
+
+.right-sidebar {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    background-color: #ffffff;
+    padding: 20px;
+    border-right: none;
+    border-left: 1px solid #ddd;
+    transition: width 0.2s ease;
+    overflow-x: hidden;
 }
 
 .profile-box,
@@ -74,10 +81,6 @@
     text-align: center;
     margin-bottom: 30px;
 }
-
-/* .profile-picture {
-    font-size: 36px;
-} */
 
 .hive-icon {
     font-size: 34px;
