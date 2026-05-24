@@ -45,9 +45,9 @@
     align-items: center;
 }
 
-/* .visibility-options input[type="radio"] {
-    accent-color: #a6cf35;
-} */
+.visibility-options input[type="radio"] {
+    accent-color: #333;
+}
 
 
 
