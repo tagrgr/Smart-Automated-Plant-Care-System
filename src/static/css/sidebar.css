@@ -27,10 +27,12 @@
 
 .side-nav a i {
     width: 18px;
-    font-size: 14px;
+    
     color: #5f6368;
     font-family: "Font Awesome 6 Free" !important;
-    /* font-weight: 900 !important; */
+    
+    font-size: 10px;
+    font-weight: 300 !important;
 }
 
 .side-nav a.active,
@@ -44,6 +46,7 @@
     color: #202124;
     /* font-weight: 500; */
     font-family: "Font Awesome 6 Free" !important;
+    font-size: 10px;
     font-weight: 500 !important;
 }
 
