@@ -29,6 +29,8 @@
     width: 18px;
     font-size: 14px;
     color: #5f6368;
+    font-family: "Font Awesome 6 Free" !important;
+    /* font-weight: 900 !important; */
 }
 
 .side-nav a.active,
@@ -41,6 +43,8 @@
 .side-nav a.active i {
     color: #202124;
     font-weight: 500;
+    font-family: "Font Awesome 6 Free" !important;
+    font-weight: 900 !important;
 }
 
 .storage-box {
