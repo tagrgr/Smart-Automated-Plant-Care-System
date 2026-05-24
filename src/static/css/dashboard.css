@@ -55,10 +55,9 @@
 
 .visibility-options {
     display: flex;
-    gap: 30px;
-    margin: 0px auto 0px;
-    align-items: center;
-    justify-content: flex-start;
+    gap: 12px;
+    margin: 10px auto 12px;
+    /* align-items: center; */
 }
 
 .visibility-options input[type="radio"] {
