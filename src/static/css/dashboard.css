@@ -23,6 +23,7 @@
 
 .upload-dashboard-card h2 {
     margin: 0 0 18px;
+    line-height: 1.2;
 }
 
 .upload-main-text {
@@ -34,12 +35,19 @@
 .drag-drop-text {
     color: #5f6368;
     font-size: 14px;
-    margin: 0 20px 10px;
+    /* margin: 0 20px 10px; */
 }
 
+.visibility-options {
+    display: flex;
+    gap: 12px;
+    margin-top: 10px;
+    align-items: center;
+}
 
-
-
+.visibility-options input[type="radio"] {
+    accent-color: #a6cf35;
+}
 
 
 
@@ -179,7 +187,3 @@
 
 
 
-.visibility-options {
-    display: flex;
-    gap: 12px;
-}
