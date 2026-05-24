@@ -34,13 +34,13 @@
 .side-nav a.active,
 .side-nav a:hover {
     background-color: #ece8e1;
-    transition: background-color 0.15s ease;
+    transition: background-color 0.2s ease;
 }
 
 .side-nav a.active,
 .side-nav a.active i {
-    /* color: #202124;
-    font-weight: 500; */
+    color: #202124;
+    font-weight: 500;
 }
 
 .storage-box {
