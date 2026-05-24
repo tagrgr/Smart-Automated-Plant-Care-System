@@ -81,10 +81,12 @@ body button {
 .search-bar-wrapper {
     display: flex;
     align-items: center;
-    background: #fff;
+    background-color: #fff;
     border: 1px solid #d9d9d9;
     border-radius: 12px;
+    box-sizing: border-box;
     height: 35px;
+    margin: 0 auto;
     padding: 0 16px;
     width: calc(100% - 300px);
     transition: border-color 0.2s ease;
@@ -109,9 +111,10 @@ body button {
     /* display: block; */
     font-size: 14px;
     outline: none;
+    width: 100%;
     /* margin: 0 auto 25px; */
     /* padding: 15px 20px; */
-    width: 100%;
+    
 }
 
 .search-bar::placeholder {
