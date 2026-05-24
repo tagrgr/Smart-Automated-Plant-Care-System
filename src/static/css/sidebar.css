@@ -4,15 +4,6 @@
     border-right: 1.8px solid #ddd;
 }
 
-/* .logo {
-    display: block;
-    font-size: 22px;
-    font-weight: bold;
-    color: #1f3a5f;
-    text-decoration: none;
-    margin-bottom: 25px;
-} */
-
 .sidebar-logo {
     display: block;
     width: 180px;
@@ -45,7 +36,6 @@
     background-color: #ece8e1;
     color: #201;
     transition: background-color 0.2s ease;
-    /* font-weight: bold;  */
 }
 
 .side-nav a.active i,
