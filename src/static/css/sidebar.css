@@ -45,6 +45,7 @@
     background-color: #ece8e1;
     color: #202124;
     transition: background-color 0.2s ease;
+    font-weight: bold; 
 }
 
 .side-nav a.active i,
