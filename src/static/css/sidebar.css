@@ -40,13 +40,12 @@
 .side-nav a.active,
 .side-nav a.active i {
     color: #202124;
+    font-weight: 400;
 }
 
 .storage-box {
-    /* margin-top: 30px; */
-    margin: 20px;
+    margin: 15px;
     font-size: 14px;
-    /* padding: 20px; */
 }
 
 .storage-bar {
