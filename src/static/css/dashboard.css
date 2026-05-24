@@ -111,7 +111,7 @@
 .user-dashboard-card .profile-picture {
     height: 90px;
     width: 90px;
-    /* margin: 0; */
+    margin: 0;
     border-radius: 50%;
     overflow: hidden;
     flex-shrink: 0;
