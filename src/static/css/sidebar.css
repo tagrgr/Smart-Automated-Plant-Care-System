@@ -27,8 +27,14 @@
 
 .side-nav a i {
     width: 18px;
+    font-family: "Font Awesome 6 Free";
     font-size: 14px;
     color: #5f6368;
+}
+
+.side-nav a i.fa-regular {
+    font-family: "Font Awesome 6 Free";
+    font-weight: 400;
 }
 
 .side-nav a.active,
