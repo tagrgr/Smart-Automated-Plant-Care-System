@@ -16,7 +16,7 @@
     border-radius: 16px;
     box-sizing: border-box;
     cursor: pointer;
-    height: 200px;
+    /* height: 200px; */
     min-height: 190px;
     padding: 16px;
 }
