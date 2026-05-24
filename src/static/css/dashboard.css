@@ -25,12 +25,19 @@
     margin: 0 0 18px;
 }
 
-.drag-drop-text,
 .upload-main-text {
     color: #5f6368;
     font-size: 14px;
     margin: 20px 20px 0;
 }
+
+.drag-drop-text {
+    color: #5f6368;
+    font-size: 14px;
+    margin: 0 20px 10px;
+}
+
+
 
 
 
