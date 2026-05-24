@@ -55,9 +55,9 @@
 
 .visibility-options {
     display: flex;
-    gap: 0px;
+    gap: 30px;
     margin: 0px auto 0px;
-    align-items: start;
+    align-items: center;
     justify-content: flex-start;
 }
 
