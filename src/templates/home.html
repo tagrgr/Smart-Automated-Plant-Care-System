@@ -23,7 +23,7 @@
 
     <!-- LEFT SIDEBAR -->
     <aside class="left-sidebar">
-        <a href="/" class="logo">RPi Cloud</a>
+        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="The Hive" class="sidebar-logo">
 
         <nav class="side-nav">
             <a href="/" class="{% if current_page == 'home' %}active{% endif %}">

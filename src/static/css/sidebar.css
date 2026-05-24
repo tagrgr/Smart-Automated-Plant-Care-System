@@ -4,13 +4,20 @@
     border-right: 1.8px solid #ddd;
 }
 
-.logo {
+/* .logo {
     display: block;
     font-size: 22px;
     font-weight: bold;
     color: #1f3a5f;
     text-decoration: none;
     margin-bottom: 25px;
+} */
+
+.sidebar-logo {
+    display: block;
+    width: 140px;
+    height: auto;
+    margin: 0 0 20px 0;
 }
 
 .side-nav a {
@@ -43,9 +50,6 @@
 .side-nav a.active i,
 .side-nav a.hover i {
     color: #202124;
-    /* font-family: "Font Awesome 6 Free" !important;
-    font-size: 10px;
-    font-weight: 500 !important; */
 }
 
 .storage-box {
