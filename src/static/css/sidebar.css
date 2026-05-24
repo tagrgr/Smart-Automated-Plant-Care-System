@@ -42,9 +42,9 @@
 .side-nav a.active,
 .side-nav a.active i {
     color: #202124;
-    font-weight: 500;
+    /* font-weight: 500; */
     font-family: "Font Awesome 6 Free" !important;
-    font-weight: 900 !important;
+    font-weight: 500 !important;
 }
 
 .storage-box {
