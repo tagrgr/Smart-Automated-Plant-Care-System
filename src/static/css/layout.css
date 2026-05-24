@@ -100,20 +100,15 @@ body button {
 .search-bar-wrapper i {
     color: #6f6f6f;
     font-size: 14px;
-    /* margin-right: 12px; */
 }
 
 .search-bar {
     background-color: transparent;
     border: none;
     color: #111;
-    /* border-radius: 25px; */
-    /* display: block; */
     font-size: 14px;
     outline: none;
     width: 100%;
-    /* margin: 0 auto 25px; */
-    /* padding: 15px 20px; */
     
 }
 
