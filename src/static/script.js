@@ -858,3 +858,25 @@ contextDelete.addEventListener("click", function () {
         deleteModal.classList.add("active");
     }
 });
+
+
+
+
+
+
+
+
+const folderCard = document.querySelector(".folder-dashboard-card");
+const folderForm = folderCard.querySelector("form");
+const folderInput = folderCard.querySelector("input[name='folder_name']");
+
+folderCard.addEventListener("click", function (event) {
+
+    if (event.target === folderInput) {
+        return;
+    }
+
+    if (folderInput.value.trim() !== "") {
+        folderForm.submit();
+    }
+});
