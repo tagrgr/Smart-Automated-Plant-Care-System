@@ -17,7 +17,7 @@
     display: block;
     width: 140px;
     height: auto;
-    margin: 0 0 20px 0;
+    margin: 0 auto 10px;
 }
 
 .side-nav a {
@@ -34,7 +34,7 @@
 
 .side-nav a i {
     width: 18px;
-    color: #6f6f6f;
+    color: #766;
     font-size: 15px;
     font-family: "Font Awesome 6 Free" !important;
     font-weight: 900 !important;
@@ -43,14 +43,14 @@
 .side-nav a.active,
 .side-nav a:hover {
     background-color: #ece8e1;
-    color: #202124;
+    color: #201;
     transition: background-color 0.2s ease;
-    font-weight: bold; 
+    /* font-weight: bold;  */
 }
 
 .side-nav a.active i,
 .side-nav a.hover i {
-    color: #202124;
+    color: #201;
 }
 
 .storage-box {
