@@ -81,13 +81,13 @@ body button {
 .search-bar-wrapper {
     display: flex;
     align-items: center;
-    background: white;
+    background: #fff;
     border: 1px solid #d9d9d9;
     border-radius: 12px;
-    height: 46px;
+    height: 35px;
     padding: 0 16px;
     width: 100%;
-    transition: border-color 0.15s ease;
+    transition: border-color 0.2s ease;
 
 }
 
@@ -98,20 +98,20 @@ body button {
 .search-bar-wrapper i {
     color: #6f6f6f;
     font-size: 14px;
-    margin-right: 12px;
+    /* margin-right: 12px; */
 }
 
 .search-bar {
     background-color: transparent;
-    border: none;
-    color: #333;
+    /* border: none; */
+    color: #111;
     /* border-radius: 25px; */
     /* display: block; */
     font-size: 14px;
-    outline: none;
+    /* outline: none; */
     /* margin: 0 auto 25px; */
     /* padding: 15px 20px; */
-    width: 80%;
+    width: 60%;
 }
 
 .search-bar::placeholder {
