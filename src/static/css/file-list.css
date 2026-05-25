@@ -96,8 +96,6 @@
 .file-list-header {
     border-bottom: 1px solid #ddd;
     color: #5f6368;
-    /* font-weight: bold; */
-    /* padding: 20px; */
 }
 
 .file-name-cell {
@@ -213,9 +211,8 @@
 
 .sort-bar select {
     border-radius: 8px;
-    border: 2px solid #a6cf35;;
+    border: 1px solid #a6cf35;;
     background-color: #fff;
-
     padding: 8px 12px;
 }
 
