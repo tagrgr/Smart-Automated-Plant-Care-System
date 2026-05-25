@@ -90,7 +90,7 @@
     align-items: center;
     display: grid;
     gap: 5px;
-    grid-template-columns: 40px 2fr 1fr 1.4fr 1fr 80px;
+    grid-template-columns: 40px 2.1fr 1fr 1.4fr 1fr 80px;
 }
 
 .file-list-header {
@@ -124,14 +124,9 @@
     background-color: #f8fafd;
 }
 
-/* .files-title-row {
-    padding: 20px;
-} */
-
 .files-title-row h2 {
-    margin-left: 30px;
+    margin-left: 10px;
     font-weight: 400;
-    padding: 0;
 }
 
 .image-thumbnail,
