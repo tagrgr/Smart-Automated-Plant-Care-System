@@ -7,7 +7,7 @@
     flex-direction: column;
     gap: 8px;
     justify-content: flex-start;
-    min-height: 130px;
+    min-height: 100px;
     padding: 14px 16px;
     text-decoration: none;
     /* transition:
@@ -83,7 +83,7 @@
 
 .folder-card-wrapper:hover .folder-card {
     background-color: #e8f0fe;
-    transform: translateY(-2px);
+    /* transform: translateY(-2px); */
 }
 
 .folder-card-wrapper:hover .folder-card-menu {
