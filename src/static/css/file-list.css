@@ -213,8 +213,8 @@
 
 .sort-bar select {
     border-radius: 8px;
-    border: 1px solid #a6cf35;;
-    background-color: #f7f2ea;
+    border: 2px solid #a6cf35;;
+    background-color: #fff;
 
     padding: 8px 12px;
 }
