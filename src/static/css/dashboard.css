@@ -28,7 +28,7 @@
 
 
 .folder-dashboard-card h2 {
-    margin: 0 0 18px;
+    margin: 0 0 22px;
     line-height: 1.2;
     font-weight: 500;
     font-size: 15px;
@@ -124,7 +124,7 @@
     height: 90px;
     border-radius: 50%;
     overflow: hidden;
-    margin-bottom: 14px;
+    margin: 0 0 10px;
     flex-shrink: 0;
 }
 
@@ -148,6 +148,6 @@
     display: block;
 }
 
-.profile-picture {
+.profile-modal .profile-picture {
     margin: 10px 0;
 }
