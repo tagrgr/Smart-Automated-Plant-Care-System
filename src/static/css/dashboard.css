@@ -102,6 +102,10 @@
     padding: 16px;
 }
 
+.user-dashboard-card:hover {
+    background-color: #eef4ff;
+}
+
 .user-dashboard-card h2 {
     font-size: 15px;
     font-weight: 500;

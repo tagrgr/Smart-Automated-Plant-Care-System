@@ -109,9 +109,12 @@ body button {
     font-size: 14px;
     outline: none;
     width: 100%;
-    
 }
 
 .search-bar::placeholder {
     color: #6f6f6f;
+}
+
+.search-bar-wrapper i {
+    margin-right: 8px;
 }
