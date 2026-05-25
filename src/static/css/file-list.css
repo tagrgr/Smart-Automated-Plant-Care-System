@@ -125,7 +125,12 @@
 }
 
 .files-title-row {
+    padding: 20px;
+}
+
+.files-title-row {
     margin-left: 10px;
+    font-weight: 500;
 }
 
 .image-thumbnail,
