@@ -1,18 +1,18 @@
 .folder-card {
     align-items: flex-start;
-    background-color: #f1f3f4;
-    border-radius: 14px;
+    background-color: #f7f2ea;
+    border-radius: 10px;
     color: #202124;
     display: flex;
     flex-direction: column;
-    gap: 18px;
-    justify-content: space-between;
+    gap: 8px;
+    justify-content: flex-start;
     min-height: 130px;
     padding: 14px 16px;
     text-decoration: none;
-    transition:
+    /* transition:
         transform 0.15s ease,
-        background-color 0.15s ease;
+        background-color 0.15s ease; */
 }
 
 .folder-card-count,
@@ -61,12 +61,14 @@
 
 .folder-card-meta {
     color: #5f6368;
-    font-size: 13px;
+    font-size: 11px;
+    line-height: 1.2;
 }
 
 .folder-card-name {
-    font-size: 15px;
-    font-weight: 600;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1.2;
 }
 
 .folder-card-top {
