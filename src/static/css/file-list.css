@@ -1,9 +1,14 @@
 .access-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     border-radius: 4px;
+    box-sizing: border-box;
     cursor: pointer;
     font-size: 13px;
     font-weight: 400;
     padding: 5px 10px;
+    width: 96px;
 }
 
 .access-badge.bin {
@@ -13,8 +18,7 @@
 }
 
 .access-badge.bin:hover {
-    background-color: #333;
-    border: 2px solid #c5221f;
+    background-color: #c5221f;
     color: #fff;
     font-weight: 500;
     opacity: 0.9;
@@ -27,8 +31,7 @@
 }
 
 .access-badge.shared:hover {
-    background-color: #333;
-    border: 2px solid #a6cf35;
+    background-color: #a6cf35;
     color: #fff;
     font-weight: 500;
     opacity: 0.9;
@@ -41,8 +44,7 @@
 }
 
 .access-badge.private:hover {
-    background-color: #333;
-    border: 2px solid #e6d00e;
+    background-color: #e6d00e;
     color: #fff;
     font-weight: 500;
     opacity: 0.9;

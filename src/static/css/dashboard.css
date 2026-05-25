@@ -20,11 +20,18 @@
     padding: 16px;
 }
 
-.upload-dashboard-card h2,
+.upload-dashboard-card h2 {
+    margin: 0 0 18px;
+    line-height: 1.2;
+    font-weight: 500;
+}
+
+
 .folder-dashboard-card h2 {
     margin: 0 0 18px;
     line-height: 1.2;
     font-weight: 500;
+    font-size: 15px;
 }
 
 .upload-main-text {
@@ -99,7 +106,7 @@
     box-sizing: border-box;
     cursor: pointer;
     height: 140px;
-    padding: 16px;
+    padding: 12px;
 }
 
 .user-dashboard-card:hover {
@@ -109,7 +116,7 @@
 .user-dashboard-card h2 {
     font-size: 15px;
     font-weight: 500;
-    line-height: 1.2;
+    line-height: 1.1;
 }
 
 .user-dashboard-card .profile-picture {
