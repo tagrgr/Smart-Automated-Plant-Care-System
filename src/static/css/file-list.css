@@ -124,13 +124,14 @@
     background-color: #f8fafd;
 }
 
-.files-title-row {
+/* .files-title-row {
     padding: 20px;
-}
+} */
 
-.files-title-row {
+.files-title-row h2 {
     margin-left: 10px;
     font-weight: 500;
+    padding: 0;
 }
 
 .image-thumbnail,
