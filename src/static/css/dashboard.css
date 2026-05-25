@@ -121,7 +121,11 @@
 .user-dashboard-card h2 {
     font-size: 15px;
     font-weight: 500;
-    line-height: 1.1;
+    /* line-height: 1.1; */
+}
+
+.user-dashboard-card .whoami {
+    font-size: 10px;
 }
 
 .user-dashboard-card .profile-picture {
@@ -129,7 +133,7 @@
     height: 80px;
     border-radius: 50%;
     overflow: hidden;
-    margin: 0 0 10px;
+    margin: 0 0 5px;
     flex-shrink: 0;
 }
 
