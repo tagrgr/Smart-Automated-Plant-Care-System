@@ -620,6 +620,7 @@ def bin_page():
             "name": filename,
             "full_path": filename,
             "owner": "Deleted",
+            "owner_avatar": get_current_avatar(),
             "visibility": "bin",
             "location": f"Deletes in {days_remaining} days",
             "is_folder": os.path.isdir(os.path.join(BIN_FOLDER, filename)),

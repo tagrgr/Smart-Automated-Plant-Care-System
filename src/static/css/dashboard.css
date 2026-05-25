@@ -36,6 +36,7 @@
 
 .folder-dashboard-card i {
     font-size: 19px;
+    margin-right: 5px;
 }
 
 .upload-main-text {
@@ -124,8 +125,8 @@
 }
 
 .user-dashboard-card .profile-picture {
-    width: 90px;
-    height: 90px;
+    width: 80px;
+    height: 80px;
     border-radius: 50%;
     overflow: hidden;
     margin: 0 0 10px;
