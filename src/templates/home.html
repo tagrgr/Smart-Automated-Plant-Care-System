@@ -95,7 +95,7 @@
         <section class="dashboard-cards">
             <div class="dashboard-card upload-dashboard-card" id="uploadDropZone">
                 
-                <h2>+ New</h2>
+                <h2>+ The Crane</h2>
             
                 <form action="/upload" method="post" enctype="multipart/form-data" id="uploadForm">
                     <input type="hidden" name="current_folder" value="{{ current_folder }}">
@@ -122,8 +122,8 @@
 
             <div class="dashboard-card folder-dashboard-card">
                 <h2>
-                    <i class="fa-regular fa-folder folder-icon"></i>
-                    New Folder
+                    <i class="fa-solid fa-folder-plus"></i>
+                    New container
                 </h2>
                 <form action="/create-folder" method="post">
                     <input type="hidden" name="current_folder" value="{{ current_folder }}">
@@ -234,7 +234,7 @@
             </section>
 
             <div class="files-title-row">
-                <h2>files</h2>
+                <h2>loose cargo</h2>
             </div>
             <form class="selection-toolbar" id="selectionToolbar" method="post">
                 <span id="selectedCount">0 selected</span>

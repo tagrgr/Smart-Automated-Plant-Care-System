@@ -1,6 +1,5 @@
 .access-badge {
-    border: none;
-    border-radius: 14px;
+    border-radius: 4px;
     cursor: pointer;
     font-size: 13px;
     font-weight: 400;
@@ -9,25 +8,44 @@
 
 .access-badge.bin {
     background-color: #fce8e6;
-    color: #c5221f;
-}
-
-.access-badge.private {
-    background-color: #ffec83;
+    border: 2px solid #c5221f;
     color: #333;
-    font-weight: 500;
 }
 
-.access-badge.private:hover,
-.access-badge.shared:hover {
-    opacity: 0.7;
+.access-badge.bin:hover {
+    background-color: #333;
+    border: 2px solid #c5221f;
+    color: #fff;
+    font-weight: 500;
+    opacity: 0.9;
 }
 
 .access-badge.shared {
-    background-color: #b9cf7a;
+    background-color: #fff;
+    border: 2px solid #a6cf35;
     color: #333;
+}
+
+.access-badge.shared:hover {
+    background-color: #333;
+    border: 2px solid #a6cf35;
+    color: #fff;
     font-weight: 500;
-    opacity: 0.8;
+    opacity: 0.9;
+}
+
+.access-badge.private {
+    background-color: #fff;
+    border: 2px solid #e6d00e;
+    color: #333;
+}
+
+.access-badge.private:hover {
+    background-color: #333;
+    border: 2px solid #e6d00e;
+    color: #fff;
+    font-weight: 500;
+    opacity: 0.9;
 }
 
 .access-cell form {
