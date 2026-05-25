@@ -77,3 +77,12 @@ def get_current_avatar():
     session.permanent = True
 
     return avatar
+
+def get_avatar_for_user(username):
+    current_user = get_current_user()
+
+    if username == current_user:
+        return get_current_avatar()
+
+    avatars = get_available_avatars()
+    return random.choice(avatars)

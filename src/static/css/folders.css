@@ -88,10 +88,6 @@
     transform: translateY(-2px);
 }
 
-.folder-section {
-    /* border-radius: 16px; */
-}
-
 .folder-section h2 {
     margin: 0 0 25px 10px;
     font-weight: 400;

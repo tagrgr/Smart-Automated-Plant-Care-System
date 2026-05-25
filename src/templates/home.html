@@ -336,8 +336,14 @@
                             </div>
 
                             <div class="owner-cell">
-                                <span class="profile-dot">👤</span>
+                                <!-- <span class="profile-dot">👤</span>
+                                <span>{{ file.owner }}</span> -->
+                                <img 
+                                    src="{{ url_for('static', filename='avatars/' + file.owner_avatar) }}" 
+                                    class="owner-avatar"
+                                >
                                 <span>{{ file.owner }}</span>
+
                             </div>
 
                             <div class="location-cell">

@@ -3,7 +3,8 @@
     border-radius: 14px;
     cursor: pointer;
     font-size: 13px;
-    padding: 6px 10px;
+    font-weight: 400;
+    padding: 5px 10px;
 }
 
 .access-badge.bin {
@@ -28,7 +29,9 @@
 }
 
 .access-cell form {
-    margin: 0;
+    display: flex;
+    align-items: center;
+    /* margin: 0; */
 }
 
 .delete-link {
@@ -89,13 +92,16 @@
 .file-row {
     align-items: center;
     display: grid;
-    gap: 5px;
-    grid-template-columns: 40px 2.1fr 1fr 1.4fr 1fr 80px;
+    /* gap: 5px; */
+    /* grid-template-columns: 40px 2fr 1fr 1.4fr 1fr 80px; */
+    grid-template-columns: 32px 2.2fr 1.1fr 1.4fr 1fr 64px;
 }
 
 .file-list-header {
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1.5px solid #f7f2ea;
     color: #5f6368;
+    font-size: 14px;
+    padding: 0 0 6px 0;
 }
 
 .file-name-cell {
@@ -116,16 +122,16 @@
 }
 
 .file-row {
-    border-bottom: 1px solid #ddd;
-    padding: 5px 0;
+    border-bottom: 1.5px solid #ddd;
+    /* padding: 5px 0; */
 }
 
 .file-row:hover {
-    background-color: #f8fafd;
+    background-color: #f1f3f4;
 }
 
 .files-title-row h2 {
-    margin-left: 10px;
+    margin: 10px;
     font-weight: 400;
 }
 
@@ -165,9 +171,9 @@
     right: 3px;
 }
 
-.profile-dot {
+/* .profile-dot {
     font-size: 20px;
-}
+} */
 
 .selection-toolbar {
     align-items: center;
@@ -212,7 +218,7 @@
 
 .sort-bar select {
     border-radius: 8px;
-    border: 1px solid #a6cf35;;
+    border: 1.2px solid #f7f2ea;
     background-color: #fff;
     padding: 8px 12px;
 }
@@ -258,4 +264,11 @@
     background-color: white;
     border: 1px solid #1f6feb;
     outline: none;
+}
+
+.owner-avatar {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    object-fit: cover;
 }

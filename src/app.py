@@ -24,7 +24,8 @@ from auth import (
     get_current_user, 
     get_current_avatar, 
     is_admin_device, 
-    get_available_avatars
+    get_available_avatars,
+    get_avatar_for_user
 )
 
 from file_manager import (
@@ -197,6 +198,7 @@ def build_file_item(filename, full_path=None, location=None):
         "name": filename,
         "full_path": full_path,
         "owner": metadata["owner"],
+        "owner_avatar": get_avatar_for_user(metadata["owner"]),
         "visibility": metadata["visibility"],
         "location": location if location is not None else metadata["location"],
         "is_folder": folder_status,
