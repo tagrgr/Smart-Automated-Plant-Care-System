@@ -197,9 +197,9 @@
                                 <div class="folder-card-menu">
                                     <form action="/toggle-visibility/{{ file.full_path }}" method="post" class="folder-share-form">
                                         {% if file.visibility == "shared" %}
-                                            <button type="submit" class="folder-share-btn">Shared</button>
+                                            <button type="submit" class="folder-share-btn shared">Shared</button>
                                         {% else %}
-                                            <button type="submit" class="folder-share-btn">Personal</button>
+                                            <button type="submit" class="folder-share-btn personal">Personal</button>
                                         {% endif %}
                                     </form>
 

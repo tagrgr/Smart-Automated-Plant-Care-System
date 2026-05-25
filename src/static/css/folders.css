@@ -10,9 +10,9 @@
     min-height: 100px;
     padding: 14px 16px;
     text-decoration: none;
-    /* transition:
+    transition:
         transform 0.15s ease,
-        background-color 0.15s ease; */
+        background-color 0.15s ease;
 }
 
 .folder-card-count,
@@ -86,9 +86,9 @@
     /* transform: translateY(-2px); */
 }
 
-.folder-card-wrapper:hover .folder-card-menu {
+/* .folder-card-wrapper:hover .folder-card-menu {
     transform: translateY(-2px);
-}
+} */
 
 .folder-section h2 {
     margin: 0 0 15px 10px;
@@ -96,11 +96,29 @@
 }
 
 .folder-share-btn {
-    background-color: white;
-    border-radius: 8px;
-    color: #202124;
+    background-color: #fff;
+    border-radius: 4px;
+    color: #333;
     font-size: 12px;
-    padding: 6px 10px;
+    padding: 5px 10px;
+}
+
+.folder-share-btn.personal {
+    border: 2px solid #e6d00e;
+}
+
+.folder-share-btn.personal:hover {
+    background-color: #e6d00e;
+    color: #fff;
+}
+
+.folder-share-btn.shared {
+    border: 2px solid #a6cf35;
+}
+
+.folder-share-btn.shared:hover {
+    background-color: #a6cf35;
+    color: #fff;
 }
 
 .folder-share-form {
@@ -108,6 +126,6 @@
 }
 
 .folder-card-wrapper.drag-over .folder-card {
-    outline: 2px dashed #1f6feb;
+    outline: 4px dashed #1f6feb;
     background-color: #e8f0fe;
 }
