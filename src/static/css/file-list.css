@@ -13,20 +13,21 @@
 }
 
 .access-badge.private {
-    background-color: #def131;
+    background-color: #ffec83;
     color: #333;
     font-weight: 500;
 }
 
 .access-badge.private:hover,
 .access-badge.shared:hover {
-    opacity: 0.8;
+    opacity: 0.7;
 }
 
 .access-badge.shared {
-    background-color: #a6cf35;
+    background-color: #b9cf7a;
     color: #333;
     font-weight: 500;
+    opacity: 0.8;
 }
 
 .access-cell form {
