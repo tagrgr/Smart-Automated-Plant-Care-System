@@ -55,7 +55,6 @@
     right: 0;
 }
 
-/* .folder-card-menu:hover .dropdown-menu { */
 .folder-card-menu .dots-btn:hover + .dropdown-menu,
 .folder-card-menu .dropdown-menu:hover {    
     display: block;
@@ -99,6 +98,7 @@
     color: #333;
     font-size: 12px;
     padding: 5px 10px;
+    width: 50px;
 }
 
 .folder-share-btn.personal {
