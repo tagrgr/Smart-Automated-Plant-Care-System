@@ -47,14 +47,14 @@ body {
     margin: 0 8px;
 }
 
-/* .main-content {
+.main-content {
     padding: 35px;
-} */
+}
 
-/* .main-content h1 {
+.main-content h1 {
     margin-bottom: 25px;
     text-align: center;
-} */
+}
 
 .message-box {
     border-radius: 8px;
