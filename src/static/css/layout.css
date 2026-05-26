@@ -21,14 +21,13 @@ body {
     margin: 0;
 }
 
-/* body button {
-    background-color: #1f6feb;
+body button {
     border: none;
-    border-radius: 8px;
-    color: white;
+    /* border-radius: 8px; */
+    /* color: white; */
     cursor: pointer;
-    padding: 9px 14px;
-} */
+    /* padding: 9px 14px; */
+}
 
 .breadcrumbs {
     color: #5f6368;
