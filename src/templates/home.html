@@ -105,7 +105,7 @@
                     <div class="visibility-options">
                         <label>
                             <input type="radio" name="visibility" value="private" checked>
-                            Personal
+                            <i class="fa-solid fa-user"></i>
                         </label>
 
                         <label>
@@ -320,7 +320,7 @@
 
                             <div class="access-cell">
                                 {% if file.visibility == "bin" %}
-                                    <span class="access-badge bin">🗑 Bin</span>
+                                    <span class="access-badge bin">🗑 Trash</span>
                                 {% else %}
                                     <form action="/toggle-visibility/{{ file.full_path }}" method="post">
                                         {% if file.visibility == "shared" %}
@@ -329,7 +329,7 @@
                                             </button>
                                         {% else %}
                                             <button type="submit" class="access-badge private">
-                                                🔒 Personal
+                                                <i class="fa-solid fa-user"></i>
                                             </button>
                                         {% endif %}
                                     </form>
