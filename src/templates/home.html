@@ -105,7 +105,7 @@
                     <div class="visibility-options">
                         <label>
                             <input type="radio" name="visibility" value="private" checked>
-                            <i class="fa-solid fa-user"></i>
+                            My drive
                         </label>
 
                         <label>
@@ -199,7 +199,7 @@
                                         {% if file.visibility == "shared" %}
                                             <button type="submit" class="folder-share-btn shared">Shared</button>
                                         {% else %}
-                                            <button type="submit" class="folder-share-btn personal">Personal</button>
+                                            <button type="submit" class="folder-share-btn personal"><i class="fa-solid fa-user"></i></button>
                                         {% endif %}
                                     </form>
 
