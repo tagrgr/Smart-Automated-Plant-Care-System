@@ -26,12 +26,12 @@
 
 .access-badge.shared {
     background-color: #fff;
-    border: 2px solid #a6cf35;
+    border: 2px solid #333;
     color: #333;
 }
 
 .access-badge.shared:hover {
-    background-color: #a6cf35;
+    background-color: #333;
     color: #fff;
     font-weight: 500;
     opacity: 0.9;
@@ -39,12 +39,12 @@
 
 .access-badge.private {
     background-color: #fff;
-    border: 2px solid #e6d00e;
+    border: 2px solid #333;
     color: #333;
 }
 
 .access-badge.private:hover {
-    background-color: #e6d00e;
+    background-color: #333;
     color: #fff;
     font-weight: 500;
     opacity: 0.9;

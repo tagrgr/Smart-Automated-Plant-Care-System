@@ -55,7 +55,9 @@
     right: 0;
 }
 
-.folder-card-menu:hover .dropdown-menu {
+/* .folder-card-menu:hover .dropdown-menu { */
+.folder-card-menu .dots-btn:hover + .dropdown-menu,
+.folder-card-menu .dropdown-menu:hover {    
     display: block;
 }
 
@@ -83,12 +85,8 @@
 
 .folder-card-wrapper:hover .folder-card {
     background-color: #e8f0fe;
-    /* transform: translateY(-2px); */
 }
 
-/* .folder-card-wrapper:hover .folder-card-menu {
-    transform: translateY(-2px);
-} */
 
 .folder-section h2 {
     margin: 0 0 15px 10px;
@@ -104,20 +102,20 @@
 }
 
 .folder-share-btn.personal {
-    border: 2px solid #e6d00e;
+    border: 2px solid #333;
 }
 
 .folder-share-btn.personal:hover {
-    background-color: #e6d00e;
+    background-color: #333;
     color: #fff;
 }
 
 .folder-share-btn.shared {
-    border: 2px solid #a6cf35;
+    border: 2px solid #333;
 }
 
 .folder-share-btn.shared:hover {
-    background-color: #a6cf35;
+    background-color: #333;
     color: #fff;
 }
 
