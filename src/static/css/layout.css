@@ -14,21 +14,21 @@
 }
 
 body {
-    background-color: #f5f7fb;
+    background-color: #fff;
     color: #27282c;
     font-family: "Space Grotesk", sans-serif;
     font-weight: 300;
     margin: 0;
 }
 
-body button {
+/* body button {
     background-color: #1f6feb;
     border: none;
     border-radius: 8px;
     color: white;
     cursor: pointer;
     padding: 9px 14px;
-}
+} */
 
 .breadcrumbs {
     color: #5f6368;
@@ -47,14 +47,14 @@ body button {
     margin: 0 8px;
 }
 
-.main-content {
+/* .main-content {
     padding: 35px;
-}
+} */
 
-.main-content h1 {
+/* .main-content h1 {
     margin-bottom: 25px;
     text-align: center;
-}
+} */
 
 .message-box {
     border-radius: 8px;
@@ -75,7 +75,7 @@ body button {
 .message-box.success {
     background-color: #e8f5e9;
     border: 1px solid #c8e6c9;
-    color: #1b5e20;
+    color: #a5dd3d;
 }
 
 .search-bar-wrapper {
