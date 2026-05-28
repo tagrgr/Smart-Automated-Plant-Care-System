@@ -394,11 +394,33 @@
 
     <!-- RIGHT SIDEBAR -->
     <aside class="right-sidebar" id="rightSidebar">
-        <div class="hive-box">
-            <div class="hive-icon">🛶</div>
-            <p>The Ship</p>
-            <small>The Crane</small>
+
+        <div class="helmsman-card">
+            <div class="helmsman-header">
+                <div class="helmsman-icon">
+                    <i class="fa-solid fa-compass"></i>
+                </div>
+                <div>
+                    <h3>The Helmsman</h3>
+                    <small>Blackbox AI assistant</small>
+                </div>
+            </div>
+
+            <div class="helmsman-response" id="helmsmanResponse">
+                Ask me about storage, files, or server status.
+            </div>
+
+            <input
+                type="text"
+                id="helmsmanInput"
+                class="helmsman-input"
+                placeholder="Ask The Helmsman..."
+            >
+            <button class="helmsman-button" id="helmsmanButton">
+                Ask
+            </button>
         </div>
+
         <div class="side-panel-content" id="sidePanelContent">
             <p>Select a file to preview details here.</p>
         </div>

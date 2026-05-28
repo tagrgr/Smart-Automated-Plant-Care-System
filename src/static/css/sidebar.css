@@ -76,15 +76,15 @@
     overflow-x: hidden;
 }
 
-.profile-box,
+/* .profile-box,
 .hive-box {
     text-align: center;
     margin-bottom: 30px;
-}
+} */
 
-.hive-icon {
+/* .hive-icon {
     font-size: 34px;
-}
+} */
 
 .side-panel-placeholder {
     margin-top: 25px;
@@ -194,4 +194,23 @@
     color: #202124;
     font-size: 14px;
     word-break: break-word;
+}
+
+.helmsman-card {
+    background: linear-gradient(
+        180deg,
+        #f7f2ea 0%,
+        #ddd6ca 28%,
+        #5b564f 68%,
+        #121212 100%
+    );
+
+    border-radius: 16px;
+    padding: 18px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    box-sizing: border-box;
+    overflow: hidden;
 }

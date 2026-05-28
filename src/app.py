@@ -45,16 +45,6 @@ from file_manager import (
 
 # Create flask application instance
 app = Flask(__name__)
-# test
-# @app.route("/public-test/<path:filename>")
-# def public_test(filename):
-#     file_path = get_file_path(filename)
-
-#     folder = os.path.dirname(file_path)
-#     base_name = os.path.basename(file_path)
-
-#     return send_from_directory(folder, base_name)
-
 
 # Configure Flask session security and timeout
 app.secret_key = SECRET_KEY
@@ -268,11 +258,6 @@ def login():
         return "Incorrect password <br><a href='/login'>Try again</a>"
 
     return render_template("login.html")
-
-
-# @app.route("/test")
-# def test():
-#     return "TEST WORKING"
 
 
 # Define route for homepage
@@ -1093,11 +1078,6 @@ def set_nickname():
 def logout():
     session.clear()
     return redirect("/login")
-
-
-# @app.route("/my-ip")
-# def my_ip():
-#     return f"Your IP is: {request.remote_addr}"
 
 
 cleanup_old_bin_files()
