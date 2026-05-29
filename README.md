@@ -1,4 +1,5 @@
 # Smart Home Cloud Pi - Blackbox
+![Project Graphic](project-graphic.png)
 
 ## Project overview
 
