@@ -215,14 +215,21 @@
     min-height: 320px;
 }
 
+.helmsman-icon {
+    justify-content: center;
+    color: #333;
+}
+
 .helmsman-header h3 {
+    justify-content: center;
     margin: 0;
     font-size: 22px;
-    color: white;
+    color: #333;
 }
 
 .helmsman-header small {
-    color: rgba(255,255,255,0.75);
+    justify-content: center;
+    color: #444;
 }
 
 .helmsman-response {
