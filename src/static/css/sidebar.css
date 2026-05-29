@@ -204,7 +204,6 @@
         #5b564f 68%,
         #121212 100%
     );
-
     border-radius: 16px;
     padding: 18px;
     color: white;
@@ -212,5 +211,48 @@
     flex-direction: column;
     gap: 14px;
     box-sizing: border-box;
-    overflow: hidden;
+    width: 100%;
+    min-height: 320px;
+}
+
+.helmsman-header h3 {
+    margin: 0;
+    font-size: 22px;
+    color: white;
+}
+
+.helmsman-header small {
+    color: rgba(255,255,255,0.75);
+}
+
+.helmsman-response {
+    color: rgba(255,255,255,0.9);
+    line-height: 1.5;
+}
+
+.helmsman-input {
+    width: 100%;
+    border: none;
+    border-radius: 10px;
+    padding: 12px;
+    box-sizing: border-box;
+
+    background: rgba(255,255,255,0.15);
+    color: white;
+}
+
+.helmsman-input::placeholder {
+    color: rgba(255,255,255,0.7);
+}
+
+.helmsman-button {
+    width: 100%;
+    border: none;
+    border-radius: 10px;
+    padding: 12px;
+
+    background: #f7f2ea;
+    color: #121212;
+    font-weight: 600;
+    cursor: pointer;
 }
