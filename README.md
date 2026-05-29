@@ -106,6 +106,67 @@ Examples of monitored values:
 
 The Raspberry Pi sends this data to Blynk through API communication over the internet.
 
+### Blynk Configuration
+Blynk was configured to monitor Raspberry Pi system information remotely through the Blynk mobile dashboard.
+
+The setup process included:
+
+#### 1. Create a Blynk template
+A template was created in the Blynk Console for the Blackbox project.
+
+Example monitored values included:
+- Online status
+- CPU temperature
+- Storage usage percentage
+---
+
+#### 2. Create datastreams
+Datastreams were added inside Blynk to receive values from the Raspberry Pi.
+
+Examples:
+- Virtual Pin for Online Status
+- Virtual Pin for CPU Temperature
+- Virtual Pin for Storage Usage
+---
+
+#### 3. Install the Blynk Python library
+The library was installed inside the Python virtual environment on the Raspberry Pi using:
+```bash
+pip install blynklib
+```
+---
+
+#### 4. Create the monitoring script
+A Python script named:
+```text
+blynk_monitor.py
+```
+
+was used to collect Raspberry Pi system data and send it to Blynk.
+
+The script reads values such as:
+- CPU temperature
+- storage usage
+- online status
+and pushes them to the Blynk dashboard.
+---
+
+#### 5. Run the monitoring script
+The monitoring script was started from the terminal using:
+```bash
+python blynk_monitor.py
+```
+
+Once running, the Raspberry Pi began sending live data to the Blynk dashboard.
+---
+#### 6. View data in the Blynk mobile dashboard
+The data was displayed in the Blynk app using widgets configured to show:
+
+- current Raspberry Pi status
+- CPU temperature
+- storage usage percentage
+This allowed the Raspberry Pi to be monitored remotely from a phone.
+
 ### TCP/IP
 Communication between the Raspberry Pi, browser, and Blynk platform runs over the TCP/IP network stack through the home Wi-Fi network.
 
