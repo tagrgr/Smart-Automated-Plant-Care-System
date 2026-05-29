@@ -237,6 +237,10 @@
 }
 
 .helmsman-header small {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
     text-align: center;
     color: #444;
     line-height: 1.3;
